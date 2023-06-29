@@ -46,7 +46,13 @@ jobs:
         cd LidDrivenCavity3D
         obr run -o apply -a --args ../scripts/postProcessLogs.py
 
+    - name: Commit updated job_documents
+      run: |
+        git add workspace/*/signac_job_document.json
+        git commit -m "update signac_job_document"
+        git push origin
 
-
-
-
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        branch: ${{ github.head_ref }}
