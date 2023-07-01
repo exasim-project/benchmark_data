@@ -33,6 +33,7 @@ def generate_log_keys():
 
     pIter = LogKey("Solving for p", col_iter, p_steps)
     UIter = LogKey("Solving for U", col_iter, U_components)
+    continuityError = LogKey("time step continuity errors", ["local", "global", "cumulative"]) 
 
     # OGL keys
     OGLAnnotationKeys = eph.helpers.build_OGLAnnotationKeys(["p"])
@@ -59,6 +60,7 @@ def generate_log_keys():
     logKeys = [pIter]
     logKeys += SolverAnnotations
     logKeys += OGLAnnotations
+    logKeys += [continuityError]
     return logKeys, combinedKeys, pKeys
 
 
@@ -125,6 +127,7 @@ def call(jobs):
         logKeys, combinedKeys, pKeys = generate_log_keys()
         # find all solver logs
         for log in find_logs(job):
+            print(log)
             log_file_parser = LogFile(logKeys)
             df = log_file_parser.parse_to_df(log)
             timestamp = get_timestamp_from_log(log)
@@ -145,6 +148,9 @@ def call(jobs):
                     record[k] = df.iloc[1:].mean()[k]
                 except:
                     pass
+
+            for k in ["local", "global", "cumulative"]:
+                record[f"cont_error_{k}"] = df.iloc[-1][k] 
 
             run_logs.append(record)
 
