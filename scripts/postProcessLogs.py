@@ -1,10 +1,12 @@
 import os
 import exasim_plot_helpers as eph
 import sys
+import json
 
 from pathlib import Path
 from subprocess import check_output
 from obr.OpenFOAM.case import OpenFOAMCase
+from obr.core.core import merge_job_documents
 from copy import deepcopy
 from Owls.parser.LogFile import LogFile
 
@@ -17,26 +19,32 @@ def get_OGL_from_log(log):
         return "None"
 
 
-def get_cells_from_job(job, campaign, tags):
+def get_cells_from_cache(job):
     """Check for cells from blockMeshDict or checkMesh logs"""
+    root, _, files = next(os.walk(job.path))
+    for f in files:
+        if not f.startswith("signac_job_document"):
+            continue
+        with open(Path(root)/f) as fh:
+            d = json.load(fh)
+            if not d.get("cache"):
+                continue
+            if d["cache"].get("nCells"):
+                return int(d["cache"]["nCells"])
+            else:
+                continue
 
-    def func(file):
-        ret = check_output(["grep", "nCells", file], text=True)
-        return int(ret.split(":")[-1])
-
-    return eph.import_benchmark_data.get_logfile_from_job(
-        job, campaign, tags, "blockMesh", func
-    )
 
 
-def get_sub_domains_from_job(job, campaign, tags):
-    def func(file):
-        ret = check_output(["grep", "Processor", file], text=True)
-        return int(len(ret.split("\n")) / 2)
-
-    return eph.import_benchmark_data.get_logfile_from_job(
-        job, campaign, tags, "decomposePar", func
-    )
+def get_sub_domains_from_log(log):
+    try:
+        print("log", log)
+        ret = check_output(["grep", "nProcs", log], text=True)
+        print("ret", ret)
+        return int(ret.split("\n")[0].split(":")[-1])
+    except Exception as e:
+        print('exeception',e)
+        return "None"
 
 
 def call(jobs):
@@ -53,7 +61,7 @@ def call(jobs):
             ]
     """
     for job in jobs:
-        job.doc["obr"] = {"postprocessing": {}}
+        job.doc["data"] = []
 
         run_logs = []
         log_keys_collection = eph.signac_conversion.generate_log_keys()
@@ -71,13 +79,6 @@ def call(jobs):
 
         # find all solver logs corresponding to this specific jobs
         for log, campaign, tags in eph.import_benchmark_data.find_logs(job):
-            job.doc["obr"]["postprocessing"]["nCells"] = get_cells_from_job(
-                job, campaign, tags
-            )
-            job.doc["obr"]["postprocessing"]["decomposition"] = {
-                "nSubDomains": get_sub_domains_from_job(job, campaign, tags)
-            }
-
             # Base record
             timestamp = eph.import_benchmark_data.get_timestamp_from_log(log)
             record = {
@@ -85,6 +86,9 @@ def call(jobs):
                 "campaign": campaign,
                 "tags": ",".join(tags),
                 "OGL_commit": get_OGL_from_log(log),
+                "logfile": Path(log).name,
+                "nCells": get_cells_from_cache(job),
+                "numberOfSubdomains": get_sub_domains_from_log(log)
             }
 
             for log_key_type, log_keys in log_keys_collection.items():
@@ -110,4 +114,4 @@ def call(jobs):
             run_logs.append(record)
 
         # store all records
-        job.doc["obr"]["postprocessing"]["runs"] = run_logs
+        job.doc["data"] = run_logs
