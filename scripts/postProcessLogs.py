@@ -9,6 +9,8 @@ from obr.OpenFOAM.case import OpenFOAMCase
 from obr.core.core import merge_job_documents
 from copy import deepcopy
 from Owls.parser.LogFile import LogFile
+from Owls.parser.FoamDict import FileParser
+from warnings import warn
 
 
 def get_OGL_from_log(log):
@@ -46,6 +48,13 @@ def get_sub_domains_from_log(log):
         print('exeception',e)
         return "None"
 
+def get_solver_dict(field, inp):
+    ret = {}
+    ret["solver_" + field] = inp["solvers"][field]["solver"]
+    ret["precond_" + field] = inp["solvers"][field].get("preconditioner", "NA")
+    ret["smoother_" + field] = inp["solvers"][field].get("smoother", "NA")
+    return ret
+
 
 def call(jobs):
     """Based on the passed jobs all existing log files are parsed the
@@ -61,7 +70,14 @@ def call(jobs):
             ]
     """
     for job in jobs:
+        if not (Path(job.path) / "signac_statepoint.json").exists():
+            warn_msg = "invalid job {} found".format(job.id) 
+            warn(warn_msg)
+            continue
+        else:
+            print(f"processing job {job.id}")
         job.doc["data"] = []
+
 
         run_logs = []
         log_keys_collection = eph.signac_conversion.generate_log_keys()
@@ -78,7 +94,9 @@ def call(jobs):
         }
 
         # find all solver logs corresponding to this specific jobs
-        for log, campaign, tags in eph.import_benchmark_data.find_logs(job):
+        for root, log, campaign, tags in eph.import_benchmark_data.find_logs(job):
+            fvSolution = FileParser(path=f"{root}/system/fvSolution")
+
             # Base record
             timestamp = eph.import_benchmark_data.get_timestamp_from_log(log)
             record = {
@@ -91,8 +109,10 @@ def call(jobs):
                 "numberOfSubdomains": get_sub_domains_from_log(log)
             }
 
+            record.update(get_solver_dict("p", fvSolution._dict))
+            record.update(get_solver_dict("U", fvSolution._dict))
+
             for log_key_type, log_keys in log_keys_collection.items():
-                print("parse", log, log_keys)
                 log_file_parser = LogFile(log_keys)
                 df = log_file_parser.parse_to_df(log)
                 if df.empty:
