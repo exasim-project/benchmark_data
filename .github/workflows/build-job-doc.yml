@@ -29,7 +29,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        git clone https://github.com/hpsim/OBR.git
+        git clone https://github.com/hpsim/OBR.git -b feat/archive_views
         cd OBR
         python -m pip install . 
         cd ..
@@ -39,23 +39,29 @@ jobs:
         python -m pip install matplotlib
         cd ..
 
-    - name: Run obr script
-      run: | 
-        cd LidDrivenCavity3D
-        obr run -o apply ../scripts/postProcessLogs.py
-        cd ../WindsorBody
-        obr run -o apply ../scripts/postProcessLogs.py
-
-    - name: Commit updated job_documents
-      run: |
-        cd LidDrivenCavity3D
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add workspace/*/signac_job_document.json
-        git commit --allow-empty -m "update signac_job_document"
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
+    - name: Comment PR
+      uses: thollander/actions-comment-pull-request@v2
       with:
-        branch: ${{ github.head_ref }}
-        force: True
+        message: |
+          Hello world ! :wave:
+
+    # - name: Run obr script
+    #   run: | 
+    #     cd LidDrivenCavity3D
+    #     obr run -o apply ../scripts/postProcessLogs.py
+    #     cd ../WindsorBody
+    #     obr run -o apply ../scripts/postProcessLogs.py
+    #
+    # - name: Commit updated job_documents
+    #   run: |
+    #     cd LidDrivenCavity3D
+    #     git config --local user.email "github-actions[bot]@users.noreply.github.com"
+    #     git config --local user.name "github-actions[bot]"
+    #     git add workspace/*/signac_job_document.json
+    #     git commit --allow-empty -m "update signac_job_document"
+    #
+    # - name: Push changes
+    #   uses: ad-m/github-push-action@master
+    #   with:
+    #     branch: ${{ github.head_ref }}
+    #     force: True
