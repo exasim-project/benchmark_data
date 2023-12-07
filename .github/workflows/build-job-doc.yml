@@ -32,15 +32,13 @@ jobs:
         git clone https://github.com/hpsim/OBR.git -b feat/archive_views
         cd OBR
         python -m pip install . 
-        cd ..
-        python -m pip install . 
         python -m pip install matplotlib tabulate
         cd ..
 
     - name: Run obr script
       run: |
         cd LidDrivenCavity3D
-        obr run -o apply ../scripts/postProcessLogs.py
+        obr apply --file ../scripts/postProcessLogs.py --campaign ogl_170
 
     - name: Run obr script
       run: |
