@@ -43,15 +43,16 @@ jobs:
     - name: Run obr script
       run: |
         cd LidDrivenCavity3D
-        obr query \
-          -q solver -q nCells -q preconditioner \
-          -q ClockTime -q solverName -q p_update_local_matrix_data \
-          --export_to output.md
+        obr status --sort_by nCells,executor,preconditioner,global --extra ClockTime > overview.md
+        # obr query \
+        #   -q solver -q nCells -q preconditioner \
+        #   -q ClockTime -q solverName -q p_update_local_matrix_data \
+        #   --export_to output.md
 
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v2
       with:
-        filePath: LidDrivenCavity3D/output.md
+        filePath: LidDrivenCavity3D/overview.md
 
     #     cd ../WindsorBody
     #     obr run -o apply ../scripts/postProcessLogs.py
