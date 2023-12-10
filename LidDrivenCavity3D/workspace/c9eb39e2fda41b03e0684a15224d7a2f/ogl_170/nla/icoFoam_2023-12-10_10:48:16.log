@@ -1,0 +1,130 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2306                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : a6e826bd55-20230630 OPENFOAM=2306 version=v2306
+Arch   : "LSB;label=32;scalar=64"
+Exec   : icoFoam -parallel -case /tmp/lidDrivenCavity3D/workspace/c9eb39e2fda41b03e0684a15224d7a2f/case
+Date   : Dec 10 2023
+Time   : 10:48:24
+Host   : nla-gpu2.ianm.kit.edu
+PID    : 294774
+I/O    : uncollated
+Case   : /tmp/lidDrivenCavity3D/workspace/c9eb39e2fda41b03e0684a15224d7a2f/case
+nProcs : 16
+Hosts  :
+(
+    (nla-gpu2.ianm.kit.edu 16)
+)
+Pstream initialized with:
+    floatTransfer      : false
+    nProcsSimpleSum    : 0
+    nonBlockingExchange: 0 (tuning: 0)
+    exchange algorithm : -1
+    commsType          : nonBlocking
+    polling iterations : 0
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+--> FOAM Warning : 
+    From void* Foam::dlLibraryTable::openLibrary(const Foam::fileName&, bool)
+    in file db/dynamicLibrary/dlLibraryTable/dlLibraryTable.C at line 188
+    Could not load "libpetscFoam.so"
+libpetscFoam.so: cannot open shared object file: No such file or directory
+Create mesh for time = 0
+
+
+PISO: Operating solver in PISO mode
+
+Reading transportProperties
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+
+Starting time loop
+
+Time = 0.000125
+
+Courant Number mean: 8.02505e-18 max: 4.85723e-14
+[INFO] MatrixAssemblyU: 580.369 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 1, Final residual = 0.0215184, No Iterations 5
+DILUPBiCGStab:  Solving for Uy:  solution singularity
+DILUPBiCGStab:  Solving for Uz:  solution singularity
+[INFO] MomentumPredictor: 2264.51 [ms]
+[INFO] MatrixAssemblyPI: 588.089 [ms]
+[INFO] AdjustPhi: 33.234 [ms]
+[INFO] ConstrainPressure: 0.014 [ms]
+[INFO] MatrixAssemblyPII: 168.633 [ms]
+[OGL LOG][lduLduBase.H:119] Initialising OGL
+	OGL commit:  5ef1233
+	Branch: feat/on_device_permute 
+	Build type: Release
+	Ginkgo version: 1.7.0 ( develop)
+	Ginkgo commit: sparse-communicator
+	MPI is GPU aware: 1
+	Forces host buffer based communication: 0
+	CPU ranks per GPU: 1
+	Matrix format: Coo
+	End OGL_INFO
+[OGL LOG][Proc: 0]: global_index_init: 12.292 [ms]
+[OGL LOG][Proc: 0]p_local_cols: call_init: 0.038 [ms]
+[OGL LOG][Proc: 0]p_local_rows: call_init: 0.002 [ms]
+[OGL LOG][Proc: 0]p_local_ldu_map: call_init: 0.013 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_init: 0.287 [ms]
+[OGL LOG][Proc: 0]p_non_local_cols: call_init: 0.004 [ms]
+[OGL LOG][Proc: 0]p_non_local_rows: call_init: 0.002 [ms]
+[OGL LOG][Proc: 0]p_non_local_ldu_map: call_init: 0.002 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_init: 0.002 [ms]
+[OGL LOG][Proc: 0]p: init_local_sparsity_pattern: 653.769 [ms]
+[OGL LOG][Proc: 0]p: init_non_local_sparsity_pattern: 18.149 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 79.066 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.292 [ms]
+[OGL LOG][Proc: 0]device_partition: call_init: 0.219 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_init: 249.578 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_init: 21.632 [ms]
+[OGL LOG][Proc: 0]p_solution: call_init: 4.098 [ms]
+[OGL LOG][Preconditioner.H:121] Generate preconditioner BJ MaxBlockSize 1
+[OGL LOG][Proc: 0]p: init_precond: 4.658 [ms]
+[OGL LOG][StoppingCriterion.H:373] Creating stopping criterion with minIter 0 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0.016 [ms]
+[OGL LOG][Proc: 0]p: solve: 22891.6 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 13.371 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 4577 [mu s]
+	Time per residual norm calculation: 1609.000000 [mu s]
+	Time per iteration and DOF: 0.071516 [ns]
+	Retrieve results bandwidth 2.393000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 23246.9 [ms]
+BJhipGKOCG:  Solving for p, Initial residual = 1, Final residual = 34.4364, No Iterations 5001
+[INFO] SolveP: 24267.6 [ms]
+time step continuity errors : sum local = 0.000894699, global = -3.45166e-19, cumulative = -3.45166e-19
+[INFO] ContinuityError: 74.083 [ms]
+[INFO] CorrectBoundary: 1.15 [ms]
+[INFO] PISOStep: 25322.6 [ms]
+[INFO] MatrixAssemblyPI: 558.585 [ms]
+[INFO] AdjustPhi: 30.594 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.201 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.159 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0.004 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 78.377 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.322 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 30.556 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 15.012 [ms]
+[OGL LOG][Preconditioner.H:121] Generate preconditioner BJ MaxBlockSize 1
+[OGL LOG][Proc: 0]p: init_precond: 1.964 [ms]
+[OGL LOG][StoppingCriterion.H:373] Creating stopping criterion with minIter 3000 frequency 31
+[OGL LOG][Proc: 0]p: generate_solver: 0.003 [ms]
