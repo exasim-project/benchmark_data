@@ -18,8 +18,15 @@ def get_OGL_from_log(log):
     except:
         return "None"
 
+def Info_Log(name):
+    """A wrapper function to create LOG entry parser for the annotated solver"""
+    return customMatcher(
+        name,
+        rf"\[INFO\] {name}: (?P<{name}>[0-9.]*) \[ms\]"
+    )
 
 def OGL_Log(field, name):
+    """A wrapper function to create OGL LOG entry parser"""
     return customMatcher(
         name,
         rf"\[OGL LOG\]\[Proc: 0\]{field}: {name}: (?P<{field + '_' + name}>[0-9.]*) \[ms\]",
@@ -43,7 +50,14 @@ def generate_log_keys():
         OGL_Log("p", "copy_x_back"),
     ]
 
-    foam_annotation_keys = []
+    foam_annotation_keys = [
+            Info_Log("MomentumPredictor"),
+            Info_Log("MatrixAssemblyPI"),
+            Info_Log("MatrixAssemblyPII"),
+            Info_Log("SolveP"),
+            Info_Log("PISOStep"),
+            Info_Log("TimeStep"),
+            ]
     return {
         "transp_eqn_keys": transport_eqn_keys,
         "ogl_annotation_keys": ogl_annotation_keys,
