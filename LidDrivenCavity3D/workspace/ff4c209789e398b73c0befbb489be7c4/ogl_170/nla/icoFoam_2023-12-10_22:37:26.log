@@ -1,0 +1,141 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2306                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : a6e826bd55-20230630 OPENFOAM=2306 version=v2306
+Arch   : "LSB;label=32;scalar=64"
+Exec   : icoFoam -parallel -case /tmp/lidDrivenCavity3D/workspace/ff4c209789e398b73c0befbb489be7c4/case
+Date   : Dec 10 2023
+Time   : 22:37:33
+Host   : nla-gpu2.ianm.kit.edu
+PID    : 310207
+I/O    : uncollated
+Case   : /tmp/lidDrivenCavity3D/workspace/ff4c209789e398b73c0befbb489be7c4/case
+nProcs : 32
+Hosts  :
+(
+    (nla-gpu2.ianm.kit.edu 32)
+)
+Pstream initialized with:
+    floatTransfer      : false
+    nProcsSimpleSum    : 0
+    nonBlockingExchange: 0 (tuning: 0)
+    exchange algorithm : -1
+    commsType          : nonBlocking
+    polling iterations : 0
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+--> FOAM Warning : 
+    From void* Foam::dlLibraryTable::openLibrary(const Foam::fileName&, bool)
+    in file db/dynamicLibrary/dlLibraryTable/dlLibraryTable.C at line 188
+    Could not load "libpetscFoam.so"
+libpetscFoam.so: cannot open shared object file: No such file or directory
+Create mesh for time = 0
+
+
+PISO: Operating solver in PISO mode
+
+Reading transportProperties
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+
+Starting time loop
+
+Time = 0.000125
+
+Courant Number mean: 8.02505e-18 max: 4.85723e-14
+[INFO] MatrixAssemblyU: 563.181 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 1, Final residual = 0.0215184, No Iterations 5
+DILUPBiCGStab:  Solving for Uy:  solution singularity
+DILUPBiCGStab:  Solving for Uz:  solution singularity
+[INFO] MomentumPredictor: 2086.07 [ms]
+[INFO] MatrixAssemblyPI: 591.257 [ms]
+[INFO] AdjustPhi: 30.281 [ms]
+[INFO] ConstrainPressure: 0.019 [ms]
+[INFO] MatrixAssemblyPII: 162.446 [ms]
+[OGL LOG][lduLduBase.H:119] Initialising OGL
+	OGL commit:  5ef1233
+	Branch: feat/on_device_permute 
+	Build type: Release
+	Ginkgo version: 1.7.0 ( develop)
+	Ginkgo commit: sparse-communicator
+	MPI is GPU aware: 1
+	Forces host buffer based communication: 0
+	CPU ranks per GPU: 1
+	Matrix format: Coo
+	End OGL_INFO
+[OGL LOG][Proc: 0]: global_index_init: 1.122 [ms]
+[OGL LOG][Proc: 0]p_local_cols: call_init: 0.02 [ms]
+[OGL LOG][Proc: 0]p_local_rows: call_init: 0.009 [ms]
+[OGL LOG][Proc: 0]p_local_ldu_map: call_init: 0.009 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_init: 0.01 [ms]
+[OGL LOG][Proc: 0]p_non_local_cols: call_init: 0.005 [ms]
+[OGL LOG][Proc: 0]p_non_local_rows: call_init: 0.002 [ms]
+[OGL LOG][Proc: 0]p_non_local_ldu_map: call_init: 0.002 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_init: 0.002 [ms]
+[OGL LOG][Proc: 0]p: init_local_sparsity_pattern: 485.507 [ms]
+[OGL LOG][Proc: 0]p: init_non_local_sparsity_pattern: 14.92 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 46.507 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.292 [ms]
+[OGL LOG][Proc: 0]device_partition: call_init: 0.238 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_init: 245.367 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_init: 35.341 [ms]
+[OGL LOG][Proc: 0]p_solution: call_init: 4.493 [ms]
+[OGL LOG][Preconditioner.H:121] Generate preconditioner BJ MaxBlockSize 1
+[OGL LOG][Proc: 0]p: init_precond: 5.687 [ms]
+[OGL LOG][StoppingCriterion.H:373] Creating stopping criterion with minIter 0 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0.019 [ms]
+[OGL LOG][Proc: 0]p: solve: 25492.8 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.255 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 5097 [mu s]
+	Time per residual norm calculation: 2111.000000 [mu s]
+	Time per iteration and DOF: 0.079641 [ns]
+	Retrieve results bandwidth 1.421000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 25897.6 [ms]
+BJhipGKOCG:  Solving for p, Initial residual = 1, Final residual = 34.627, No Iterations 5001
+[INFO] SolveP: 26816.6 [ms]
+time step continuity errors : sum local = 0.000887255, global = -2.73274e-19, cumulative = -2.73274e-19
+[INFO] ContinuityError: 59.219 [ms]
+[INFO] CorrectBoundary: 0.895 [ms]
+[INFO] PISOStep: 27853.5 [ms]
+[INFO] MatrixAssemblyPI: 558.841 [ms]
+[INFO] AdjustPhi: 24.843 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 166.52 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.117 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0.001 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 80.382 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.226 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 47.814 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 11.831 [ms]
+[OGL LOG][Preconditioner.H:121] Generate preconditioner BJ MaxBlockSize 1
+[OGL LOG][Proc: 0]p: init_precond: 1.86 [ms]
+[OGL LOG][StoppingCriterion.H:373] Creating stopping criterion with minIter 3000 frequency 31
+[OGL LOG][Proc: 0]p: generate_solver: 0.001 [ms]
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 310212 RUNNING AT nla-gpu2.ianm.kit.edu
+=   EXIT CODE: 9
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+YOUR APPLICATION TERMINATED WITH THE EXIT STRING: Killed (signal 9)
+This typically refers to a problem with your application.
+Please see the FAQ page for debugging suggestions
