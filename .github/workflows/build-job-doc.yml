@@ -43,8 +43,8 @@ jobs:
     - name: Run obr script
       run: |
         cd LidDrivenCavity3D
-        echo "overview\n\n" > overview.md
-        obr status --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep --hide jobid  --export_to markdown >> overview.md
+        echo "overview" > overview.md
+        obr status --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid  --export_to markdown >> overview.md
 
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v2
