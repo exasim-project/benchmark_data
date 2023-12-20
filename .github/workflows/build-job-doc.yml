@@ -45,9 +45,9 @@ jobs:
         cd LidDrivenCavity3D
         echo "# Results Overview " > overview.md
         echo "## Unpreconditioned" >> overview.md
-        obr status --filter preconditioner==none --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid  --export_to markdown >> overview.md
+        obr status --filter preconditioner==none --sort_by nCells,nProcs,executor --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
         echo "# Preconditioned" >> overview.md
-        obr status --filter preconditioner!=none --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid  --export_to markdown >> overview.md
+        obr status --filter preconditioner!=none --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
 
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v2
