@@ -35,10 +35,14 @@ jobs:
         python -m pip install matplotlib tabulate
         cd ..
 
+    - name: Extract branch name
+      shell: bash
+      run: echo "CAMPAIGN=$(dirname ${GITHUB_HEAD_REF})" >> $GITHUB_ENV
+
     - name: Run obr script
       run: |
         cd LidDrivenCavity3D
-        obr apply --file ../scripts/postProcessLogs.py --campaign ogl_170
+        obr apply --file ../scripts/postProcessLogs.py --campaign ${{env.CAMPAIGN}}
 
     - name: Run obr script
       run: |
@@ -48,25 +52,21 @@ jobs:
         obr status --filter preconditioner==none --sort_by nCells,nProcs,executor --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
         echo "# Preconditioned" >> overview.md
         obr status --filter preconditioner!=none --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
+        obr status --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host --export_to json > ${{env.CAMPAIGN}}.json
 
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v2
       with:
         filePath: LidDrivenCavity3D/overview.md
 
-    #     cd ../WindsorBody
-    #     obr run -o apply ../scripts/postProcessLogs.py
-    #
-    # - name: Commit updated job_documents
-    #   run: |
-    #     cd LidDrivenCavity3D
-    #     git config --local user.email "github-actions[bot]@users.noreply.github.com"
-    #     git config --local user.name "github-actions[bot]"
-    #     git add workspace/*/signac_job_document.json
-    #     git commit --allow-empty -m "update signac_job_document"
-    #
-    # - name: Push changes
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     branch: ${{ github.head_ref }}
-    #     force: True
+    - name: Commit updated job_documents
+      run: |
+          cd LidDrivenCavity3D
+          git add ${{env.CAMPAIGN}}.json
+          git commit --allow-empty -m "add campaign results"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        branch: ${{ github.head_ref }}
+        force: True
