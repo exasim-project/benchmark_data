@@ -128,7 +128,7 @@ def call(jobs, kwargs={}):
                 df = convert_to_numbers(log_file_parser.parse_to_df())
                 record["Host"] = log_file_parser.header.Host
                 record["nProcs"] = log_file_parser.header.nProcs
-                record["solver_p"] = fvSolution["p"]["solver"]
+                record["solver_p"] = fvSolution.get("p")["solver"]
 
                 for log_key in log_keys:
                     for col in df.columns:
