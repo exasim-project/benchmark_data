@@ -10,7 +10,6 @@ post_pro_dir = script_dir / "../postProcessing/ogl_170"
 json_file = post_pro_dir / "results.json"
 df = pd.read_json(json_file)
 
-fig, axs = plt.subplots(figsize=(12, 4))
 
 x = "nCells"
 y = "TimeStep"
@@ -19,6 +18,18 @@ style = "solver_p"
 plot_type = "line"
 
 
-sb.relplot(x="nCells", y="TimeStep", hue=color, hue_order=hue_order, size=units, style=style, data=df, col="Host", kind="line", markers=True)
+relplot = sb.relplot(
+    x="nCells",
+    y="TimeStep",
+    hue=color,
+    size=None,
+    style=style,
+    data=df,
+    col="Host",
+    kind="line",
+    markers=True,
+)
+
+fig = relplot.get_figure()
 
 fig.savefig(post_pro_dir / "TimeStep.png")
