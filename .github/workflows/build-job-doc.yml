@@ -50,9 +50,15 @@ jobs:
         echo "# Results Overview " > overview.md
         echo "## Unpreconditioned" >> overview.md
         obr status --filter preconditioner==none --sort_by nCells,nProcs,executor --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
-        echo "# Preconditioned" >> overview.md
+        echo "## Preconditioned" >> overview.md
         obr status --filter preconditioner!=none --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
-        obr status --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host --export_to json > ${{env.CAMPAIGN}}.json
+        mkdir -p postProcessing/${{env.CAMPAIGN}}
+        obr status --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host --export_to json > postProcessing/${{env.CAMPAIGN}}/results.json
+
+    - name: Create Plots
+      run: |
+        cd LidDrivenCavity3D/
+        python3 assets/plot.py
 
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v2
@@ -64,7 +70,7 @@ jobs:
           cd LidDrivenCavity3D
           git config --global user.name "Continuous Integration Bot"
           git config --global user.email "go@hpsim.de"
-          git add ${{env.CAMPAIGN}}.json
+          git add postProcessing/${{env.CAMPAIGN}}
           git commit --allow-empty -m "add campaign results"
 
     - name: Push changes
