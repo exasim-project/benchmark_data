@@ -8,6 +8,7 @@ from obr.OpenFOAM.case import OpenFOAMCase
 from obr.core.core import merge_job_documents, find_solver_logs, get_timestamp_from_log
 from copy import deepcopy
 from Owls.parser.LogFile import LogFile, transportEqn, customMatcher
+from Owls.parser.FoamDict import FileParser
 import pandas as pd
 
 
@@ -18,12 +19,11 @@ def get_OGL_from_log(log):
     except:
         return "None"
 
+
 def Info_Log(name):
     """A wrapper function to create LOG entry parser for the annotated solver"""
-    return customMatcher(
-        name,
-        rf"\[INFO\] {name}: (?P<{name}>[0-9.]*) \[ms\]"
-    )
+    return customMatcher(name, rf"\[INFO\] {name}: (?P<{name}>[0-9.]*) \[ms\]")
+
 
 def OGL_Log(field, name):
     """A wrapper function to create OGL LOG entry parser"""
@@ -51,13 +51,13 @@ def generate_log_keys():
     ]
 
     foam_annotation_keys = [
-            Info_Log("MomentumPredictor"),
-            Info_Log("MatrixAssemblyPI"),
-            Info_Log("MatrixAssemblyPII"),
-            Info_Log("SolveP"),
-            Info_Log("PISOStep"),
-            Info_Log("TimeStep"),
-            ]
+        Info_Log("MomentumPredictor"),
+        Info_Log("MatrixAssemblyPI"),
+        Info_Log("MatrixAssemblyPII"),
+        Info_Log("SolveP"),
+        Info_Log("PISOStep"),
+        Info_Log("TimeStep"),
+    ]
     return {
         "transp_eqn_keys": transport_eqn_keys,
         "ogl_annotation_keys": ogl_annotation_keys,
@@ -67,7 +67,8 @@ def generate_log_keys():
 
 def convert_to_numbers(df):
     """convert all columns to float if they dont have Name in it"""
-    return df.astype({col:'float' for col in df.columns if not "Name" in col })
+    return df.astype({col: "float" for col in df.columns if not "Name" in col})
+
 
 def get_average(df, col):
     """comput averages of a column if non a Name column"""
@@ -75,6 +76,7 @@ def get_average(df, col):
         return df.iloc[0][col]
     else:
         return df.iloc[1:][col].mean()
+
 
 def call(jobs, kwargs={}):
     """Based on the passed jobs all existing log files are parsed the
@@ -91,7 +93,7 @@ def call(jobs, kwargs={}):
     """
     campaign = kwargs.get("campaign", "")
     for job in jobs:
-        run_logs = job.doc.get("data",[])
+        run_logs = job.doc.get("data", [])
 
         # dictionary to keep postpro function which maps from the dataframe
         # and column to a result to keep in the record
@@ -108,6 +110,9 @@ def call(jobs, kwargs={}):
         for log, campaign, tags in find_solver_logs(job, campaign):
             # Base record
             log_path = Path(log)
+            fvSolution = FileParser(
+                path=log_path.parent / "system/fvSolution"
+            )._parse_file_to_dict()
             timestamp = get_timestamp_from_log(log_path)
             record = {
                 "timestamp": timestamp,
@@ -115,7 +120,7 @@ def call(jobs, kwargs={}):
                 "tags": ",".join(tags),
                 "OGL_commit": get_OGL_from_log(log),
                 "logfile": log_path.name,
-                "nCells": job.doc["cache"].get("nCells",""),
+                "nCells": job.doc["cache"].get("nCells", ""),
             }
 
             for log_key_type, log_keys in generate_log_keys().items():
@@ -123,6 +128,7 @@ def call(jobs, kwargs={}):
                 df = convert_to_numbers(log_file_parser.parse_to_df())
                 record["Host"] = log_file_parser.header.Host
                 record["nProcs"] = log_file_parser.header.nProcs
+                record["solver_p"] = fvSolution["p"]["solver"]
 
                 for log_key in log_keys:
                     for col in df.columns:
