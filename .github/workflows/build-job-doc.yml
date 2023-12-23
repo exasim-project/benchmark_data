@@ -74,6 +74,12 @@ jobs:
           git add postProcessing/${{env.CAMPAIGN}}
           git commit --allow-empty -m "add campaign results"
 
+    - name: Upload plots
+      uses: edunad/actions-image@v2.0.0
+      with:
+          path: ./LidDrivenCavity3D/postProcessing/${{env.CAMPAIGN}}/*.png
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
