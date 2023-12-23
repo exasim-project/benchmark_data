@@ -16,6 +16,7 @@ y = "TimeStep"
 color = "nProcs"
 style = "solver_p"
 plot_type = "line"
+col = "preconditioner"
 
 
 relplot = sb.relplot(
@@ -25,7 +26,7 @@ relplot = sb.relplot(
     size=None,
     style=style,
     data=df,
-    col="Host",
+    col=col,
     kind="line",
     markers=True,
 )
