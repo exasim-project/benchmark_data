@@ -30,6 +30,4 @@ relplot = sb.relplot(
     markers=True,
 )
 
-fig = relplot.get_figure()
-
-fig.savefig(post_pro_dir / "TimeStep.png")
+plt.savefig(post_pro_dir / "TimeStep.png")
