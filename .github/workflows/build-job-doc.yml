@@ -75,10 +75,15 @@ jobs:
           git commit --allow-empty -m "add campaign results"
 
     - name: Upload plots
-      uses: edunad/actions-image@v2.0.0
+      uses: actions/github-script@v6
       with:
-          path: ./LidDrivenCavity3D/postProcessing/${{env.CAMPAIGN}}/*.png
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '![Test Image 6](https://github.com/exasim-project/benchmark_data/blob/4467bd70d3df23a8b94a8f42ab13e1926cbb77cd/LidDrivenCavity3D/postProcessing/ogl_170/unpreconditioned_TimeStep_over_nCells_c=nProcs_s=solver_p_cols=Host.png?raw=true)'
+            })
 
     - name: Push changes
       uses: ad-m/github-push-action@master
