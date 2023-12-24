@@ -44,46 +44,52 @@ class Df_filter:
     def __call__(self, df):
         return self.func(df)
 
-def compute_speedup(df, base):
+
+unprecond = lambda df: df[df["preconditioner"] == "none"]
+
+
+def compute_speedup(df, base, extra_filter=lambda df: df):
     from copy import deepcopy
+
     indices = [q.idx for q in base]
     # things that need to match
-    indices += ["nCells"] 
-    df_copy = deepcopy(df)
+    indices += ["nCells"]
+    df_copy = deepcopy(extra_filter(df))
     df_copy.set_index(keys=indices, inplace=True)
     return eph.helpers.compute_speedup(df_copy, base, ignore_indices=[]).reset_index()
 
-plotter(
-    x="nCells",
-    y="TimeStep",
-    color="nProcs",
-    style="solver_p",
-    plot_type="line",
-    col="Host",
-    log=True,
-    df=df,
-    df_filter=Df_filter(
-        "unpreconditioned", lambda df: df[df["preconditioner"] == "none"]
-    ),
-)
-
 base = [
-        # TODO this needs to know nProcs beforehand
-        eph.helpers.DFQuery(idx="nProcs", val=32),
-        eph.helpers.DFQuery(idx="preconditioner", val="none"),
-        eph.helpers.DFQuery(idx="executor", val="CPU")
-        ] 
+    # TODO this needs to know nProcs beforehand
+    eph.helpers.DFQuery(idx="nProcs", val=32),
+    eph.helpers.DFQuery(idx="preconditioner", val="none"),
+    eph.helpers.DFQuery(idx="executor", val="CPU"),
+]
 
-plotter(
-    x="nCells",
-    y="TimeStep",
-    color="nProcs",
-    style="solver_p",
-    plot_type="line",
-    col="Host",
-    log=True,
-    df=df,
-    df_filter=Df_filter(
-        "speedup", lambda df: compute_speedup(df, base)
-    ),
-)
+
+for y in ["TimeStep", "SolveP"]:
+    plotter(
+        x="nCells",
+        y=y,
+        color="nProcs",
+        style="solver_p",
+        plot_type="line",
+        col="Host",
+        log=True,
+        df=df,
+        df_filter=Df_filter("unpreconditioned", unprecond),
+    )
+
+
+    plotter(
+        x="nCells",
+        y=y,
+        color="nProcs",
+        style="solver_p",
+        plot_type="line",
+        col="Host",
+        log=True,
+        df=df,
+        df_filter=Df_filter(
+            "unprecond_speedup", lambda df: compute_speedup(df, base, unprecond)
+        ),
+    )
