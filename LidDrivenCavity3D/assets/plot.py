@@ -66,7 +66,7 @@ base = [
 ]
 
 
-for y, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
+for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
     for y in ["TimeStep", "SolveP"]:
         plotter(
             x=x,
