@@ -66,30 +66,31 @@ base = [
 ]
 
 
-for y in ["TimeStep", "SolveP"]:
-    plotter(
-        x="nCells",
-        y=y,
-        color="nProcs",
-        style="solver_p",
-        plot_type="line",
-        col="Host",
-        log=True,
-        df=df,
-        df_filter=Df_filter("unpreconditioned", unprecond),
-    )
+for y, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
+    for y in ["TimeStep", "SolveP"]:
+        plotter(
+            x=x,
+            y=y,
+            color=c,
+            style="solver_p",
+            plot_type="line",
+            col="Host",
+            log=True,
+            df=df,
+            df_filter=Df_filter("unpreconditioned", unprecond),
+        )
 
 
-    plotter(
-        x="nCells",
-        y=y,
-        color="nProcs",
-        style="solver_p",
-        plot_type="line",
-        col="Host",
-        log=True,
-        df=df,
-        df_filter=Df_filter(
-            "unprecond_speedup", lambda df: compute_speedup(df, base, unprecond)
-        ),
-    )
+        plotter(
+            x=x,
+            y=y,
+            color=c,
+            style="solver_p",
+            plot_type="line",
+            col="Host",
+            log=True,
+            df=df,
+            df_filter=Df_filter(
+                "unprecond_speedup", lambda df: compute_speedup(df, base, unprecond)
+            ),
+        )
