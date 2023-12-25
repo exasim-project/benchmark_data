@@ -1,4 +1,4 @@
-name: Build OpenFOAM (ESI|FOUNDATION)
+name: Build stats
 on:
   pull_request:
     types: synchronize
@@ -29,30 +29,67 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        git clone https://github.com/hpsim/OBR.git
+        git clone https://github.com/hpsim/OBR.git -b feat/archive_views
         cd OBR
         python -m pip install . 
+        python -m pip install matplotlib tabulate seaborn
+        python -m pip install pyparsing --upgrade
         cd ..
         git clone https://github.com/exasim-project/exasim_plot_helpers.git
         cd exasim_plot_helpers
         python -m pip install . 
-        python -m pip install matplotlib
-        cd ..
+
+    - name: Extract branch name
+      shell: bash
+      run: echo "CAMPAIGN=$(dirname ${GITHUB_HEAD_REF})" >> $GITHUB_ENV
 
     - name: Run obr script
-      run: | 
+      run: |
         cd LidDrivenCavity3D
-        obr run -o apply -a --args ../scripts/postProcessLogs.py
-        cd WindsorBody
-        obr run -o apply -a --args ../scripts/postProcessLogs.py
+        obr apply --file ../scripts/postProcessLogs.py --campaign ${{env.CAMPAIGN}}
+
+    - name: Run obr script
+      run: |
+        cd LidDrivenCavity3D
+        echo "# Results Overview " > overview.md
+        echo "## Unpreconditioned" >> overview.md
+        obr status --filter preconditioner==none --sort_by nCells,nProcs,executor --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
+        echo "## Preconditioned" >> overview.md
+        obr status --filter preconditioner!=none --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
+        mkdir -p postProcessing/${{env.CAMPAIGN}}
+        obr status --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host,solver_p --export_to json > postProcessing/${{env.CAMPAIGN}}/results.json
+
+    - name: Create Plots
+      run: |
+        cd LidDrivenCavity3D/
+        python3 assets/plot.py
+        echo "# Plots" >> overview.md
+        echo "![Test Image 6](https://github.com/exasim-project/benchmark_data/blob/${GITHUB_HEAD_REF}/LidDrivenCavity3D/postProcessing/${{env.CAMPAIGN}}/unpreconditioned_TimeStep_over_nCells_c=nProcs_s=solver_p_cols=Host.png?raw=true)" >> overview.md
+
+    - name: Comment PR
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        filePath: LidDrivenCavity3D/overview.md
+        comment_tag: overview
 
     - name: Commit updated job_documents
       run: |
-        cd LidDrivenCavity3D
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add workspace/*/signac_job_document.json
-        git commit --allow-empty -m "update signac_job_document"
+          cd LidDrivenCavity3D
+          git config --global user.name "Continuous Integration Bot"
+          git config --global user.email "go@hpsim.de"
+          git add postProcessing/${{env.CAMPAIGN}}
+          git commit --allow-empty -m "add campaign results"
+
+          #     - name: Upload plots
+          #       uses: actions/github-script@v6
+          #       with:
+          #           script: |
+          #             github.rest.issues.createComment({
+          #               issue_number: context.issue.number,
+          #               owner: context.repo.owner,
+          #               repo: context.repo.repo,
+          #               body: `![Test Image 6](https://github.com/exasim-project/benchmark_data/blob/${env.GITHUB_HEAD_REF}/LidDrivenCavity3D/postProcessing/${env.CAMPAIGN}/unpreconditioned_TimeStep_over_nCells_c=nProcs_s=solver_p_cols=Host.png?raw=true)`
+          #             })
 
     - name: Push changes
       uses: ad-m/github-push-action@master
