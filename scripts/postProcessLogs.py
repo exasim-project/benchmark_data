@@ -126,7 +126,7 @@ def call(jobs, kwargs={}):
             for log_key_type, log_keys in generate_log_keys().items():
                 log_file_parser = LogFile(log, log_keys)
                 df = convert_to_numbers(log_file_parser.parse_to_df())
-                record["Host"] = log_file_parser.header.Host[0:2]
+                record["Host"] = log_file_parser.header.Host[0:3]
                 record["nProcs"] = int(log_file_parser.header.nProcs)
                 record["solver_p"] = fvSolution.get("solvers")["p"]["solver"]
 
