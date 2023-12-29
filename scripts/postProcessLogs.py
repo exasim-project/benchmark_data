@@ -120,14 +120,14 @@ def call(jobs, kwargs={}):
                 "tags": ",".join(tags),
                 "OGL_commit": get_OGL_from_log(log),
                 "logfile": log_path.name,
-                "nCells": job.doc["cache"].get("nCells", ""),
+                "nCells": int(job.doc["cache"].get("nCells", "")),
             }
 
             for log_key_type, log_keys in generate_log_keys().items():
                 log_file_parser = LogFile(log, log_keys)
                 df = convert_to_numbers(log_file_parser.parse_to_df())
-                record["Host"] = log_file_parser.header.Host
-                record["nProcs"] = log_file_parser.header.nProcs
+                record["Host"] = log_file_parser.header.Host[0:2]
+                record["nProcs"] = int(log_file_parser.header.nProcs)
                 record["solver_p"] = fvSolution.get("solvers")["p"]["solver"]
 
                 for log_key in log_keys:
