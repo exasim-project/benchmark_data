@@ -1,0 +1,392 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2306                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : c423ebec-20231012 OPENFOAM=2306 version=v2306
+Arch   : "LSB;label=32;scalar=64"
+Exec   : icoFoam -parallel -case /hkfs/work/workspace/scratch/eq4036-l3d/workspace/b8c6a8a58f5c64a9164247007bbc99b5/case
+Date   : Dec 30 2023
+Time   : 09:52:31
+Host   : hkn0707.localdomain
+PID    : 1554629
+I/O    : uncollated
+Case   : /hkfs/work/workspace/scratch/eq4036-l3d/workspace/b8c6a8a58f5c64a9164247007bbc99b5/case
+nProcs : 8
+Hosts  :
+(
+    (hkn0707.localdomain 8)
+)
+Pstream initialized with:
+    floatTransfer      : false
+    nProcsSimpleSum    : 0
+    nonBlockingExchange: 0 (tuning: 0)
+    exchange algorithm : -1
+    commsType          : nonBlocking
+    polling iterations : 0
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+--> FOAM Warning : 
+    From void* Foam::dlLibraryTable::openLibrary(const Foam::fileName&, bool)
+    in file db/dynamicLibrary/dlLibraryTable/dlLibraryTable.C at line 188
+    Could not load "libpetscFoam.so"
+libpetscFoam.so: cannot open shared object file: No such file or directory
+Create mesh for time = 0
+
+
+PISO: Operating solver in PISO mode
+
+Reading transportProperties
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+
+Starting time loop
+
+Time = 0.000125
+
+Courant Number mean: 8.02505e-18 max: 4.85723e-14
+[INFO] MatrixAssemblyU: 1867.21 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 1, Final residual = 0.0211815, No Iterations 5
+DILUPBiCGStab:  Solving for Uy:  solution singularity
+DILUPBiCGStab:  Solving for Uz:  solution singularity
+[INFO] MomentumPredictor: 6866.68 [ms]
+[INFO] MatrixAssemblyPI: 1926.25 [ms]
+[INFO] AdjustPhi: 103.801 [ms]
+[INFO] ConstrainPressure: 0.008 [ms]
+[INFO] MatrixAssemblyPII: 586.991 [ms]
+[OGL LOG][lduLduBase.H:119] Initialising OGL
+	OGL commit:  a2fc0ff+
+	Branch: feat/on_device_permute 
+	Build type: Release
+	Ginkgo version: 1.7.0 ( develop)
+	Ginkgo commit: sparse-communicator
+	MPI is GPU aware: 1
+	Forces host buffer based communication: 0
+	CPU ranks per GPU: 1
+	Matrix format: Ell
+	End OGL_INFO
+[OGL LOG][Proc: 0]: global_index_init: 17.657 [ms]
+[OGL LOG][Proc: 0]p_local_cols: call_init: 0.76 [ms]
+[OGL LOG][Proc: 0]p_local_rows: call_init: 0.191 [ms]
+[OGL LOG][Proc: 0]p_local_ldu_map: call_init: 0.463 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_init: 6.292 [ms]
+[OGL LOG][Proc: 0]p_non_local_cols: call_init: 0.009 [ms]
+[OGL LOG][Proc: 0]p_non_local_rows: call_init: 0.002 [ms]
+[OGL LOG][Proc: 0]p_non_local_ldu_map: call_init: 0.132 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_init: 0.154 [ms]
+[OGL LOG][Proc: 0]p: init_local_sparsity_pattern: 2674.51 [ms]
+[OGL LOG][Proc: 0]p: init_non_local_sparsity_pattern: 6.228 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 375.098 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.855 [ms]
+[OGL LOG][Proc: 0]device_partition: call_init: 0.13 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_init: 915.069 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_init: 20.559 [ms]
+[OGL LOG][Proc: 0]p_solution: call_init: 21.754 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+terminate called after throwing an instance of 'gko::CusparseError'
+  what():  /home/hk-project-test-fine/eq4036/data/code/OGL/build/on_device_permute/third_party/ginkgo/src/cuda/base/cusparse_bindings.hpp:1248: csrsort<int>: CUSPARSE_STATUS_INVALID_VALUE
+[hkn0707:1554636] *** Process received signal ***
+[hkn0707:1554636] Signal: Aborted (6)
+[hkn0707:1554636] Signal code:  (-6)
+terminate called after throwing an instance of 'gko::CusparseError'
+  what():  /home/hk-project-test-fine/eq4036/data/code/OGL/build/on_device_permute/third_party/ginkgo/src/cuda/base/cusparse_bindings.hpp:1248: csrsort<int>: CUSPARSE_STATUS_INVALID_VALUE
+[hkn0707:1554629] *** Process received signal ***
+[hkn0707:1554629] Signal: Aborted (6)
+[hkn0707:1554629] Signal code:  (-6)
+terminate called after throwing an instance of 'gko::CusparseError'
+  what():  /home/hk-project-test-fine/eq4036/data/code/OGL/build/on_device_permute/third_party/ginkgo/src/cuda/base/cusparse_bindings.hpp:1248: csrsort<int>: CUSPARSE_STATUS_INVALID_VALUE
+[hkn0707:1554631] *** Process received signal ***
+[hkn0707:1554631] Signal: Aborted (6)
+[hkn0707:1554631] Signal code:  (-6)
+[hkn0707:1554631] [ 0] /lib64/libpthread.so.0(+0x12ce0)[0x14851ebdbce0]
+[hkn0707:1554631] [ 1] [hkn0707:1554636] [ 0] /lib64/libpthread.so.0(+0x12ce0)[0x14abf5595ce0]
+[hkn0707:1554636] [ 1] [hkn0707:1554629] [ 0] /lib64/libpthread.so.0(+0x12ce0)[0x14f44e4edce0]
+[hkn0707:1554629] [ 1] /lib64/libc.so.6(gsignal+0x10f)[0x14abf520ba9f]
+[hkn0707:1554636] [ 2] /lib64/libc.so.6(gsignal+0x10f)[0x14f44e163a9f]
+[hkn0707:1554629] [ 2] /lib64/libc.so.6(gsignal+0x10f)[0x14851e851a9f]
+[hkn0707:1554631] [ 2] /lib64/libc.so.6(abort+0x127)[0x14851e824e05]
+[hkn0707:1554631] [ 3] /lib64/libc.so.6(abort+0x127)[0x14f44e136e05]
+[hkn0707:1554629] [ 3] /lib64/libc.so.6(abort+0x127)[0x14abf51dee05]
+[hkn0707:1554636] [ 3] /opt/gcc/11/lib64/libstdc++.so.6(+0xa94aa)[0x14f44ed3f4aa]
+[hkn0707:1554629] [ 4] /opt/gcc/11/lib64/libstdc++.so.6(+0xa94aa)[0x14abf5de74aa]
+[hkn0707:1554636] [ 4] /opt/gcc/11/lib64/libstdc++.so.6(+0xa94aa)[0x14851f42d4aa]
+[hkn0707:1554631] [ 4] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d0a)[0x14851f438d0a]
+[hkn0707:1554631] [ 5] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d0a)[0x14abf5df2d0a]
+[hkn0707:1554636] [ 5] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d0a)[0x14f44ed4ad0a]
+[hkn0707:1554629] [ 5] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d75)[0x14f44ed4ad75]
+[hkn0707:1554629] [ 6] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d75)[0x14851f438d75]
+[hkn0707:1554631] [ 6] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d75)[0x14abf5df2d75]
+[hkn0707:1554636] [ 6] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4fc9)[0x14851f438fc9]
+[hkn0707:1554631] [ 7] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4fc9)[0x14abf5df2fc9]
+[hkn0707:1554636] [ 7] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4fc9)[0x14f44ed4afc9]
+[hkn0707:1554629] [ 7] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZN3gko7kernels4cuda3csr20sort_by_column_indexIdiEEvSt10shared_ptrIKNS_12CudaExecutorEEPNS_6matrix3CsrIT_T0_EE+0x1020)[0x14f3ff8bc350]
+[hkn0707:1554629] [ 8] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZN3gko7kernels4cuda3csr20sort_by_column_indexIdiEEvSt10shared_ptrIKNS_12CudaExecutorEEPNS_6matrix3CsrIT_T0_EE+0x1020)[0x14abaf492350]
+[hkn0707:1554636] [ 8] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZN3gko7kernels4cuda3csr20sort_by_column_indexIdiEEvSt10shared_ptrIKNS_12CudaExecutorEEPNS_6matrix3CsrIT_T0_EE+0x1020)[0x1484d92c7350]
+[hkn0707:1554631] [ 8] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(+0xedb5d3)[0x14abb69b95d3]
+[hkn0707:1554636] [ 9] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(+0xedb5d3)[0x1484e04cf5d3]
+[hkn0707:1554631] [ 9] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(+0xedb5d3)[0x14f406de35d3]
+[hkn0707:1554629] [ 9] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZNK3gko6detail12ExecutorBaseINS_12CudaExecutorEE3runERKNS_9OperationE+0xa0)[0x14f3ff5aad30]
+[hkn0707:1554629] [10] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZNK3gko6detail12ExecutorBaseINS_12CudaExecutorEE3runERKNS_9OperationE+0xa0)[0x1484d8fb5d30]
+[hkn0707:1554631] [10] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZNK3gko6detail12ExecutorBaseINS_12CudaExecutorEE3runERKNS_9OperationE+0xa0)[0x14abaf180d30]
+[hkn0707:1554636] [10] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6matrix3CsrIdiE20sort_by_column_indexEv+0x5d)[0x14abb69e96bd]
+[hkn0707:1554636] [11] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6matrix3CsrIdiE20sort_by_column_indexEv+0x5d)[0x1484e04ff6bd]
+[hkn0707:1554631] [11] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6matrix3CsrIdiE20sort_by_column_indexEv+0x5d)[0x14f406e136bd]
+[hkn0707:1554629] [11] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6detail28convert_to_with_sorting_implIKNS_6matrix3CsrIdiEEKNS_5LinOpEEESt10shared_ptrIT_ERS8_IKNS_8ExecutorEES8_IT0_Eb+0x11f)[0x1484e030a17f]
+[hkn0707:1554631] [12] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6detail28convert_to_with_sorting_implIKNS_6matrix3CsrIdiEEKNS_5LinOpEEESt10shared_ptrIT_ERS8_IKNS_8ExecutorEES8_IT0_Eb+0x11f)[0x14abb67f417f]
+[hkn0707:1554636] [12] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6detail28convert_to_with_sorting_implIKNS_6matrix3CsrIdiEEKNS_5LinOpEEESt10shared_ptrIT_ERS8_IKNS_8ExecutorEES8_IT0_Eb+0x11f)[0x14f406c1e17f]
+[hkn0707:1554629] [12] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko9multigrid3PgmIdiE8generateEv+0xfb2)[0x1484e084aae2]
+[hkn0707:1554631] [13] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko9multigrid3PgmIdiE8generateEv+0xfb2)[0x14abb6d34ae2]
+[hkn0707:1554636] [13] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko9multigrid3PgmIdiE8generateEv+0xfb2)[0x14f40715eae2]
+[hkn0707:1554629] [13] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_9multigrid3PgmIdiE7FactoryES3_NS3_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x340)[0x1484ec9aa2b0]
+[hkn0707:1554631] [14] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_9multigrid3PgmIdiE7FactoryES3_NS3_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x340)[0x14abb7d2d2b0]
+[hkn0707:1554636] [14] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_9multigrid3PgmIdiE7FactoryES3_NS3_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x340)[0x14f40c3b52b0]
+[hkn0707:1554629] [14] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x1484ec986a72]
+[hkn0707:1554631] [15] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x14abb7d09a72]
+[hkn0707:1554636] [15] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x14f40c391a72]
+[hkn0707:1554629] [15] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9Multigrid8generateEv+0x195)[0x1484e0e1e415]
+[hkn0707:1554631] [16] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9Multigrid8generateEv+0x195)[0x14abb7308415]
+[hkn0707:1554636] [16] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9Multigrid8generateEv+0x195)[0x14f407732415]
+[hkn0707:1554629] [16] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9MultigridC1EPKNS1_7FactoryESt10shared_ptrIKNS_5LinOpEE+0x4b8)[0x14abb730a288]
+[hkn0707:1554636] [17] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9MultigridC1EPKNS1_7FactoryESt10shared_ptrIKNS_5LinOpEE+0x4b8)[0x1484e0e20288]
+[hkn0707:1554631] [17] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_6solver9Multigrid7FactoryES2_NS2_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x4b)[0x14abb7ce756b]
+[hkn0707:1554636] [18] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_6solver9Multigrid7FactoryES2_NS2_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x4b)[0x1484ec96456b]
+[hkn0707:1554631] [18] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9MultigridC1EPKNS1_7FactoryESt10shared_ptrIKNS_5LinOpEE+0x4b8)[0x14f407734288]
+[hkn0707:1554629] [17] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x1484ec986a72]
+[hkn0707:1554631] [19] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x14abb7d09a72]
+[hkn0707:1554636] [19] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_6solver9Multigrid7FactoryES2_NS2_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x4b)[0x14f40c36f56b]
+[hkn0707:1554629] [18] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner24init_preconditioner_implENS_4wordERKNS_10dictionaryESt10shared_ptrIN3gko5LinOpEES5_INS6_8ExecutorEE+0x51ff)[0x14abb7d1ac9f]
+[hkn0707:1554636] [20] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner24init_preconditioner_implENS_4wordERKNS_10dictionaryESt10shared_ptrIN3gko5LinOpEES5_INS6_8ExecutorEE+0x51ff)[0x1484ec997c9f]
+[hkn0707:1554631] [20] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x14f40c391a72]
+[hkn0707:1554629] [19] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner19init_preconditionerESt10shared_ptrIN3gko5LinOpEES1_INS2_8ExecutorEE+0x8d8)[0x1484ec99c9e8]
+[hkn0707:1554631] [21] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner19init_preconditionerESt10shared_ptrIN3gko5LinOpEES1_INS2_8ExecutorEE+0x8d8)[0x14abb7d1f9e8]
+[hkn0707:1554636] [21] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner24init_preconditioner_implENS_4wordERKNS_10dictionaryESt10shared_ptrIN3gko5LinOpEES5_INS6_8ExecutorEE+0x51ff)[0x14f40c3a2c9f]
+[hkn0707:1554629] [20] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE20solve_multi_gpu_implERNS_5FieldIdEERKS5_RNS_17SolverPerformanceIdEE+0x8fe)[0x1484ec9a2e8e]
+[hkn0707:1554631] [22] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE20solve_multi_gpu_implERNS_5FieldIdEERKS5_RNS_17SolverPerformanceIdEE+0x8fe)[0x14abb7d25e8e]
+[hkn0707:1554636] [22] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE11solve_impl_ENS_4wordERNS_5FieldIdEERKS6_h+0x25d)[0x1484ec9a547d]
+[hkn0707:1554631] [23] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner19init_preconditionerESt10shared_ptrIN3gko5LinOpEES1_INS2_8ExecutorEE+0x8d8)[0x14f40c3a79e8]
+[hkn0707:1554629] [21] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE11solve_impl_ENS_4wordERNS_5FieldIdEERKS6_h+0x25d)[0x14abb7d2847d]
+[hkn0707:1554636] [23] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam5GKOCG5solveERNS_5FieldIdEERKS2_h+0xba)[0x1484ec9a5b3a]
+[hkn0707:1554631] [24] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE20solve_multi_gpu_implERNS_5FieldIdEERKS5_RNS_17SolverPerformanceIdEE+0x8fe)[0x14f40c3ade8e]
+[hkn0707:1554629] [22] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam5GKOCG5solveERNS_5FieldIdEERKS2_h+0xba)[0x14abb7d28b3a]
+[hkn0707:1554636] [24] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE11solve_impl_ENS_4wordERNS_5FieldIdEERKS6_h+0x25d)[0x14f40c3b047d]
+[hkn0707:1554629] [23] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam5GKOCG5solveERNS_5FieldIdEERKS2_h+0xba)[0x14f40c3b0b3a]
+[hkn0707:1554629] [24] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE15solveSegregatedERKNS_10dictionaryE+0x608)[0x148522711f48]
+[hkn0707:1554631] [25] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE15solveSegregatedERKNS_10dictionaryE+0x608)[0x14abf90cbf48]
+[hkn0707:1554636] [25] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE15solveSegregatedERKNS_10dictionaryE+0x608)[0x14f452023f48]
+[hkn0707:1554629] [25] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE24solveSegregatedOrCoupledERKNS_10dictionaryE+0x4e9)[0x14abf85eb009]
+[hkn0707:1554636] [26] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE24solveSegregatedOrCoupledERKNS_10dictionaryE+0x4e9)[0x148521c31009]
+[hkn0707:1554631] [26] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE24solveSegregatedOrCoupledERKNS_10dictionaryE+0x4e9)[0x14f451543009]
+[hkn0707:1554629] [26] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZNK4Foam6fvMesh5solveERNS_8fvMatrixIdEERKNS_10dictionaryE+0x10)[0x14abf8596560]
+[hkn0707:1554636] [27] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZNK4Foam6fvMesh5solveERNS_8fvMatrixIdEERKNS_10dictionaryE+0x10)[0x148521bdc560]
+[hkn0707:1554631] [27] icoFoam[0x423f6f]
+[hkn0707:1554636] [28] icoFoam[0x423f6f]
+[hkn0707:1554631] [28] /lib64/libc.so.6(__libc_start_main+0xf3)[0x14abf51f7cf3]
+[hkn0707:1554636] [29] icoFoam[0x425c0e]
+[hkn0707:1554636] *** End of error message ***
+/lib64/libc.so.6(__libc_start_main+0xf3)[0x14851e83dcf3]
+[hkn0707:1554631] [29] icoFoam[0x425c0e]
+[hkn0707:1554631] *** End of error message ***
+/home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZNK4Foam6fvMesh5solveERNS_8fvMatrixIdEERKNS_10dictionaryE+0x10)[0x14f4514ee560]
+[hkn0707:1554629] [27] icoFoam[0x423f6f]
+[hkn0707:1554629] [28] /lib64/libc.so.6(__libc_start_main+0xf3)[0x14f44e14fcf3]
+[hkn0707:1554629] [29] icoFoam[0x425c0e]
+[hkn0707:1554629] *** End of error message ***
+terminate called after throwing an instance of 'gko::CusparseError'
+  what():  /home/hk-project-test-fine/eq4036/data/code/OGL/build/on_device_permute/third_party/ginkgo/src/cuda/base/cusparse_bindings.hpp:1248: csrsort<int>: CUSPARSE_STATUS_INVALID_VALUE
+[hkn0707:1554635] *** Process received signal ***
+[hkn0707:1554635] Signal: Aborted (6)
+[hkn0707:1554635] Signal code:  (-6)
+[hkn0707:1554635] [ 0] /lib64/libpthread.so.0(+0x12ce0)[0x154ddfb2ece0]
+[hkn0707:1554635] [ 1] /lib64/libc.so.6(gsignal+0x10f)[0x154ddf7a4a9f]
+[hkn0707:1554635] [ 2] /lib64/libc.so.6(abort+0x127)[0x154ddf777e05]
+[hkn0707:1554635] [ 3] /opt/gcc/11/lib64/libstdc++.so.6(+0xa94aa)[0x154de03804aa]
+[hkn0707:1554635] [ 4] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d0a)[0x154de038bd0a]
+[hkn0707:1554635] [ 5] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d75)[0x154de038bd75]
+[hkn0707:1554635] [ 6] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4fc9)[0x154de038bfc9]
+[hkn0707:1554635] [ 7] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZN3gko7kernels4cuda3csr20sort_by_column_indexIdiEEvSt10shared_ptrIKNS_12CudaExecutorEEPNS_6matrix3CsrIT_T0_EE+0x1020)[0x154d999e5350]
+[hkn0707:1554635] [ 8] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(+0xedb5d3)[0x154da0f0c5d3]
+[hkn0707:1554635] [ 9] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZNK3gko6detail12ExecutorBaseINS_12CudaExecutorEE3runERKNS_9OperationE+0xa0)[0x154d996d3d30]
+[hkn0707:1554635] [10] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6matrix3CsrIdiE20sort_by_column_indexEv+0x5d)[0x154da0f3c6bd]
+[hkn0707:1554635] [11] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6detail28convert_to_with_sorting_implIKNS_6matrix3CsrIdiEEKNS_5LinOpEEESt10shared_ptrIT_ERS8_IKNS_8ExecutorEES8_IT0_Eb+0x11f)[0x154da0d4717f]
+[hkn0707:1554635] [12] terminate called after throwing an instance of 'gko::CusparseError'
+  what():  /home/hk-project-test-fine/eq4036/data/code/OGL/build/on_device_permute/third_party/ginkgo/src/cuda/base/cusparse_bindings.hpp:1248: csrsort<int>: CUSPARSE_STATUS_INVALID_VALUE
+[hkn0707:1554632] *** Process received signal ***
+[hkn0707:1554632] Signal: Aborted (6)
+[hkn0707:1554632] Signal code:  (-6)
+[hkn0707:1554632] [ 0] /lib64/libpthread.so.0(+0x12ce0)[0x14f26054fce0]
+[hkn0707:1554632] [ 1] /lib64/libc.so.6(gsignal+0x10f)[0x14f2601c5a9f]
+[hkn0707:1554632] [ 2] /lib64/libc.so.6(abort+0x127)[0x14f260198e05]
+[hkn0707:1554632] [ 3] /opt/gcc/11/lib64/libstdc++.so.6(+0xa94aa)[0x14f260da14aa]
+[hkn0707:1554632] [ 4] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d0a)[0x14f260dacd0a]
+[hkn0707:1554632] [ 5] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko9multigrid3PgmIdiE8generateEv+0xfb2)[0x154da1287ae2]
+[hkn0707:1554635] [13] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d75)[0x14f260dacd75]
+[hkn0707:1554632] [ 6] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4fc9)[0x14f260dacfc9]
+[hkn0707:1554632] [ 7] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_9multigrid3PgmIdiE7FactoryES3_NS3_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x340)[0x154da22802b0]
+[hkn0707:1554635] [14] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x154da225ca72]
+[hkn0707:1554635] [15] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZN3gko7kernels4cuda3csr20sort_by_column_indexIdiEEvSt10shared_ptrIKNS_12CudaExecutorEEPNS_6matrix3CsrIT_T0_EE+0x1020)[0x14f21b111350]
+[hkn0707:1554632] [ 8] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(+0xedb5d3)[0x14f2226385d3]
+[hkn0707:1554632] [ 9] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9Multigrid8generateEv+0x195)[0x154da185b415]
+[hkn0707:1554635] [16] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZNK3gko6detail12ExecutorBaseINS_12CudaExecutorEE3runERKNS_9OperationE+0xa0)[0x14f21adffd30]
+[hkn0707:1554632] [10] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6matrix3CsrIdiE20sort_by_column_indexEv+0x5d)[0x14f2226686bd]
+[hkn0707:1554632] [11] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9MultigridC1EPKNS1_7FactoryESt10shared_ptrIKNS_5LinOpEE+0x4b8)[0x154da185d288]
+[hkn0707:1554635] [17] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_6solver9Multigrid7FactoryES2_NS2_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x4b)[0x154da223a56b]
+[hkn0707:1554635] [18] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x154da225ca72]
+[hkn0707:1554635] [19] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner24init_preconditioner_implENS_4wordERKNS_10dictionaryESt10shared_ptrIN3gko5LinOpEES5_INS6_8ExecutorEE+0x51ff)[0x154da226dc9f]
+[hkn0707:1554635] [20] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner19init_preconditionerESt10shared_ptrIN3gko5LinOpEES1_INS2_8ExecutorEE+0x8d8)[0x154da22729e8]
+[hkn0707:1554635] [21] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE20solve_multi_gpu_implERNS_5FieldIdEERKS5_RNS_17SolverPerformanceIdEE+0x8fe)[0x154da2278e8e]
+[hkn0707:1554635] [22] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE11solve_impl_ENS_4wordERNS_5FieldIdEERKS6_h+0x25d)[0x154da227b47d]
+[hkn0707:1554635] [23] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam5GKOCG5solveERNS_5FieldIdEERKS2_h+0xba)[0x154da227bb3a]
+[hkn0707:1554635] [24] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6detail28convert_to_with_sorting_implIKNS_6matrix3CsrIdiEEKNS_5LinOpEEESt10shared_ptrIT_ERS8_IKNS_8ExecutorEES8_IT0_Eb+0x11f)[0x14f22247317f]
+[hkn0707:1554632] [12] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko9multigrid3PgmIdiE8generateEv+0xfb2)[0x14f2229b3ae2]
+[hkn0707:1554632] [13] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE15solveSegregatedERKNS_10dictionaryE+0x608)[0x154de3664f48]
+[hkn0707:1554635] [25] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_9multigrid3PgmIdiE7FactoryES3_NS3_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x340)[0x14f2239ac2b0]
+[hkn0707:1554632] [14] terminate called after throwing an instance of 'gko::CusparseError'
+  what():  /home/hk-project-test-fine/eq4036/data/code/OGL/build/on_device_permute/third_party/ginkgo/src/cuda/base/cusparse_bindings.hpp:1248: csrsort<int>: CUSPARSE_STATUS_INVALID_VALUE
+/home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x14f223988a72]
+[hkn0707:1554632] [15] [hkn0707:1554633] *** Process received signal ***
+[hkn0707:1554633] Signal: Aborted (6)
+[hkn0707:1554633] Signal code:  (-6)
+[hkn0707:1554633] [ 0] /lib64/libpthread.so.0(+0x12ce0)[0x15298f585ce0]
+[hkn0707:1554633] [ 1] /lib64/libc.so.6(gsignal+0x10f)[0x15298f1fba9f]
+[hkn0707:1554633] [ 2] /lib64/libc.so.6(abort+0x127)[0x15298f1cee05]
+[hkn0707:1554633] [ 3] /opt/gcc/11/lib64/libstdc++.so.6(+0xa94aa)[0x15298fdd74aa]
+[hkn0707:1554633] [ 4] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d0a)[0x15298fde2d0a]
+[hkn0707:1554633] [ 5] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d75)[0x15298fde2d75]
+[hkn0707:1554633] [ 6] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4fc9)[0x15298fde2fc9]
+[hkn0707:1554633] [ 7] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZN3gko7kernels4cuda3csr20sort_by_column_indexIdiEEvSt10shared_ptrIKNS_12CudaExecutorEEPNS_6matrix3CsrIT_T0_EE+0x1020)[0x1529491b3350]
+[hkn0707:1554633] [ 8] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE24solveSegregatedOrCoupledERKNS_10dictionaryE+0x4e9)[0x154de2b84009]
+[hkn0707:1554635] [26] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9Multigrid8generateEv+0x195)[0x14f222f87415]
+[hkn0707:1554632] [16] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZNK4Foam6fvMesh5solveERNS_8fvMatrixIdEERKNS_10dictionaryE+0x10)[0x154de2b2f560]
+[hkn0707:1554635] [27] icoFoam[0x423f6f]
+[hkn0707:1554635] [28] /lib64/libc.so.6(__libc_start_main+0xf3)[0x154ddf790cf3]
+[hkn0707:1554635] [29] icoFoam[0x425c0e]
+[hkn0707:1554635] *** End of error message ***
+/home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(+0xedb5d3)[0x1529506da5d3]
+[hkn0707:1554633] [ 9] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZNK3gko6detail12ExecutorBaseINS_12CudaExecutorEE3runERKNS_9OperationE+0xa0)[0x152948ea1d30]
+[hkn0707:1554633] [10] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9MultigridC1EPKNS1_7FactoryESt10shared_ptrIKNS_5LinOpEE+0x4b8)[0x14f222f89288]
+[hkn0707:1554632] [17] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_6solver9Multigrid7FactoryES2_NS2_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x4b)[0x14f22396656b]
+[hkn0707:1554632] [18] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x14f223988a72]
+[hkn0707:1554632] [19] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner24init_preconditioner_implENS_4wordERKNS_10dictionaryESt10shared_ptrIN3gko5LinOpEES5_INS6_8ExecutorEE+0x51ff)[0x14f223999c9f]
+[hkn0707:1554632] [20] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner19init_preconditionerESt10shared_ptrIN3gko5LinOpEES1_INS2_8ExecutorEE+0x8d8)[0x14f22399e9e8]
+[hkn0707:1554632] [21] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE20solve_multi_gpu_implERNS_5FieldIdEERKS5_RNS_17SolverPerformanceIdEE+0x8fe)[0x14f2239a4e8e]
+[hkn0707:1554632] [22] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6matrix3CsrIdiE20sort_by_column_indexEv+0x5d)[0x15295070a6bd]
+[hkn0707:1554633] [11] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE11solve_impl_ENS_4wordERNS_5FieldIdEERKS6_h+0x25d)[0x14f2239a747d]
+[hkn0707:1554632] [23] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam5GKOCG5solveERNS_5FieldIdEERKS2_h+0xba)[0x14f2239a7b3a]
+[hkn0707:1554632] [24] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6detail28convert_to_with_sorting_implIKNS_6matrix3CsrIdiEEKNS_5LinOpEEESt10shared_ptrIT_ERS8_IKNS_8ExecutorEES8_IT0_Eb+0x11f)[0x15295051517f]
+[hkn0707:1554633] [12] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE15solveSegregatedERKNS_10dictionaryE+0x608)[0x14f264085f48]
+[hkn0707:1554632] [25] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko9multigrid3PgmIdiE8generateEv+0xfb2)[0x152950a55ae2]
+[hkn0707:1554633] [13] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_9multigrid3PgmIdiE7FactoryES3_NS3_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x340)[0x152951a4e2b0]
+[hkn0707:1554633] [14] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x152951a2aa72]
+[hkn0707:1554633] [15] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE24solveSegregatedOrCoupledERKNS_10dictionaryE+0x4e9)[0x14f2635a5009]
+[hkn0707:1554632] [26] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZNK4Foam6fvMesh5solveERNS_8fvMatrixIdEERKNS_10dictionaryE+0x10)[0x14f263550560]
+[hkn0707:1554632] [27] icoFoam[0x423f6f]
+[hkn0707:1554632] [28] /lib64/libc.so.6(__libc_start_main+0xf3)[0x14f2601b1cf3]
+[hkn0707:1554632] [29] icoFoam[0x425c0e]
+[hkn0707:1554632] *** End of error message ***
+/home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9Multigrid8generateEv+0x195)[0x152951029415]
+[hkn0707:1554633] [16] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9MultigridC1EPKNS1_7FactoryESt10shared_ptrIKNS_5LinOpEE+0x4b8)[0x15295102b288]
+[hkn0707:1554633] [17] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_6solver9Multigrid7FactoryES2_NS2_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x4b)[0x152951a0856b]
+[hkn0707:1554633] [18] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x152951a2aa72]
+[hkn0707:1554633] [19] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner24init_preconditioner_implENS_4wordERKNS_10dictionaryESt10shared_ptrIN3gko5LinOpEES5_INS6_8ExecutorEE+0x51ff)[0x152951a3bc9f]
+[hkn0707:1554633] [20] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner19init_preconditionerESt10shared_ptrIN3gko5LinOpEES1_INS2_8ExecutorEE+0x8d8)[0x152951a409e8]
+[hkn0707:1554633] [21] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE20solve_multi_gpu_implERNS_5FieldIdEERKS5_RNS_17SolverPerformanceIdEE+0x8fe)[0x152951a46e8e]
+[hkn0707:1554633] [22] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE11solve_impl_ENS_4wordERNS_5FieldIdEERKS6_h+0x25d)[0x152951a4947d]
+[hkn0707:1554633] [23] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam5GKOCG5solveERNS_5FieldIdEERKS2_h+0xba)[0x152951a49b3a]
+[hkn0707:1554633] [24] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE15solveSegregatedERKNS_10dictionaryE+0x608)[0x1529930bbf48]
+[hkn0707:1554633] [25] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE24solveSegregatedOrCoupledERKNS_10dictionaryE+0x4e9)[0x1529925db009]
+[hkn0707:1554633] [26] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZNK4Foam6fvMesh5solveERNS_8fvMatrixIdEERKNS_10dictionaryE+0x10)[0x152992586560]
+[hkn0707:1554633] [27] icoFoam[0x423f6f]
+[hkn0707:1554633] [28] /lib64/libc.so.6(__libc_start_main+0xf3)[0x15298f1e7cf3]
+[hkn0707:1554633] [29] icoFoam[0x425c0e]
+[hkn0707:1554633] *** End of error message ***
+terminate called after throwing an instance of 'gko::CusparseError'
+  what():  /home/hk-project-test-fine/eq4036/data/code/OGL/build/on_device_permute/third_party/ginkgo/src/cuda/base/cusparse_bindings.hpp:1248: csrsort<int>: CUSPARSE_STATUS_INVALID_VALUE
+[hkn0707:1554634] *** Process received signal ***
+[hkn0707:1554634] Signal: Aborted (6)
+[hkn0707:1554634] Signal code:  (-6)
+[hkn0707:1554634] [ 0] /lib64/libpthread.so.0(+0x12ce0)[0x1477b3d83ce0]
+[hkn0707:1554634] [ 1] /lib64/libc.so.6(gsignal+0x10f)[0x1477b39f9a9f]
+[hkn0707:1554634] [ 2] /lib64/libc.so.6(abort+0x127)[0x1477b39cce05]
+[hkn0707:1554634] [ 3] /opt/gcc/11/lib64/libstdc++.so.6(+0xa94aa)[0x1477b45d54aa]
+[hkn0707:1554634] [ 4] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d0a)[0x1477b45e0d0a]
+[hkn0707:1554634] [ 5] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d75)[0x1477b45e0d75]
+[hkn0707:1554634] [ 6] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4fc9)[0x1477b45e0fc9]
+[hkn0707:1554634] [ 7] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZN3gko7kernels4cuda3csr20sort_by_column_indexIdiEEvSt10shared_ptrIKNS_12CudaExecutorEEPNS_6matrix3CsrIT_T0_EE+0x1020)[0x14776d94d350]
+[hkn0707:1554634] [ 8] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(+0xedb5d3)[0x147774e745d3]
+[hkn0707:1554634] [ 9] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZNK3gko6detail12ExecutorBaseINS_12CudaExecutorEE3runERKNS_9OperationE+0xa0)[0x14776d63bd30]
+[hkn0707:1554634] [10] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6matrix3CsrIdiE20sort_by_column_indexEv+0x5d)[0x147774ea46bd]
+[hkn0707:1554634] [11] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6detail28convert_to_with_sorting_implIKNS_6matrix3CsrIdiEEKNS_5LinOpEEESt10shared_ptrIT_ERS8_IKNS_8ExecutorEES8_IT0_Eb+0x11f)[0x147774caf17f]
+[hkn0707:1554634] [12] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko9multigrid3PgmIdiE8generateEv+0xfb2)[0x1477751efae2]
+[hkn0707:1554634] [13] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_9multigrid3PgmIdiE7FactoryES3_NS3_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x340)[0x1477761e82b0]
+[hkn0707:1554634] [14] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x1477761c4a72]
+[hkn0707:1554634] [15] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9Multigrid8generateEv+0x195)[0x1477757c3415]
+[hkn0707:1554634] [16] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9MultigridC1EPKNS1_7FactoryESt10shared_ptrIKNS_5LinOpEE+0x4b8)[0x1477757c5288]
+[hkn0707:1554634] [17] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_6solver9Multigrid7FactoryES2_NS2_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x4b)[0x1477761a256b]
+[hkn0707:1554634] [18] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x1477761c4a72]
+[hkn0707:1554634] [19] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner24init_preconditioner_implENS_4wordERKNS_10dictionaryESt10shared_ptrIN3gko5LinOpEES5_INS6_8ExecutorEE+0x51ff)[0x1477761d5c9f]
+[hkn0707:1554634] [20] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner19init_preconditionerESt10shared_ptrIN3gko5LinOpEES1_INS2_8ExecutorEE+0x8d8)[0x1477761da9e8]
+[hkn0707:1554634] [21] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE20solve_multi_gpu_implERNS_5FieldIdEERKS5_RNS_17SolverPerformanceIdEE+0x8fe)[0x1477761e0e8e]
+[hkn0707:1554634] [22] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE11solve_impl_ENS_4wordERNS_5FieldIdEERKS6_h+0x25d)[0x1477761e347d]
+[hkn0707:1554634] [23] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam5GKOCG5solveERNS_5FieldIdEERKS2_h+0xba)[0x1477761e3b3a]
+[hkn0707:1554634] [24] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE15solveSegregatedERKNS_10dictionaryE+0x608)[0x1477b78b9f48]
+[hkn0707:1554634] [25] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE24solveSegregatedOrCoupledERKNS_10dictionaryE+0x4e9)[0x1477b6dd9009]
+[hkn0707:1554634] [26] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZNK4Foam6fvMesh5solveERNS_8fvMatrixIdEERKNS_10dictionaryE+0x10)[0x1477b6d84560]
+[hkn0707:1554634] [27] icoFoam[0x423f6f]
+[hkn0707:1554634] [28] /lib64/libc.so.6(__libc_start_main+0xf3)[0x1477b39e5cf3]
+[hkn0707:1554634] [29] icoFoam[0x425c0e]
+[hkn0707:1554634] *** End of error message ***
+terminate called after throwing an instance of 'gko::CusparseError'
+  what():  /home/hk-project-test-fine/eq4036/data/code/OGL/build/on_device_permute/third_party/ginkgo/src/cuda/base/cusparse_bindings.hpp:1248: csrsort<int>: CUSPARSE_STATUS_INVALID_VALUE
+[hkn0707:1554630] *** Process received signal ***
+[hkn0707:1554630] Signal: Aborted (6)
+[hkn0707:1554630] Signal code:  (-6)
+[hkn0707:1554630] [ 0] /lib64/libpthread.so.0(+0x12ce0)[0x1539e33e9ce0]
+[hkn0707:1554630] [ 1] /lib64/libc.so.6(gsignal+0x10f)[0x1539e305fa9f]
+[hkn0707:1554630] [ 2] /lib64/libc.so.6(abort+0x127)[0x1539e3032e05]
+[hkn0707:1554630] [ 3] /opt/gcc/11/lib64/libstdc++.so.6(+0xa94aa)[0x1539e3c3b4aa]
+[hkn0707:1554630] [ 4] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d0a)[0x1539e3c46d0a]
+[hkn0707:1554630] [ 5] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4d75)[0x1539e3c46d75]
+[hkn0707:1554630] [ 6] /opt/gcc/11/lib64/libstdc++.so.6(+0xb4fc9)[0x1539e3c46fc9]
+[hkn0707:1554630] [ 7] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZN3gko7kernels4cuda3csr20sort_by_column_indexIdiEEvSt10shared_ptrIKNS_12CudaExecutorEEPNS_6matrix3CsrIT_T0_EE+0x1020)[0x15399d9e5350]
+[hkn0707:1554630] [ 8] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(+0xedb5d3)[0x1539a4f0c5d3]
+[hkn0707:1554630] [ 9] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo_cuda.so.1.7.0(_ZNK3gko6detail12ExecutorBaseINS_12CudaExecutorEE3runERKNS_9OperationE+0xa0)[0x15399d6d3d30]
+[hkn0707:1554630] [10] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6matrix3CsrIdiE20sort_by_column_indexEv+0x5d)[0x1539a4f3c6bd]
+[hkn0707:1554630] [11] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6detail28convert_to_with_sorting_implIKNS_6matrix3CsrIdiEEKNS_5LinOpEEESt10shared_ptrIT_ERS8_IKNS_8ExecutorEES8_IT0_Eb+0x11f)[0x1539a4d4717f]
+[hkn0707:1554630] [12] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko9multigrid3PgmIdiE8generateEv+0xfb2)[0x1539a5287ae2]
+[hkn0707:1554630] [13] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_9multigrid3PgmIdiE7FactoryES3_NS3_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x340)[0x1539a62802b0]
+[hkn0707:1554630] [14] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x1539a625ca72]
+[hkn0707:1554630] [15] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9Multigrid8generateEv+0x195)[0x1539a585b415]
+[hkn0707:1554630] [16] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libginkgo.so.1.7.0(_ZN3gko6solver9MultigridC1EPKNS1_7FactoryESt10shared_ptrIKNS_5LinOpEE+0x4b8)[0x1539a585d288]
+[hkn0707:1554630] [17] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko20EnableDefaultFactoryINS_6solver9Multigrid7FactoryES2_NS2_15parameters_typeENS_12LinOpFactoryEE13generate_implESt10shared_ptrIKNS_5LinOpEE+0x4b)[0x1539a623a56b]
+[hkn0707:1554630] [18] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK3gko12LinOpFactory8generateESt10shared_ptrIKNS_5LinOpEE+0x502)[0x1539a625ca72]
+[hkn0707:1554630] [19] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner24init_preconditioner_implENS_4wordERKNS_10dictionaryESt10shared_ptrIN3gko5LinOpEES5_INS6_8ExecutorEE+0x51ff)[0x1539a626dc9f]
+[hkn0707:1554630] [20] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam14Preconditioner19init_preconditionerESt10shared_ptrIN3gko5LinOpEES1_INS2_8ExecutorEE+0x8d8)[0x1539a62729e8]
+[hkn0707:1554630] [21] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE20solve_multi_gpu_implERNS_5FieldIdEERKS5_RNS_17SolverPerformanceIdEE+0x8fe)[0x1539a6278e8e]
+[hkn0707:1554630] [22] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam10lduLduBaseINS_9lduMatrixENS_12GKOCGFactoryEE11solve_impl_ENS_4wordERNS_5FieldIdEERKS6_h+0x25d)[0x1539a627b47d]
+[hkn0707:1554630] [23] /home/hk-project-test-fine/eq4036/OpenFOAM/eq4036-v2306/platforms/linux64GccDPInt32Opt/lib/libOGL.so(_ZNK4Foam5GKOCG5solveERNS_5FieldIdEERKS2_h+0xba)[0x1539a627bb3a]
+[hkn0707:1554630] [24] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE15solveSegregatedERKNS_10dictionaryE+0x608)[0x1539e6f1ff48]
+[hkn0707:1554630] [25] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZN4Foam8fvMatrixIdE24solveSegregatedOrCoupledERKNS_10dictionaryE+0x4e9)[0x1539e643f009]
+[hkn0707:1554630] [26] /home/hk-project-test-fine/eq4036/OpenFOAM/openfoam/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so(_ZNK4Foam6fvMesh5solveERNS_8fvMatrixIdEERKNS_10dictionaryE+0x10)[0x1539e63ea560]
+[hkn0707:1554630] [27] icoFoam[0x423f6f]
+[hkn0707:1554630] [28] /lib64/libc.so.6(__libc_start_main+0xf3)[0x1539e304bcf3]
+[hkn0707:1554630] [29] icoFoam[0x425c0e]
+[hkn0707:1554630] *** End of error message ***
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 3 with PID 1554632 on node hkn0707 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------

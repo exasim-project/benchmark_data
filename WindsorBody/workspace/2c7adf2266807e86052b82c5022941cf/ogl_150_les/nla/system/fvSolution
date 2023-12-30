@@ -1,0 +1,131 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+	p
+	{
+		solver	GKOCG;
+		tolerance	0;
+		relTol	0.01;
+		smoother	GaussSeidel;
+		nCellsInCoarsestLevel	50;
+		minIter	1;
+		coarsestLevelCorr
+		{
+			solver	PCG;
+			preconditioner	DIC;
+			relTol	0.05;
+		}
+
+		preconditioner	BJ;
+		forceHostBuffer	0;
+		verbose	1;
+		maxIter	5000;
+		executor	hip;
+	}
+
+	"pFinal|pcorr|pcorrFinal|Phi"
+	{
+		$p;
+	}
+
+	U
+	{
+		solver	smoothSolver;
+		preconditioner	DILU;
+		tolerance	1e-8;
+		relTol	0.1;
+		minIter	1;
+		smoother	GaussSeidel;
+		nSweeps	1;
+		executor	CPU;
+	}
+
+	UFinal
+	{
+		$U;
+	}
+
+	"nuTilda|nuTildaFinal|omega|omegaFinal|k|kFinal"
+	{
+		solver	PBiCGStab;
+		preconditioner	DILU;
+		tolerance	0;
+		relTol	0.1;
+		minIter	1;
+	}
+
+}
+
+potentialFlow
+{
+	nNonOrthogonalCorrectors	10;
+}
+
+PIMPLE
+{
+	nOuterCorrectors	30;
+	nCorrectors	1;
+	nNonOrthogonalCorrectors	0;
+	finalOnLastPimpleIterOnly	true;
+	turbOnFinalIterOnly	true;
+	residualControl
+	{
+		p
+		{
+			tolerance	0;
+			relTol	0.1;
+		}
+
+		U
+		{
+			tolerance	0;
+			relTol	0.001;
+		}
+
+	}
+
+}
+
+relaxationFactors
+{
+	fields
+	{
+		p	0.4;
+		pFinal	0.4;
+	}
+
+	equations
+	{
+		U	0.7;
+		UFinal	0.7;
+		k	1;
+		kFinal	1;
+		omega	1;
+		omegaFinal	1;
+		nuTilda	1;
+		nuTildaFinal	1;
+	}
+
+}
+
+cache
+{
+	grad (U);
+}
+
+//*************************************************************************//
