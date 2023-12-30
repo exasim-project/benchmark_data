@@ -64,7 +64,7 @@ bases = [
 {
     "case": [
         eph.helpers.DFQuery(idx="Host", val="nla"),
-        ]
+        ],
     "base" : [
         # TODO this needs to know nProcs beforehand
         eph.helpers.DFQuery(idx="nProcs", val=32),
