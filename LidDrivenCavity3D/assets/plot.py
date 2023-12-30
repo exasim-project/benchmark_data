@@ -48,7 +48,7 @@ class Df_filter:
 unprecond = lambda df: df[df["preconditioner"] == "none"]
 
 
-def compute_speedup(df, base, extra_filter=lambda df: df):
+def compute_speedup(df, bases, extra_filter=lambda df: df):
     from copy import deepcopy
 
     indices = [q.idx for q in base]
@@ -58,11 +58,31 @@ def compute_speedup(df, base, extra_filter=lambda df: df):
     df_copy.set_index(keys=indices, inplace=True)
     return eph.helpers.compute_speedup(df_copy, base, ignore_indices=[]).reset_index()
 
-base = [
-    # TODO this needs to know nProcs beforehand
-    eph.helpers.DFQuery(idx="nProcs", val=32),
-    eph.helpers.DFQuery(idx="preconditioner", val="none"),
-    eph.helpers.DFQuery(idx="executor", val="CPU"),
+
+
+bases = [
+{
+    "case": [
+        eph.helpers.DFQuery(idx="Host", val="nla"),
+        ]
+    "base" : [
+        # TODO this needs to know nProcs beforehand
+        eph.helpers.DFQuery(idx="nProcs", val=32),
+        eph.helpers.DFQuery(idx="preconditioner", val="none"),
+        eph.helpers.DFQuery(idx="executor", val="CPU"),
+        ]
+},
+{
+    "case": [
+        eph.helpers.DFQuery(idx="Host", val="hkn"),
+        ]
+    "base" : [
+        # TODO this needs to know nProcs beforehand
+        eph.helpers.DFQuery(idx="nProcs", val=76),
+        eph.helpers.DFQuery(idx="preconditioner", val="none"),
+        eph.helpers.DFQuery(idx="executor", val="CPU"),
+        ]
+},
 ]
 
 
@@ -79,7 +99,6 @@ for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
             df=df,
             df_filter=Df_filter("unpreconditioned", unprecond),
         )
-
 
         plotter(
             x=x,
