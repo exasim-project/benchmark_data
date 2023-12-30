@@ -52,6 +52,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df):
     from copy import deepcopy
 
     indices = [q.idx for q in bases[0]["base"]]
+    indices.append("Host")
     # things that need to match
     indices += ["nCells"]
     df_copy = deepcopy(extra_filter(df))
