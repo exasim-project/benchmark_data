@@ -51,12 +51,12 @@ unprecond = lambda df: df[df["preconditioner"] == "none"]
 def compute_speedup(df, bases, extra_filter=lambda df: df):
     from copy import deepcopy
 
-    indices = [q.idx for q in base]
+    indices = [q.idx for q in bases[0]["base"]]
     # things that need to match
     indices += ["nCells"]
     df_copy = deepcopy(extra_filter(df))
     df_copy.set_index(keys=indices, inplace=True)
-    return eph.helpers.compute_speedup(df_copy, base, ignore_indices=[]).reset_index()
+    return eph.helpers.compute_speedup(df_copy, bases, ignore_indices=[]).reset_index()
 
 
 
