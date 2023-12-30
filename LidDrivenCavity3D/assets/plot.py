@@ -110,6 +110,6 @@ for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
             log=True,
             df=df,
             df_filter=Df_filter(
-                "unprecond_speedup", lambda df: compute_speedup(df, base, unprecond)
+                "unprecond_speedup", lambda df: compute_speedup(df, bases, unprecond)
             ),
         )
