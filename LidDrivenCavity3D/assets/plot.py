@@ -10,8 +10,9 @@ from pathlib import Path
 def plotter(
     x, y, color, style, df, df_filter, post_pro_dir, postfix="", size=None, col=None, log=None, plot_type="line"
 ):
+    print("pre_filter", y, df[y])
     df = df_filter(df)
-    print(y, df[y])
+    print("post_filter", y, df[y])
 
     relplot = sb.relplot(
         x=x,
@@ -76,7 +77,7 @@ def main(campaign, comparisson=None):
     post_pro_dir = script_dir / "../postProcessing/{}".format(campaign)
     json_file = post_pro_dir / "results.json"
     df = pd.read_json(json_file)
-    unprecond = lambda df: df[df["preconditioner"] == "none"]
+    unprecond = lambda x: x[x["preconditioner"] == "none"]
 
     bases = [
     {
