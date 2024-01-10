@@ -7,7 +7,7 @@ import exasim_plot_helpers as eph
 from pathlib import Path
 
 def plotter(
-    x, y, color, style, df, df_filter, post_pro_dir, size=None, col=None, log=None, plot_type="line"
+    x, y, color, style, df, df_filter, post_pro_dir, postfix="", size=None, col=None, log=None, plot_type="line"
 ):
     df = df_filter(df)
 
@@ -22,7 +22,7 @@ def plotter(
         kind=plot_type,
         markers=True,
     )
-    name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}.png"
+    name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}.png"
     if log == "both":
         plt.xscale("log")
         plt.yscale("log")
@@ -52,7 +52,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df):
     return eph.helpers.compute_speedup(df_copy, bases, ignore_indices=[]).reset_index()
 
 
-def main(campaign):
+def main(campaign, comparisson=None):
     script_dir = Path(__file__).parent
     post_pro_dir = script_dir / "../postProcessing/{}".format(campaign)
     json_file = post_pro_dir / "results.json"
@@ -100,20 +100,45 @@ def main(campaign):
                 df_filter=Df_filter("unpreconditioned", unprecond),
             )
 
-            # plotter(
-            #     x=x,
-            #     y=y,
-            #     color=c,
-            #     style="solver_p",
-            #     post_pro_dir=post_pro_dir,
-            #     plot_type="line",
-            #     col="Host",
-            #     log=True,
-            #     df=df,
-            #     df_filter=Df_filter(
-            #         "unprecond_speedup", lambda df: compute_speedup(df, bases, unprecond)
-            #     ),
-            # )
+            plotter(
+                x=x,
+                y=y,
+                color=c,
+                style="solver_p",
+                post_pro_dir=post_pro_dir,
+                plot_type="line",
+                col="Host",
+                log=True,
+                df=df,
+                df_filter=Df_filter(
+                    "unprecond_speedup", lambda df: compute_speedup(df, bases, unprecond)
+                ),
+            )
+
+    # comparisson against other results
+    if comparisson:
+        post_pro_dir = script_dir / "../postProcessing/{}".format(comparisson)
+        json_file = post_pro_dir / "results.json"
+        df_comparisson = pd.read_json(json_file)
+
+        df = df / df_comparisson
+
+        for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
+            for y in ["TimeStep", "SolveP"]:
+                plotter(
+                    x=x,
+                    y=y,
+                    color=c,
+                    style="solver_p",
+                    post_pro_dir=post_pro_dir,
+                    postfix="_vs_comparisson",
+                    plot_type="line",
+                    col="Host",
+                    log=True,
+                    df=df,
+                    df_filter=Df_filter("unpreconditioned", unprecond),
+                )
+
 
 if __name__ == "__main__":
     main(sys.argv[1])
