@@ -11,7 +11,6 @@ def plotter(
     x, y, color, style, df, df_filter, post_pro_dir, postfix="", size=None, col=None, log=None, plot_type="line"
 ):
     df = df_filter(df)
-    print("plot y", y)
 
     relplot = sb.relplot(
         x=x,
@@ -43,9 +42,8 @@ def col_divide(df_orig, df_comparisson):
         try:
             ret[c] = df_comparisson[c] / df_orig[c]  
         except Exception as e:
-            print(e)
+            print(e, c)
             pass
-    print(ret)
     return ret
 
 
