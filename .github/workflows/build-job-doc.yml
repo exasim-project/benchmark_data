@@ -46,12 +46,12 @@ jobs:
     - name: Run obr script
       run: |
         cd LidDrivenCavity3D
+        python -m signac migrate.
         obr apply --file ../scripts/postProcessLogs.py --campaign ${{env.CAMPAIGN}}
 
     - name: Run obr script
       run: |
         cd LidDrivenCavity3D
-        python -m signac migrate.
         echo "# Results Overview " > overview.md
         echo "## Unpreconditioned" >> overview.md
         obr status --filter preconditioner==none --sort_by nCells,nProcs,executor,Host --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
