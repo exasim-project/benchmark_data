@@ -100,19 +100,19 @@ def main(campaign):
                 df_filter=Df_filter("unpreconditioned", unprecond),
             )
 
-            plotter(
-                x=x,
-                y=y,
-                color=c,
-                style="solver_p",
-                post_pro_dir=post_pro_dir,
-                plot_type="line",
-                col="Host",
-                log=True,
-                df=df,
-                df_filter=Df_filter(
-                    "unprecond_speedup", lambda df: compute_speedup(df, bases, unprecond)
-                ),
+            # plotter(
+            #     x=x,
+            #     y=y,
+            #     color=c,
+            #     style="solver_p",
+            #     post_pro_dir=post_pro_dir,
+            #     plot_type="line",
+            #     col="Host",
+            #     log=True,
+            #     df=df,
+            #     df_filter=Df_filter(
+            #         "unprecond_speedup", lambda df: compute_speedup(df, bases, unprecond)
+            #     ),
             )
 
 if __name__ == "__main__":
