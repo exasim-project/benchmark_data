@@ -35,6 +35,8 @@ def plotter(
 def save_divide(df_orig, df_comparisson):
     ret = deepcopy(df_orig)
     for c in df_orig.columns:
+        if c == "nCells" or c == "nProcs":
+            continue
         try:
             ret[c] = df_comparisson[c] / df_orig[c]  
         except:
