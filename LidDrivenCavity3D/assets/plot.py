@@ -47,7 +47,7 @@ def col_divide(df_orig, df_comparisson):
         except Exception as e:
             print(e, c)
             pass
-    print(f"df[TimeStep] {df['TimeStep']}")
+    print(f"df[TimeStep] {ret['TimeStep']}")
     return ret
 
 
