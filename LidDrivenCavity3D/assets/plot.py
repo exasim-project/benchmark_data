@@ -38,6 +38,7 @@ def save_divide(df_orig, df_comparisson):
         if c == "nCells" or c == "nProcs":
             continue
         try:
+            print(c, df_comparisson[c], df_orig[c])
             ret[c] = df_comparisson[c] / df_orig[c]  
         except:
             pass
