@@ -158,5 +158,5 @@ def main(campaign, comparisson=None):
 
 
 if __name__ == "__main__":
-    comparisson = sys.argv[1:] if len(sys.argv) > 2 else None
+    comparisson = sys.argv[2:] if len(sys.argv) > 2 else None
     main(sys.argv[1], comparisson)
