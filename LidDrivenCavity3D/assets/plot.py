@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
 import exasim_plot_helpers as eph
+from copy import deepcopy
 
 from pathlib import Path
 
@@ -29,6 +30,17 @@ def plotter(
     if log == "x":
         plt.xscale("log")
     plt.savefig(post_pro_dir / name)
+
+
+def save_divide(df_orig, df_comparisson):
+    ret = deepcopy(df_orig)
+    for c in df_orig.columns:
+        try:
+            ret[c] = df_comparission[c] / df_orig[c]  
+        except:
+            pass
+    return ret
+
 
 
 class Df_filter:
@@ -122,7 +134,7 @@ def main(campaign, comparisson=None):
             post_pro_dir = script_dir / "../postProcessing/{}".format(c)
             json_file = post_pro_dir / "results.json"
             df_comparisson = pd.read_json(json_file)
-            df_rel = df_orig / df_comparisson
+            df_rel = save_divide(df_orig, df_comparisson)
 
             for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
                 for y in ["TimeStep", "SolveP"]:
