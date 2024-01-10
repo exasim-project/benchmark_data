@@ -35,7 +35,7 @@ def plotter(
 
 
 def col_divide(df_orig, df_comparisson):
-    ret = deepcopy(df_orig)
+    ret = deepcopy(df_orig).set_index("jobid")
     df_orig = df_orig.set_index("jobid")
     df_comparisson = df_comparisson.set_index("jobid")
     for c in df_orig.columns:
@@ -47,6 +47,7 @@ def col_divide(df_orig, df_comparisson):
         except Exception as e:
             print(e, c)
             pass
+    print(f"df[TimeStep] {df['TimeStep']}"
     return ret
 
 
