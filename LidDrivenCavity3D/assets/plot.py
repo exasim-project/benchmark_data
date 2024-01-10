@@ -1,3 +1,4 @@
+import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
@@ -5,14 +6,8 @@ import exasim_plot_helpers as eph
 
 from pathlib import Path
 
-script_dir = Path(__file__).parent
-post_pro_dir = script_dir / "../postProcessing/ogl_170"
-json_file = post_pro_dir / "results.json"
-df = pd.read_json(json_file)
-
-
 def plotter(
-    x, y, color, style, df, df_filter, size=None, col=None, log=None, plot_type="line"
+    x, y, color, style, df, df_filter, campaign, size=None, col=None, log=None, plot_type="line"
 ):
     df = df_filter(df)
 
@@ -33,6 +28,10 @@ def plotter(
         plt.yscale("log")
     if log == "x":
         plt.xscale("log")
+    script_dir = Path(__file__).parent
+    post_pro_dir = script_dir / "../postProcessing/{}".format(campaign)
+    json_file = post_pro_dir / "results.json"
+    df = pd.read_json(json_file)
     plt.savefig(post_pro_dir / name)
 
 
@@ -43,9 +42,6 @@ class Df_filter:
 
     def __call__(self, df):
         return self.func(df)
-
-
-unprecond = lambda df: df[df["preconditioner"] == "none"]
 
 
 def compute_speedup(df, bases, extra_filter=lambda df: df):
@@ -60,57 +56,64 @@ def compute_speedup(df, bases, extra_filter=lambda df: df):
     return eph.helpers.compute_speedup(df_copy, bases, ignore_indices=[]).reset_index()
 
 
+def main(campaign):
+    unprecond = lambda df: df[df["preconditioner"] == "none"]
 
-bases = [
-{
-    "case": [
-        eph.helpers.DFQuery(idx="Host", val="nla"),
-        ],
-    "base" : [
-        # TODO this needs to know nProcs beforehand
-        eph.helpers.DFQuery(idx="nProcs", val=32),
-        eph.helpers.DFQuery(idx="preconditioner", val="none"),
-        eph.helpers.DFQuery(idx="executor", val="CPU"),
-        ]
-},
-{
-    "case": [
-        eph.helpers.DFQuery(idx="Host", val="hkn"),
-        ],
-    "base" : [
-        # TODO this needs to know nProcs beforehand
-        eph.helpers.DFQuery(idx="nProcs", val=76),
-        eph.helpers.DFQuery(idx="preconditioner", val="none"),
-        eph.helpers.DFQuery(idx="executor", val="CPU"),
-        ]
-},
-]
+    bases = [
+    {
+        "case": [
+            eph.helpers.DFQuery(idx="Host", val="nla"),
+            ],
+        "base" : [
+            # TODO this needs to know nProcs beforehand
+            eph.helpers.DFQuery(idx="nProcs", val=32),
+            eph.helpers.DFQuery(idx="preconditioner", val="none"),
+            eph.helpers.DFQuery(idx="executor", val="CPU"),
+            ]
+    },
+    {
+        "case": [
+            eph.helpers.DFQuery(idx="Host", val="hkn"),
+            ],
+        "base" : [
+            # TODO this needs to know nProcs beforehand
+            eph.helpers.DFQuery(idx="nProcs", val=76),
+            eph.helpers.DFQuery(idx="preconditioner", val="none"),
+            eph.helpers.DFQuery(idx="executor", val="CPU"),
+            ]
+    },
+    ]
 
 
-for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
-    for y in ["TimeStep", "SolveP"]:
-        plotter(
-            x=x,
-            y=y,
-            color=c,
-            style="solver_p",
-            plot_type="line",
-            col="Host",
-            log=True,
-            df=df,
-            df_filter=Df_filter("unpreconditioned", unprecond),
-        )
+    for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
+        for y in ["TimeStep", "SolveP"]:
+            plotter(
+                x=x,
+                y=y,
+                color=c,
+                style="solver_p",
+                campaign=campaign,
+                plot_type="line",
+                col="Host",
+                log=True,
+                df=df,
+                df_filter=Df_filter("unpreconditioned", unprecond),
+            )
 
-        plotter(
-            x=x,
-            y=y,
-            color=c,
-            style="solver_p",
-            plot_type="line",
-            col="Host",
-            log=True,
-            df=df,
-            df_filter=Df_filter(
-                "unprecond_speedup", lambda df: compute_speedup(df, bases, unprecond)
-            ),
-        )
+            plotter(
+                x=x,
+                y=y,
+                color=c,
+                style="solver_p",
+                campaign=campaign,
+                plot_type="line",
+                col="Host",
+                log=True,
+                df=df,
+                df_filter=Df_filter(
+                    "unprecond_speedup", lambda df: compute_speedup(df, bases, unprecond)
+                ),
+            )
+
+if __name__ == "__main__":
+    main(sys.argv[1])
