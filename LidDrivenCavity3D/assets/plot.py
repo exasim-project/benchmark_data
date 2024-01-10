@@ -38,8 +38,8 @@ def save_divide(df_orig, df_comparisson):
         if c == "nCells" or c == "nProcs":
             continue
         try:
-            print(c, df_comparisson[c], df_orig[c])
             ret[c] = df_comparisson[c] / df_orig[c]  
+            print(c, df_comparisson[c], df_orig[c], ret[c])
         except:
             pass
     return ret
@@ -133,6 +133,7 @@ def main(campaign, comparisson=None):
     # comparisson against other results
     if comparisson:
         for c in comparisson:
+            print("comparing against", c)
             df_orig = df
             post_pro_dir = script_dir / "../postProcessing/{}".format(c)
             json_file = post_pro_dir / "results.json"
