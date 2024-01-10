@@ -105,7 +105,7 @@ def main(campaign):
                 y=y,
                 color=c,
                 style="solver_p",
-                campaign=campaign,
+                post_pro_dir=post_pro_dir,
                 plot_type="line",
                 col="Host",
                 log=True,
