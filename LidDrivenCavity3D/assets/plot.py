@@ -11,6 +11,7 @@ def plotter(
     x, y, color, style, df, df_filter, post_pro_dir, postfix="", size=None, col=None, log=None, plot_type="line"
 ):
     df = df_filter(df)
+    print("plot y", y)
 
     relplot = sb.relplot(
         x=x,
