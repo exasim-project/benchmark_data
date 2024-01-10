@@ -36,7 +36,7 @@ def save_divide(df_orig, df_comparisson):
     ret = deepcopy(df_orig)
     for c in df_orig.columns:
         try:
-            ret[c] = df_comparission[c] / df_orig[c]  
+            ret[c] = df_comparisson[c] / df_orig[c]  
         except:
             pass
     return ret
