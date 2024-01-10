@@ -32,7 +32,7 @@ def plotter(
     plt.savefig(post_pro_dir / name)
 
 
-def save_divide(df_orig, df_comparisson):
+def col_divide(df_orig, df_comparisson):
     ret = deepcopy(df_orig)
     for c in df_orig.columns:
         if c == "nCells" or c == "nProcs":
@@ -134,10 +134,10 @@ def main(campaign, comparisson=None):
     if comparisson:
         for c in comparisson:
             df_orig = df
-            post_pro_dir = script_dir / "../postProcessing/{}".format(c)
-            json_file = post_pro_dir / "results.json"
+            post_pro_dir_comp = script_dir / "../postProcessing/{}".format(c)
+            json_file = post_pro_dir_comp / "results.json"
             df_comparisson = pd.read_json(json_file)
-            df_rel = save_divide(df_orig, df_comparisson)
+            df_rel = col_divide(df_orig, df_comparisson)
 
             for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
                 for y in ["TimeStep", "SolveP"]:
