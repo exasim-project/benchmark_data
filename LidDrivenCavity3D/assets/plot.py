@@ -44,6 +44,7 @@ def col_divide(df_orig, df_comparisson):
         except Exception as e:
             print(e)
             pass
+    print(ret)
     return ret
 
 
