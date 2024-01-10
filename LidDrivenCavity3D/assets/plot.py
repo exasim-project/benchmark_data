@@ -117,28 +117,30 @@ def main(campaign, comparisson=None):
 
     # comparisson against other results
     if comparisson:
-        post_pro_dir = script_dir / "../postProcessing/{}".format(comparisson)
-        json_file = post_pro_dir / "results.json"
-        df_comparisson = pd.read_json(json_file)
+        for c in comparisson:
+            df_orig = df
+            post_pro_dir = script_dir / "../postProcessing/{}".format(c)
+            json_file = post_pro_dir / "results.json"
+            df_comparisson = pd.read_json(json_file)
+            df_rel = df_orig / df_comparisson
 
-        df = df / df_comparisson
-
-        for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
-            for y in ["TimeStep", "SolveP"]:
-                plotter(
-                    x=x,
-                    y=y,
-                    color=c,
-                    style="solver_p",
-                    post_pro_dir=post_pro_dir,
-                    postfix="_vs_comparisson",
-                    plot_type="line",
-                    col="Host",
-                    log=True,
-                    df=df,
-                    df_filter=Df_filter("unpreconditioned", unprecond),
-                )
+            for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
+                for y in ["TimeStep", "SolveP"]:
+                    plotter(
+                        x=x,
+                        y=y,
+                        color=c,
+                        style="solver_p",
+                        post_pro_dir=post_pro_dir,
+                        postfix="_vs_comparisson",
+                        plot_type="line",
+                        col="Host",
+                        log=True,
+                        df=df_rel,
+                        df_filter=Df_filter("unpreconditioned", unprecond),
+                    )
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    comparisson = sys.argv[1:] if len(sys.argv) > 2 else None
+    main(sys.argv[1], comparisson)

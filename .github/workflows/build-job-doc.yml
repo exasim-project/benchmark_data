@@ -54,16 +54,29 @@ jobs:
         cd LidDrivenCavity3D
         echo "# Results Overview " > overview.md
         echo "## Unpreconditioned" >> overview.md
-        obr status --filter preconditioner==none --sort_by nCells,nProcs,executor,Host --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
+        obr status \
+          --filter preconditioner==none \
+          --sort_by nCells,nProcs,executor,Host \
+          --extra TimeStep,SolveP,MomentumPredictor,PISOStep \
+          --hide jobid,view  \
+          --export_to markdown >> overview.md
         echo "## Preconditioned" >> overview.md
-        obr status --filter preconditioner!=none --sort_by nCells,nProcs,executor,preconditioner,Host --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
+        obr status \
+          --filter preconditioner!=none \
+          --sort_by nCells,nProcs,executor,preconditioner,Host \
+          --extra TimeStep,SolveP,MomentumPredictor,PISOStep \
+          --hide jobid,view \
+          --export_to markdown >> overview.md
         mkdir -p postProcessing/${{env.CAMPAIGN}}
-        obr status --sort_by nCells,nProcs,executor,preconditioner --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host,solver_p --export_to json > postProcessing/${{env.CAMPAIGN}}/results.json
+        obr status \
+          --sort_by nCells,nProcs,executor,preconditioner \
+          --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host,solver_p \
+          --export_to json > postProcessing/${{env.CAMPAIGN}}/results.json
 
     - name: Create Plots
       run: |
         cd LidDrivenCavity3D/
-        python3 assets/plot.py ${{env.CAMPAIGN}}
+        python3 assets/plot.py ${{env.CAMPAIGN}} ogl_170
         echo "# Plots" >> overview.md
         echo "![Test Image 6](https://github.com/exasim-project/benchmark_data/blob/${GITHUB_HEAD_REF}/LidDrivenCavity3D/postProcessing/${{env.CAMPAIGN}}/unpreconditioned_TimeStep_over_nCells_c=nProcs_s=solver_p_cols=Host.png?raw=true)" >> overview.md
 
