@@ -39,8 +39,8 @@ def save_divide(df_orig, df_comparisson):
             continue
         try:
             ret[c] = df_comparisson[c] / df_orig[c]  
-            print(c, df_comparisson[c], df_orig[c], ret[c])
-        except:
+        except Exception as e:
+            print(e)
             pass
     return ret
 
@@ -133,7 +133,6 @@ def main(campaign, comparisson=None):
     # comparisson against other results
     if comparisson:
         for c in comparisson:
-            print("comparing against", c)
             df_orig = df
             post_pro_dir = script_dir / "../postProcessing/{}".format(c)
             json_file = post_pro_dir / "results.json"
@@ -158,6 +157,5 @@ def main(campaign, comparisson=None):
 
 
 if __name__ == "__main__":
-    print(sys.argv)
     comparisson = sys.argv[2:] if len(sys.argv) > 2 else None
     main(sys.argv[1], comparisson)
