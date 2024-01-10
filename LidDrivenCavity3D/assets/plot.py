@@ -41,6 +41,7 @@ def col_divide(df_orig, df_comparisson):
         if c == "nCells" or c == "nProcs":
             continue
         try:
+            print(c,  df_comparisson[c] / df_orig[c], df_comparisson[c], df_orig[c])  
             ret[c] = df_comparisson[c] / df_orig[c]  
         except Exception as e:
             print(e, c)
