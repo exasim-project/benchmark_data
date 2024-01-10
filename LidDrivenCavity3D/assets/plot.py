@@ -142,7 +142,8 @@ def main(campaign, comparisson=None):
             post_pro_dir_comp = script_dir / "../postProcessing/{}".format(c)
             json_file = post_pro_dir_comp / "results.json"
             df_comparisson = pd.read_json(json_file)
-            df_rel = col_divide(df_orig, df_comparisson)
+            df_rel = col_divide(deepcopy(df_orig), deepcopy(df_comparisson))
+            print("df_rel", df_rel)
 
             for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
                 for y in ["TimeStep", "SolveP"]:
