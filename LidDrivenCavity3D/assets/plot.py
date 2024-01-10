@@ -7,7 +7,7 @@ import exasim_plot_helpers as eph
 from pathlib import Path
 
 def plotter(
-    x, y, color, style, df, df_filter, campaign, size=None, col=None, log=None, plot_type="line"
+    x, y, color, style, df, df_filter, post_pro_dir, size=None, col=None, log=None, plot_type="line"
 ):
     df = df_filter(df)
 
@@ -28,10 +28,6 @@ def plotter(
         plt.yscale("log")
     if log == "x":
         plt.xscale("log")
-    script_dir = Path(__file__).parent
-    post_pro_dir = script_dir / "../postProcessing/{}".format(campaign)
-    json_file = post_pro_dir / "results.json"
-    df = pd.read_json(json_file)
     plt.savefig(post_pro_dir / name)
 
 
@@ -57,6 +53,10 @@ def compute_speedup(df, bases, extra_filter=lambda df: df):
 
 
 def main(campaign):
+    script_dir = Path(__file__).parent
+    post_pro_dir = script_dir / "../postProcessing/{}".format(campaign)
+    json_file = post_pro_dir / "results.json"
+    df = pd.read_json(json_file)
     unprecond = lambda df: df[df["preconditioner"] == "none"]
 
     bases = [
@@ -92,7 +92,7 @@ def main(campaign):
                 y=y,
                 color=c,
                 style="solver_p",
-                campaign=campaign,
+                post_pro_dir=post_pro_dir,
                 plot_type="line",
                 col="Host",
                 log=True,
