@@ -51,6 +51,7 @@ jobs:
     - name: Run obr script
       run: |
         cd LidDrivenCavity3D
+        python -m signac migrate.
         echo "# Results Overview " > overview.md
         echo "## Unpreconditioned" >> overview.md
         obr status --filter preconditioner==none --sort_by nCells,nProcs,executor,Host --extra TimeStep,SolveP,MomentumPredictor,PISOStep --hide jobid,view  --export_to markdown >> overview.md
@@ -79,17 +80,6 @@ jobs:
           git config --global user.email "go@hpsim.de"
           git add postProcessing/${{env.CAMPAIGN}}
           git commit --allow-empty -m "add campaign results"
-
-          #     - name: Upload plots
-          #       uses: actions/github-script@v6
-          #       with:
-          #           script: |
-          #             github.rest.issues.createComment({
-          #               issue_number: context.issue.number,
-          #               owner: context.repo.owner,
-          #               repo: context.repo.repo,
-          #               body: `![Test Image 6](https://github.com/exasim-project/benchmark_data/blob/${env.GITHUB_HEAD_REF}/LidDrivenCavity3D/postProcessing/${env.CAMPAIGN}/unpreconditioned_TimeStep_over_nCells_c=nProcs_s=solver_p_cols=Host.png?raw=true)`
-          #             })
 
     - name: Push changes
       uses: ad-m/github-push-action@master
