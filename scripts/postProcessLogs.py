@@ -110,9 +110,10 @@ def call(jobs, kwargs={}):
         for log, campaign, tags in find_solver_logs(job, campaign):
             # Base record
             log_path = Path(log)
-            fvSolution = FileParser(
-                path=log_path.parent / "system/fvSolution"
-            )
+            if use_fvs:=Path(log_path.parent / "system/fvSolution").exists():
+                fvSolution = FileParser(
+                    path=log_path.parent / "system/fvSolution"
+                )
             timestamp = get_timestamp_from_log(log_path)
             record = {
                 "timestamp": timestamp,
@@ -128,7 +129,8 @@ def call(jobs, kwargs={}):
                 df = convert_to_numbers(log_file_parser.parse_to_df())
                 record["Host"] = log_file_parser.header.Host[0:3]
                 record["nProcs"] = int(log_file_parser.header.nProcs)
-                record["solver_p"] = fvSolution.get("solvers")["p"]["solver"]
+                if use_fvs:
+                    record["solver_p"] = fvSolution.get("solvers")["p"]["solver"]
 
                 for log_key in log_keys:
                     for col in df.columns:
