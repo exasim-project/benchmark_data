@@ -75,7 +75,7 @@ def call(jobs: list[Job], kwargs={}) -> None:
         _, _, files = next(os.walk(campaign_path))
 
         if len(files) > 1:
-            raise AssertionError(f"Fauly state detected for {job.id}. Please remove all loose files in {campaign_path}")
+            raise AssertionError(f"Faulty state detected for {job.id}. Please remove all loose files in {campaign_path}")
 
         tag_mapping = find_tags(path=Path(campaign_path), tags=[], tag_mapping={})
         visited = set()
