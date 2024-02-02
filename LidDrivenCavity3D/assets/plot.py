@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
 import exasim_plot_helpers as eph
+from pathlib import Path
 from copy import deepcopy
 
 from pathlib import Path
@@ -77,7 +78,7 @@ def main(campaign, comparisson=None):
     post_pro_dir = script_dir / "../postProcessing/{}".format(campaign)
     json_file = post_pro_dir / "results.json"
     df = pd.read_json(json_file)
-    print(df, post_pro_dir, campaign, script_dir)
+    print(df, post_pro_dir, campaign, script_dir, json_file, Path(json_file).exists())
 
     bases = [
     {
