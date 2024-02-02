@@ -137,7 +137,7 @@ def main(campaign, comparisson=None):
             )
 
     # comparisson against other results
-    try
+    try:
         if comparisson:
             for c in comparisson:
                 df_orig = df
