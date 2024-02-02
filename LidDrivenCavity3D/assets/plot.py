@@ -77,7 +77,7 @@ def main(campaign, comparisson=None):
     post_pro_dir = script_dir / "../postProcessing/{}".format(campaign)
     json_file = post_pro_dir / "results.json"
     df = pd.read_json(json_file)
-    print(df)
+    print(df, post_pro_dir, campaign, script_dir)
 
     bases = [
     {
