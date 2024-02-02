@@ -137,30 +137,33 @@ def main(campaign, comparisson=None):
             )
 
     # comparisson against other results
-    if comparisson:
-        for c in comparisson:
-            df_orig = df
-            post_pro_dir_comp = script_dir / "../postProcessing/{}".format(c)
-            json_file = post_pro_dir_comp / "results.json"
-            df_comparisson = pd.read_json(json_file)
-            df_rel = col_divide(deepcopy(df_orig), deepcopy(df_comparisson))
-            print("df_rel", df_rel["TimeStep"])
+    try
+        if comparisson:
+            for c in comparisson:
+                df_orig = df
+                post_pro_dir_comp = script_dir / "../postProcessing/{}".format(c)
+                json_file = post_pro_dir_comp / "results.json"
+                df_comparisson = pd.read_json(json_file)
+                df_rel = col_divide(deepcopy(df_orig), deepcopy(df_comparisson))
+                print("df_rel", df_rel["TimeStep"])
 
-            for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
-                for y in ["TimeStep", "SolveP"]:
-                    plotter(
-                        x=x,
-                        y=y,
-                        color=c,
-                        style="solver_p",
-                        post_pro_dir=post_pro_dir,
-                        postfix="_vs_comparisson",
-                        plot_type="line",
-                        col="Host",
-                        log=True,
-                        df=df_rel,
-                        df_filter=Df_filter("unpreconditioned", unprecond),
-                    )
+                for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
+                    for y in ["TimeStep", "SolveP"]:
+                        plotter(
+                            x=x,
+                            y=y,
+                            color=c,
+                            style="solver_p",
+                            post_pro_dir=post_pro_dir,
+                            postfix="_vs_comparisson",
+                            plot_type="line",
+                            col="Host",
+                            log=True,
+                            df=df_rel,
+                            df_filter=Df_filter("unpreconditioned", unprecond),
+                        )
+    except:
+        pass
 
 
 if __name__ == "__main__":
