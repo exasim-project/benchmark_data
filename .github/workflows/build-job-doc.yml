@@ -54,6 +54,11 @@ jobs:
         cd LidDrivenCavity3D
         # do a dummy query to triger job document merge
         obr query --query global --query TimeStep  --query SolveP --query MomentumPredictor --query PISOStep 
+        obr status \
+          --filter preconditioner==none \
+          --sort_by nCells,nProcs,executor,Host \
+          --extra TimeStep,SolveP,MomentumPredictor,PISOStep \
+          --hide jobid,view 
         echo "# Results Overview " > overview.md
         echo "## Unpreconditioned" >> overview.md
         obr status \
@@ -71,7 +76,8 @@ jobs:
           --export_to markdown >> overview.md
         mkdir -p postProcessing/${{env.CAMPAIGN}}
         obr status \
-          --sort_by nCells,nProcs,executor,preconditioner \
+          --sort_by nCells,nProcs,executor,preconditioner  \
+          --hide view,jobid \
           --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host,solver_p \
           --export_to json > postProcessing/${{env.CAMPAIGN}}/results.json
         cat postProcessing/${{env.CAMPAIGN}}/results.json
