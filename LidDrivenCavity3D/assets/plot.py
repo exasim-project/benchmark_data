@@ -8,6 +8,7 @@ from copy import deepcopy
 
 from pathlib import Path
 
+
 def plot_script():
     return """import pandas as pd
 
@@ -15,14 +16,26 @@ df_json = '{}'
 df = pd.DataFrame.read_json(df_json)
     """
 
+
 def plotter(
-    x, y, color, style, df, df_filter, post_pro_dir, postfix="", size=None, col=None, log=None, plot_type="line"
+    x,
+    y,
+    color,
+    style,
+    df,
+    df_filter,
+    post_pro_dir,
+    postfix="",
+    size=None,
+    col=None,
+    log=None,
+    plot_type="line",
 ):
     df = df_filter(df)
     name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}"
-    script_name = name+".py"
+    script_name = name + ".py"
 
-    with open (post_pro_dir / script_name, "w") as script:
+    with open(post_pro_dir / script_name, "w") as script:
         script.write(plot_script().format(df.to_json()))
 
     relplot = sb.relplot(
@@ -42,8 +55,7 @@ def plotter(
     if log == "x":
         plt.xscale("log")
     fig_name = name + ".png"
-    plt.savefig(post_pro_dir / fig_name )
-
+    plt.savefig(post_pro_dir / fig_name)
 
 
 def col_divide(df_orig, df_comparisson):
@@ -54,14 +66,15 @@ def col_divide(df_orig, df_comparisson):
         if c == "nCells" or c == "nProcs":
             continue
         try:
-            print(f"c: {c} ret[c] {df_comparisson[c] / df_orig[c]}  comp:  {df_comparisson[c]} orig: {df_orig[c]}")  
-            ret[c] = df_comparisson[c] / df_orig[c]  
+            print(
+                f"c: {c} ret[c] {df_comparisson[c] / df_orig[c]}  comp:  {df_comparisson[c]} orig: {df_orig[c]}"
+            )
+            ret[c] = df_comparisson[c] / df_orig[c]
         except Exception as e:
             print(e, c)
             pass
     print(f"df[TimeStep] {ret['TimeStep']}")
     return ret
-
 
 
 class Df_filter:
@@ -82,9 +95,10 @@ def compute_speedup(df, bases, extra_filter=lambda df: df):
     indices += ["nCells"]
     df_copy = deepcopy(extra_filter(df))
     df_copy.set_index(keys=indices, inplace=True)
-    speedup_df =  eph.helpers.compute_speedup(df_copy, bases, ignore_indices=[]).reset_index()
+    speedup_df = eph.helpers.compute_speedup(
+        df_copy, bases, ignore_indices=[]
+    ).reset_index()
     return speedup_df[speedup_df["executor"] != "CPU"]
-
 
 
 def main(campaign, comparisson=None):
@@ -94,74 +108,55 @@ def main(campaign, comparisson=None):
     df = pd.read_json(json_file)
 
     bases = [
-    {
-        "case": [
-            eph.helpers.DFQuery(idx="Host", val="nla"),
+        {
+            "case": [
+                eph.helpers.DFQuery(idx="Host", val="nla"),
             ],
-        "base" : [
-            # TODO this needs to know nProcs beforehand
-            eph.helpers.DFQuery(idx="nProcs", val=32),
-            eph.helpers.DFQuery(idx="preconditioner", val="none"),
-            eph.helpers.DFQuery(idx="executor", val="CPU"),
-            ]
-    },
-    {
-        "case": [
-            eph.helpers.DFQuery(idx="Host", val="hkn"),
+            "base": [
+                # TODO this needs to know nProcs beforehand
+                eph.helpers.DFQuery(idx="nProcs", val=32),
+                eph.helpers.DFQuery(idx="preconditioner", val="none"),
+                eph.helpers.DFQuery(idx="executor", val="CPU"),
             ],
-        "base" : [
-            # TODO this needs to know nProcs beforehand
-            eph.helpers.DFQuery(idx="nProcs", val=76),
-            eph.helpers.DFQuery(idx="preconditioner", val="none"),
-            eph.helpers.DFQuery(idx="executor", val="CPU"),
-            ]
-    },
+        },
+        {
+            "case": [
+                eph.helpers.DFQuery(idx="Host", val="hkn"),
+            ],
+            "base": [
+                # TODO this needs to know nProcs beforehand
+                eph.helpers.DFQuery(idx="nProcs", val=76),
+                eph.helpers.DFQuery(idx="preconditioner", val="none"),
+                eph.helpers.DFQuery(idx="executor", val="CPU"),
+            ],
+        },
     ]
 
-
-
-    try:
-        unprecond = lambda x: x[x["preconditioner"] == "none"]
-        for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
-            for y in ["TimeStep", "SolveP"]:
-                plotter(
-                    x=x,
-                    y=y,
-                    color=c,
-                    style="solver_p",
-                    post_pro_dir=post_pro_dir,
-                    plot_type="line",
-                    col="Host",
-                    log=True,
-                    df=df,
-                    df_filter=Df_filter("unpreconditioned", unprecond),
-                )
-    except Exception as e:
-        print("failed to performe speedup comparisson")
-        print(e)
-
-    try:
-        speedup = compute_speedup(df, bases)
-        speedup.to_json(path_or_buf=post_pro_dir/"speedup_results.json")
-        for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
-            for y in ["TimeStep", "SolveP"]:
-                plotter(
-                    x=x,
-                    y=y,
-                    color=c,
-                    style="solver_p",
-                    post_pro_dir=post_pro_dir,
-                    plot_type="line",
-                    col="Host",
-                    log=True,
-                    df=df,
-                    df_filter=Df_filter(
-                        "unprecond_speedup", lambda df: compute_speedup(df, bases, unprecond)
-                    ),
-                )
-    except Exception as e:
-        print("failed to performe speedup comparisson")
-        print(e)
+    unprecond = lambda x: x[x["preconditioner"] == "none"]
+    for filt in [
+        Df_filter("unpreconditioned", unprecond),
+        Df_filter(
+            "unprecond_speedup", lambda df: compute_speedup(df, bases, unprecond)
+        ),
+    ]:
+        try:
+            for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
+                for y in ["TimeStep", "SolveP"]:
+                    plotter(
+                        x=x,
+                        y=y,
+                        color=c,
+                        style="solver_p",
+                        post_pro_dir=post_pro_dir,
+                        plot_type="line",
+                        col="Host",
+                        log=True,
+                        df=df,
+                        df_filter=filt,
+                    )
+        except Exception as e:
+            print("failed to performe speedup comparisson")
+            print(e)
 
     # comparisson against other results
     try:
