@@ -147,7 +147,7 @@ def call(jobs, kwargs={}):
         # find all solver logs corresponding to this specific jobs
         for log, campaign, tags in find_solver_logs(job, campaign):
             try:
-                record = post_process_impl(log, campaign, tags)
+                record = post_process_impl(log, campaign, tags, job)
                 run_logs.append(record)
             except Exception as e:
                 print(f"failed to process {log}")
