@@ -8,10 +8,22 @@ from copy import deepcopy
 
 from pathlib import Path
 
+def plot_script():
+    script= """import pandas as pd
+
+df_json = '{}'
+df = pd.DataFrame.read_json(df_json)
+    """
+
 def plotter(
     x, y, color, style, df, df_filter, post_pro_dir, postfix="", size=None, col=None, log=None, plot_type="line"
 ):
     df = df_filter(df)
+    name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}"
+    script_name = name+".py"
+
+    with open (post_pro_dir / fig_name, "w") as script:
+        script.write(plot_script().format(df.to_json()))
 
     relplot = sb.relplot(
         x=x,
@@ -24,13 +36,14 @@ def plotter(
         kind=plot_type,
         markers=True,
     )
-    name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}.png"
     if log == "both":
         plt.xscale("log")
         plt.yscale("log")
     if log == "x":
         plt.xscale("log")
-    plt.savefig(post_pro_dir / name)
+    fig_name = name + ".png"
+    plt.savefig(post_pro_dir / fig_name )
+
 
 
 def col_divide(df_orig, df_comparisson):
