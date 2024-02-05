@@ -11,6 +11,14 @@ from Owls.parser.LogFile import LogFile, transportEqn, customMatcher
 from Owls.parser.FoamDict import FileParser
 import pandas as pd
 
+# dictionary to keep postpro function which maps from the dataframe
+# and column to a result to keep in the record
+log_key_postpro = {
+    # take the mean of all entries in the log file except the first
+    "transp_eqn_keys": get_average,
+    "foam_annotation_keys": get_average,
+    "ogl_annotation_keys": get_average,
+}
 
 def get_OGL_from_log(log):
     try:
@@ -133,14 +141,6 @@ def call(jobs, kwargs={}):
     for job in jobs:
         run_logs = job.doc.get("data", [])
 
-        # dictionary to keep postpro function which maps from the dataframe
-        # and column to a result to keep in the record
-        log_key_postpro = {
-            # take the mean of all entries in the log file except the first
-            "transp_eqn_keys": get_average,
-            "foam_annotation_keys": get_average,
-            "ogl_annotation_keys": get_average,
-        }
 
         merge_job_documents(job, str(campaign))
 
