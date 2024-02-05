@@ -120,21 +120,25 @@ def main(campaign, comparisson=None):
 
 
 
-    unprecond = lambda x: x[x["preconditioner"] == "none"]
-    for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
-        for y in ["TimeStep", "SolveP"]:
-            plotter(
-                x=x,
-                y=y,
-                color=c,
-                style="solver_p",
-                post_pro_dir=post_pro_dir,
-                plot_type="line",
-                col="Host",
-                log=True,
-                df=df,
-                df_filter=Df_filter("unpreconditioned", unprecond),
-            )
+    try:
+        unprecond = lambda x: x[x["preconditioner"] == "none"]
+        for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
+            for y in ["TimeStep", "SolveP"]:
+                plotter(
+                    x=x,
+                    y=y,
+                    color=c,
+                    style="solver_p",
+                    post_pro_dir=post_pro_dir,
+                    plot_type="line",
+                    col="Host",
+                    log=True,
+                    df=df,
+                    df_filter=Df_filter("unpreconditioned", unprecond),
+                )
+    except Exception as e:
+        print("failed to performe speedup comparisson")
+        print(e)
 
     try:
         speedup = compute_speedup(df, bases)
