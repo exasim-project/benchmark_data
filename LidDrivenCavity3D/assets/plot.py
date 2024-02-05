@@ -9,7 +9,7 @@ from copy import deepcopy
 from pathlib import Path
 
 def plot_script():
-    script= """import pandas as pd
+    return """import pandas as pd
 
 df_json = '{}'
 df = pd.DataFrame.read_json(df_json)
