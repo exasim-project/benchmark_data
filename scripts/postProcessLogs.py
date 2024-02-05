@@ -149,8 +149,9 @@ def call(jobs, kwargs={}):
             try:
                 record = post_process_impl(log, campaign, tags)
                 run_logs.append(record)
-            except:
+            except Exception as e:
                 print(f"failed to process {log}")
+                print(e)
 
         # store all records
         job.doc["data"] = run_logs
