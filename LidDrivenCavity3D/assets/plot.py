@@ -86,12 +86,12 @@ def compute_speedup(df, bases, extra_filter=lambda df: df):
     return speedup_df[speedup_df["executor"] != "CPU"]
 
 
+
 def main(campaign, comparisson=None):
     script_dir = Path(__file__).parent
     post_pro_dir = script_dir / "../postProcessing/{}".format(campaign)
     json_file = post_pro_dir / "results.json"
     df = pd.read_json(json_file)
-    print(df, post_pro_dir, campaign, script_dir, json_file, Path(json_file).exists())
 
     bases = [
     {
@@ -117,6 +117,10 @@ def main(campaign, comparisson=None):
             ]
     },
     ]
+
+    speedup = compute_speedup(df, bases)
+    speedup.to_json(path_or_buf=post_pro_dir/"speedup_results.json")
+
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
     for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
