@@ -32,6 +32,9 @@ log_key_postpro = {
     "ogl_annotation_keys": get_average,
 }
 
+def compute_nodes(df):
+    k
+
 def get_OGL_from_log(log):
     try:
         ret = check_output(["grep", "'OGL commit'", log], text=True)
@@ -90,7 +93,6 @@ def convert_to_numbers(df):
     return df.astype({col: "float" for col in df.columns if not "Name" in col})
 
 
-
 def post_process_impl(log: str, campaign:str, tags: list, job):
     # Base record
     log_path = Path(log)
@@ -112,7 +114,8 @@ def post_process_impl(log: str, campaign:str, tags: list, job):
         log_file_parser = LogFile(log, log_keys)
         df = convert_to_numbers(log_file_parser.parse_to_df())
         record["Host"] = log_file_parser.header.Host[0:3]
-        record["nProcs"] = int(log_file_parser.header.nProcs)
+        record["nProcs"] = log_file_parser.header.nProcs
+        record["nNodes"] = log_file_parser.header.nNodes
         if use_fvs:
             record["solver_p"] = fvSolution.get("solvers")["p"]["solver"]
 
