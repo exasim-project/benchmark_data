@@ -11,6 +11,18 @@ from Owls.parser.LogFile import LogFile, transportEqn, customMatcher
 from Owls.parser.FoamDict import FileParser
 import pandas as pd
 
+# NOTE in general columns in DataFrames which ends in Name are reserved
+# for the linear solver name and are thus treated separately
+
+def get_average(df, col):
+    """compute averages of a column if not a Name column"""
+    # Name columns are not averaged, we just take the first value
+    # to keep a name in the resulting df
+    if "Name" in col:
+        return df.iloc[0][col]
+    else:
+        return df.iloc[1:][col].mean()
+
 # dictionary to keep postpro function which maps from the dataframe
 # and column to a result to keep in the record
 log_key_postpro = {
@@ -78,12 +90,6 @@ def convert_to_numbers(df):
     return df.astype({col: "float" for col in df.columns if not "Name" in col})
 
 
-def get_average(df, col):
-    """comput averages of a column if non a Name column"""
-    if "Name" in col:
-        return df.iloc[0][col]
-    else:
-        return df.iloc[1:][col].mean()
 
 def post_process_impl(log: str, campaign:str, tags: list, job):
     # Base record
