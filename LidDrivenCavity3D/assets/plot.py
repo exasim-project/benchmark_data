@@ -16,6 +16,10 @@ df_json = '{}'
 df = pd.DataFrame.read_json(df_json)
     """
 
+def palette():
+    return seaborn.color_palette("tab10")
+
+
 
 def plotter(
     x,
@@ -48,6 +52,7 @@ def plotter(
         col=col,
         kind=plot_type,
         markers=True,
+        palette=palette()
     )
     if log == "both":
         plt.xscale("log")
