@@ -104,9 +104,13 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     ).reset_index()
     return speedup_df[speedup_df["executor"] != "CPU"]
 
+
 def generate_base(node_based=False):
-    """This function generates the list of base cases. If node_based is set to be true
-    no specific number is added to the base case 
+    """This function generates the list of base cases queries. The base case queries are used to compute the speedup.  If node_based is set to be true
+    no specific number is added to the base case
+
+    Returns:
+        a list case and base case queries
     """
     if not node_based:
         return [
@@ -132,7 +136,7 @@ def generate_base(node_based=False):
                     eph.helpers.DFQuery(idx="executor", val="CPU"),
                 ],
             },
-            ]
+        ]
     else:
         return [
             {
@@ -153,14 +157,13 @@ def generate_base(node_based=False):
                     eph.helpers.DFQuery(idx="executor", val="CPU"),
                 ],
             },
-            ]
+        ]
 
 
 def compute_fvops(df):
-    """ this function computes fvops"""
-    df["fvOps"] = df["nCells"]/df["TimeStep"]
+    """this function computes fvops"""
+    df["fvOps"] = df["nCells"] / df["TimeStep"]
     return df
-
 
 
 def main(campaign, comparisson=None):
@@ -175,14 +178,23 @@ def main(campaign, comparisson=None):
     for filt in [
         Df_filter("unpreconditioned", unprecond),
         Df_filter(
-            "unprecond_speedup", lambda df: compute_speedup(df, genrate_bases(node_base=False), unprecond)
+            "unprecond_speedup",
+            lambda df: compute_speedup(df, genrate_bases(node_base=False), unprecond),
         ),
         Df_filter(
-            "unprecond_speedup_nNodes", lambda df: compute_speedup(df, generate_bases(node_base=True), unprecond, node_based=True)
+            "unprecond_speedup_nNodes",
+            lambda df: compute_speedup(
+                df, generate_bases(node_base=True), unprecond, node_based=True
+            ),
         ),
     ]:
         try:
-            for x, c in [("nCells", "nProcs"), ("nProcs", "nCells"), ("nNodes", "nCells"), ("nCells", "nNodes")]:
+            for x, c in [
+                ("nCells", "nProcs"),
+                ("nProcs", "nCells"),
+                ("nNodes", "nCells"),
+                ("nCells", "nNodes"),
+            ]:
                 for y in ["TimeStep", "SolveP", "fvOps"]:
                     plotter(
                         x=x,
