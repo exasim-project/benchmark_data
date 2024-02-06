@@ -16,9 +16,9 @@ df_json = '{}'
 df = pd.DataFrame.read_json(df_json)
     """
 
+
 def palette():
     return sb.color_palette("tab10")
-
 
 
 def plotter(
@@ -52,7 +52,7 @@ def plotter(
         col=col,
         kind=plot_type,
         markers=True,
-        palette=palette()
+        palette=palette(),
     )
     if log == "both":
         plt.xscale("log")
@@ -92,77 +92,63 @@ class Df_filter:
 
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
-    from copy import deepcopy
-
+    # things that need to match
     if node_based:
         indices = [q.idx for q in bases[0]["base"]]
         indices += ["nNodes"]
     else:
         indices = [q.idx for q in bases[0]["base"]]
     indices.append("Host")
-    # things that need to match
     indices += ["nCells"]
+
     df_copy = deepcopy(extra_filter(df))
     df_copy.set_index(keys=indices, inplace=True)
+    print("df_copy", df_copy)
     speedup_df = eph.helpers.compute_speedup(
         df_copy, bases, ignore_indices=[]
     ).reset_index()
+    print("speedup_df", speedup_df)
     return speedup_df[speedup_df["executor"] != "CPU"]
 
 
 def generate_base(node_based=False):
-    """This function generates the list of base cases queries. The base case queries are used to compute the speedup.  If node_based is set to be true
-    no specific number is added to the base case
+    """This function generates the list of base cases queries. The base case queries are used to compute the speedup.
+    If node_based is set to be true no specific number of nProcs is added to the base case query.
 
     Returns:
         a list case and base case queries
     """
+
+    # TODO this needs to know nProcs beforehand
+    base_nla = [
+        eph.helpers.DFQuery(idx="preconditioner", val="none"),
+        eph.helpers.DFQuery(idx="executor", val="CPU"),
+    ]
+
+    base_hkn = (
+        [
+            eph.helpers.DFQuery(idx="preconditioner", val="none"),
+            eph.helpers.DFQuery(idx="executor", val="CPU"),
+        ],
+    )
     if not node_based:
-        return [
-            {
-                "case": [
-                    eph.helpers.DFQuery(idx="Host", val="nla"),
-                ],
-                "base": [
-                    # TODO this needs to know nProcs beforehand
-                    eph.helpers.DFQuery(idx="nProcs", val=32),
-                    eph.helpers.DFQuery(idx="preconditioner", val="none"),
-                    eph.helpers.DFQuery(idx="executor", val="CPU"),
-                ],
-            },
-            {
-                "case": [
-                    eph.helpers.DFQuery(idx="Host", val="hkn"),
-                ],
-                "base": [
-                    # TODO this needs to know nProcs beforehand
-                    eph.helpers.DFQuery(idx="nProcs", val=76),
-                    eph.helpers.DFQuery(idx="preconditioner", val="none"),
-                    eph.helpers.DFQuery(idx="executor", val="CPU"),
-                ],
-            },
-        ]
-    else:
-        return [
-            {
-                "case": [
-                    eph.helpers.DFQuery(idx="Host", val="nla"),
-                ],
-                "base": [
-                    eph.helpers.DFQuery(idx="preconditioner", val="none"),
-                    eph.helpers.DFQuery(idx="executor", val="CPU"),
-                ],
-            },
-            {
-                "case": [
-                    eph.helpers.DFQuery(idx="Host", val="hkn"),
-                ],
-                "base": [
-                    eph.helpers.DFQuery(idx="preconditioner", val="none"),
-                    eph.helpers.DFQuery(idx="executor", val="CPU"),
-                ],
-            },
-        ]
+        base_nla.append(eph.helpers.DFQuery(idx="nProcs", val=32))
+        base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
+
+    return [
+        {
+            "case": [
+                eph.helpers.DFQuery(idx="Host", val="nla"),
+            ],
+            "base": base_nla,
+        },
+        {
+            "case": [
+                eph.helpers.DFQuery(idx="Host", val="hkn"),
+            ],
+            "base": base_hkn,
+        },
+    ]
 
 
 def compute_fvops(df):
@@ -214,7 +200,7 @@ def main(campaign, comparisson=None):
                         df_filter=filt,
                     )
         except Exception as e:
-            print("failed to performe speedup comparisson")
+            print("failed to plot")
             print(e)
 
     # comparisson against other results
