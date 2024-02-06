@@ -86,10 +86,14 @@ class Df_filter:
         return self.func(df)
 
 
-def compute_speedup(df, bases, extra_filter=lambda df: df):
+def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     from copy import deepcopy
 
-    indices = [q.idx for q in bases[0]["base"]]
+    if node_based:
+        indices = [q.idx for q in bases[0]["base"]]
+        indices += ["nNodes"]
+    else:
+        indices = [q.idx for q in bases[0]["base"]]
     indices.append("Host")
     # things that need to match
     indices += ["nCells"]
@@ -100,6 +104,64 @@ def compute_speedup(df, bases, extra_filter=lambda df: df):
     ).reset_index()
     return speedup_df[speedup_df["executor"] != "CPU"]
 
+def generate_base(node_based=False):
+    """This function generates the list of base cases. If node_based is set to be true
+    no specific number is added to the base case 
+    """
+    if not node_based:
+        return [
+            {
+                "case": [
+                    eph.helpers.DFQuery(idx="Host", val="nla"),
+                ],
+                "base": [
+                    # TODO this needs to know nProcs beforehand
+                    eph.helpers.DFQuery(idx="nProcs", val=32),
+                    eph.helpers.DFQuery(idx="preconditioner", val="none"),
+                    eph.helpers.DFQuery(idx="executor", val="CPU"),
+                ],
+            },
+            {
+                "case": [
+                    eph.helpers.DFQuery(idx="Host", val="hkn"),
+                ],
+                "base": [
+                    # TODO this needs to know nProcs beforehand
+                    eph.helpers.DFQuery(idx="nProcs", val=76),
+                    eph.helpers.DFQuery(idx="preconditioner", val="none"),
+                    eph.helpers.DFQuery(idx="executor", val="CPU"),
+                ],
+            },
+            ]
+    else:
+        return [
+            {
+                "case": [
+                    eph.helpers.DFQuery(idx="Host", val="nla"),
+                ],
+                "base": [
+                    eph.helpers.DFQuery(idx="preconditioner", val="none"),
+                    eph.helpers.DFQuery(idx="executor", val="CPU"),
+                ],
+            },
+            {
+                "case": [
+                    eph.helpers.DFQuery(idx="Host", val="hkn"),
+                ],
+                "base": [
+                    eph.helpers.DFQuery(idx="preconditioner", val="none"),
+                    eph.helpers.DFQuery(idx="executor", val="CPU"),
+                ],
+            },
+            ]
+
+
+def compute_fvops(df):
+    """ this function computes fvops"""
+    df["fvOps"] = df["nCells"]/df["TimeStep"]
+    return df
+
+
 
 def main(campaign, comparisson=None):
     script_dir = Path(__file__).parent
@@ -107,41 +169,21 @@ def main(campaign, comparisson=None):
     json_file = post_pro_dir / "results.json"
     df = pd.read_json(json_file)
 
-    bases = [
-        {
-            "case": [
-                eph.helpers.DFQuery(idx="Host", val="nla"),
-            ],
-            "base": [
-                # TODO this needs to know nProcs beforehand
-                eph.helpers.DFQuery(idx="nProcs", val=32),
-                eph.helpers.DFQuery(idx="preconditioner", val="none"),
-                eph.helpers.DFQuery(idx="executor", val="CPU"),
-            ],
-        },
-        {
-            "case": [
-                eph.helpers.DFQuery(idx="Host", val="hkn"),
-            ],
-            "base": [
-                # TODO this needs to know nProcs beforehand
-                eph.helpers.DFQuery(idx="nProcs", val=76),
-                eph.helpers.DFQuery(idx="preconditioner", val="none"),
-                eph.helpers.DFQuery(idx="executor", val="CPU"),
-            ],
-        },
-    ]
+    df = compute_fvops(df)
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
     for filt in [
         Df_filter("unpreconditioned", unprecond),
         Df_filter(
-            "unprecond_speedup", lambda df: compute_speedup(df, bases, unprecond)
+            "unprecond_speedup", lambda df: compute_speedup(df, genrate_bases(node_base=False), unprecond)
+        ),
+        Df_filter(
+            "unprecond_speedup_nNodes", lambda df: compute_speedup(df, generate_bases(node_base=True), unprecond, node_based=True)
         ),
     ]:
         try:
             for x, c in [("nCells", "nProcs"), ("nProcs", "nCells"), ("nNodes", "nCells"), ("nCells", "nNodes")]:
-                for y in ["TimeStep", "SolveP"]:
+                for y in ["TimeStep", "SolveP", "FVOps"]:
                     plotter(
                         x=x,
                         y=y,
