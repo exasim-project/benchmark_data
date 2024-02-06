@@ -17,7 +17,7 @@ df = pd.DataFrame.read_json(df_json)
     """
 
 def palette():
-    return seaborn.color_palette("tab10")
+    return sb.color_palette("tab10")
 
 
 
