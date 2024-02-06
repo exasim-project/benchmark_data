@@ -184,7 +184,7 @@ def main(campaign, comparisson=None):
         Df_filter("unpreconditioned", unprecond),
         Df_filter(
             "unprecond_speedup",
-            lambda df: compute_speedup(df, genrate_bases(node_base=False), unprecond),
+            lambda df: compute_speedup(df, generate_bases(node_base=False), unprecond),
         ),
         Df_filter(
             "unprecond_speedup_nNodes",
