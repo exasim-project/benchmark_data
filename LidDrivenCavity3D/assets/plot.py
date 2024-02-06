@@ -152,6 +152,11 @@ def compute_fvops(df):
     df["fvOps"] = df["nCells"] / df["TimeStep"] * 1000.
     return df
 
+def compute_fvOpsPIter(df):
+    """this function computes nCellsPerCU"""
+    df["fvOpsPIter"] = df["nCells"] / df["TimeStep"] * 1000 / df["p_NoIterations"]
+    return df
+
 def compute_nCellsPerCU(df):
     """this function computes nCellsPerCU"""
     df["nCellsPerRank"] = df["nCells"] / df["nProcs"]
@@ -165,6 +170,7 @@ def main(campaign, comparisson=None):
     df = pd.read_json(json_file)
 
     df = compute_fvops(df)
+    df = compute_fvopsPIter(df)
     df = compute_nCellsPerCU(df)
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
@@ -188,7 +194,7 @@ def main(campaign, comparisson=None):
                 ("nNodes", "nCells"),
                 ("nCellsPerRank", "nCells"),
             ]:
-                for y in ["TimeStep", "SolveP", "fvOps"]:
+                for y in ["TimeStep", "SolveP", "fvOps", "fvOpsPIter"]:
                     plotter(
                         x=x,
                         y=y,
