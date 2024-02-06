@@ -125,8 +125,7 @@ def generate_base(node_based=False):
         eph.helpers.DFQuery(idx="executor", val="CPU"),
     ]
 
-    base_hkn = 
-        [
+    base_hkn = [
             eph.helpers.DFQuery(idx="preconditioner", val="none"),
             eph.helpers.DFQuery(idx="executor", val="CPU"),
         ]
