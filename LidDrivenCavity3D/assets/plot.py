@@ -103,11 +103,9 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
 
     df_copy = deepcopy(extra_filter(df))
     df_copy.set_index(keys=indices, inplace=True)
-    print("df_copy", df_copy)
     speedup_df = eph.helpers.compute_speedup(
         df_copy, bases, ignore_indices=[]
     ).reset_index()
-    print("speedup_df", speedup_df)
     return speedup_df[speedup_df["executor"] != "CPU"]
 
 
@@ -151,7 +149,12 @@ def generate_base(node_based=False):
 
 def compute_fvops(df):
     """this function computes fvops"""
-    df["fvOps"] = df["nCells"] / df["TimeStep"]
+    df["fvOps"] = df["nCells"] / df["TimeStep"] * 1000.
+    return df
+
+def compute_nCellsPerCU(df):
+    """this function computes nCellsPerCU"""
+    df["nCellsPerRank"] = df["nCells"] / df["nProcs"]
     return df
 
 
@@ -162,6 +165,7 @@ def main(campaign, comparisson=None):
     df = pd.read_json(json_file)
 
     df = compute_fvops(df)
+    df = compute_nCellsPerCU(df)
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
     for filt in [
@@ -182,7 +186,7 @@ def main(campaign, comparisson=None):
                 ("nCells", "nProcs"),
                 ("nProcs", "nCells"),
                 ("nNodes", "nCells"),
-                ("nCells", "nNodes"),
+                ("nCellsPerRank", "nCells"),
             ]:
                 for y in ["TimeStep", "SolveP", "fvOps"]:
                     plotter(
