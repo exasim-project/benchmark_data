@@ -183,7 +183,7 @@ def main(campaign, comparisson=None):
     ]:
         try:
             for x, c in [("nCells", "nProcs"), ("nProcs", "nCells"), ("nNodes", "nCells"), ("nCells", "nNodes")]:
-                for y in ["TimeStep", "SolveP", "FVOps"]:
+                for y in ["TimeStep", "SolveP", "fvOps"]:
                     plotter(
                         x=x,
                         y=y,
