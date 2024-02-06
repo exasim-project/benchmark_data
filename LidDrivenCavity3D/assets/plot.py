@@ -39,7 +39,10 @@ def plotter(
     name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}"
     script_name = name + ".py"
 
-    with open(post_pro_dir / script_name, "w") as script:
+    script_dir = post_pro_dir / "scripts" 
+    script_dir.mkdir(parents=True, exist_ok=True)
+
+    with open(script_dir / script_name, "w") as script:
         script.write(plot_script().format(df.to_json()))
 
     relplot = sb.relplot(
