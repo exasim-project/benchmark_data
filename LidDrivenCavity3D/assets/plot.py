@@ -48,7 +48,7 @@ def plotter(
     with open(script_dir / script_name, "w") as script:
         script.write(plot_script().format(df.to_json()))
 
-    print("relplot", df)
+    print("relplot", df["nCells"])
 
     relplot = sb.relplot(
         x=x,
