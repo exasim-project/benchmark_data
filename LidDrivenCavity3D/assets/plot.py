@@ -117,7 +117,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     speedup_df = eph.helpers.compute_speedup(
         df_copy, bases, ignore_indices=[], exclude=exclude
     ).reset_index()
-    print("df after", df, df["nCells"])
+    print("df after", speedup_df)
 
     return speedup_df[speedup_df["executor"] != "CPU"]
 
