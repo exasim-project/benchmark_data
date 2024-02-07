@@ -101,6 +101,7 @@ class Df_filter:
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     # things that need to match
+    print("df before", df, df["nCells"])
     if node_based:
         indices = [q.idx for q in bases[0]["base"]]
         indices += ["nNodes"]
@@ -115,6 +116,8 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     speedup_df = eph.helpers.compute_speedup(
         df_copy, bases, ignore_indices=[], exclude=exclude
     ).reset_index()
+    print("df after", df, df["nCells"])
+
     return speedup_df[speedup_df["executor"] != "CPU"]
 
 
@@ -217,7 +220,6 @@ def main(campaign, comparisson=None):
                         df_filter=filt,
                     )
             except Exception as e:
-                logging.warning(f"Failed to plot {df} with x={x} y={y}, {df[x]}")
                 print(e)
 
     # comparisson against other results
