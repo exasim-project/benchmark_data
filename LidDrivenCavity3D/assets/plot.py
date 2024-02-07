@@ -36,9 +36,7 @@ def plotter(
     log=None,
     plot_type="line",
 ):
-    print("nCells" in df.columns)
     df = df_filter(df)
-    print("nCells" in df.columns)
     if df.empty:
         logging.warning("Dataframe empty after filter")
     name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}"
@@ -112,9 +110,6 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         exclude = ["nNodes"]
     indices += ["nCells", "Host"]
 
-    if node_based:
-        nCells = df["nCells"]
-
     df_copy = deepcopy(extra_filter(df))
     df_copy.set_index(keys=indices, inplace=True)
     speedup_df = eph.helpers.compute_speedup(
@@ -124,7 +119,8 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     # For currently unknown reasons in node_based calculation
     # nCells is missing
     if node_based:
-        speedup_df["nCells"] = nCells
+        for c in ["nCells", "nNodes", "Host"]:
+            speedup_df[c] = df_copy[c]
 
     return speedup_df[speedup_df["executor"] != "CPU"]
 
