@@ -213,7 +213,7 @@ def main(campaign, comparisson=None):
                         df_filter=filt,
                     )
         except Exception as e:
-            logging.warning(f"Failed to plot {df} with x={x} y={y}")
+            logging.warning(f"Failed to plot {df} with x={x} y={y}, {df[x]}")
             print(e)
 
     # comparisson against other results
