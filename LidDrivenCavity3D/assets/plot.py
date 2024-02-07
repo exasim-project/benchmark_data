@@ -36,7 +36,9 @@ def plotter(
     log=None,
     plot_type="line",
 ):
+    print("nCells" in df.columns)
     df = df_filter(df)
+    print("nCells" in df.columns)
     if df.empty:
         logging.warning("Dataframe empty after filter")
     name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}"
@@ -48,7 +50,6 @@ def plotter(
     with open(script_dir / script_name, "w") as script:
         script.write(plot_script().format(df.to_json()))
 
-    print("relplot", df["nCells"])
 
     relplot = sb.relplot(
         x=x,
