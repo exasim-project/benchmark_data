@@ -196,13 +196,13 @@ def main(campaign, comparisson=None):
             ),
         ),
     ]:
-        try:
-            for x, c in [
-                ("nCells", "nProcs"),
-                ("nProcs", "nCells"),
-                ("nNodes", "nCells"),
-                ("nCellsPerRank", "nCells"),
-            ]:
+        for x, c in [
+            ("nCells", "nProcs"),
+            ("nProcs", "nCells"),
+            ("nNodes", "nCells"),
+            ("nCellsPerRank", "nCells"),
+        ]:
+            try:
                 for y in ["TimeStep", "SolveP", "fvOps", "fvOpsPIter"]:
                     plotter(
                         x=x,
@@ -216,9 +216,9 @@ def main(campaign, comparisson=None):
                         df=df,
                         df_filter=filt,
                     )
-        except Exception as e:
-            logging.warning(f"Failed to plot {df} with x={x} y={y}, {df[x]}")
-            print(e)
+            except Exception as e:
+                logging.warning(f"Failed to plot {df} with x={x} y={y}, {df[x]}")
+                print(e)
 
     # comparisson against other results
     try:
