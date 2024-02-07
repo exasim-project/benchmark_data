@@ -120,7 +120,9 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     # nCells is missing
     if node_based:
         for c in ["nCells", "nNodes", "Host"]:
+            print(f"restoring  column {c}")
             speedup_df[c] = df_copy[c]
+            print(f"done  column {c}")
 
     return speedup_df[speedup_df["executor"] != "CPU"]
 
