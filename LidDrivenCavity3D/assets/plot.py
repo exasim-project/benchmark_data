@@ -107,7 +107,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     df_copy = deepcopy(extra_filter(df))
     df_copy.set_index(keys=indices, inplace=True)
     speedup_df = eph.helpers.compute_speedup(
-        df_copy, bases, ignore_indices=[]
+        df_copy, bases, ignore_indices=[], exclude=["nNodes"]
     ).reset_index()
     return speedup_df[speedup_df["executor"] != "CPU"]
 
