@@ -37,6 +37,8 @@ def plotter(
     plot_type="line",
 ):
     df = df_filter(df)
+    if df.empty:
+        logging.warning("Dataframe empty after filter")
     name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}"
     script_name = name + ".py"
 
