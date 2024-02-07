@@ -150,12 +150,12 @@ def generate_base(node_based=False):
         base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
 
     return [
-        {
-            "case": [
-                eph.helpers.DFQuery(idx="Host", val="nla"),
-            ],
-            "base": base_nla,
-        },
+        # {
+        #     "case": [
+        #         eph.helpers.DFQuery(idx="Host", val="nla"),
+        #     ],
+        #     "base": base_nla,
+        # },
         {
             "case": [
                 eph.helpers.DFQuery(idx="Host", val="hkn"),
