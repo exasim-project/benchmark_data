@@ -100,7 +100,6 @@ class Df_filter:
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     # things that need to match
-    print("df before", df, df["nCells"])
     if node_based:
         indices = [q.idx for q in bases[0]["base"]]
         indices += ["nNodes"]
@@ -111,10 +110,9 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     indices += ["nCells", "Host"]
 
     df_copy = deepcopy(extra_filter(df))
-    print(f"df_copy.columns {df_copy.columns}")
-    df_copy.set_index(keys=indices, inplace=True)
+    df_copy_set_idx = df_copy.set_index(keys=indices)
     speedup_df = eph.helpers.compute_speedup(
-        df_copy, bases, ignore_indices=[], exclude=exclude
+        df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
     ).reset_index()
 
     # For currently unknown reasons in node_based calculation
