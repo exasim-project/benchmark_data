@@ -3,9 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
 import exasim_plot_helpers as eph
+import logging
+
 from pathlib import Path
 from copy import deepcopy
-
 from pathlib import Path
 
 
@@ -212,7 +213,7 @@ def main(campaign, comparisson=None):
                         df_filter=filt,
                     )
         except Exception as e:
-            print("failed to plot")
+            logging.warning(f"Failed to plot {df} with x={x} y={y}")
             print(e)
 
     # comparisson against other results
