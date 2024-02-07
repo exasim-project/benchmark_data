@@ -99,6 +99,15 @@ class Df_filter:
 
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
+    # check if bases vals are in df
+    bases_clean = []
+    for record in bases:
+        base = record["base"]
+        keep = all([query.val in df[query.idx].values for query in base])
+        if keep:
+            bases_clean.append(record)
+    bases=bases_clean
+
     # things that need to match
     if node_based:
         indices = [q.idx for q in bases[0]["base"]]
@@ -114,14 +123,6 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     speedup_df = eph.helpers.compute_speedup(
         df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
     ).reset_index()
-
-    # For currently unknown reasons in node_based calculation
-    # nCells is missing
-    if node_based:
-        for c in ["nCells", "nNodes", "Host"]:
-            print(f"restoring  column {c}")
-            speedup_df[c] = df_copy[c]
-            print(f"done  column {c}")
 
     return speedup_df[speedup_df["executor"] != "CPU"]
 
