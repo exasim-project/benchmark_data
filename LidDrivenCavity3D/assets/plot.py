@@ -116,6 +116,17 @@ def main(campaign, comparisson=None):
             eph.helpers.DFQuery(idx="executor", val="CPU"),
             ]
     },
+    {
+        "case": [
+            eph.helpers.DFQuery(idx="Host", val="i20"),
+            ],
+        "base" : [
+            # TODO this needs to know nProcs beforehand
+            eph.helpers.DFQuery(idx="nProcs", val=112),
+            eph.helpers.DFQuery(idx="preconditioner", val="none"),
+            eph.helpers.DFQuery(idx="executor", val="CPU"),
+            ]
+    },
     ]
 
     speedup = compute_speedup(df, bases)
