@@ -56,29 +56,29 @@ jobs:
         obr query --query global --query TimeStep  --query SolveP --query MomentumPredictor --query PISOStep 
         obr status \
           --filter preconditioner==none \
-          --sort_by nCells,nProcs,executor,Host \
+          --sort_by nCells,nProcs,nNodes,executor,Host \
           --extra TimeStep,SolveP,MomentumPredictor,PISOStep \
           --hide view 
         echo "# Results Overview " > overview.md
         echo "## Unpreconditioned" >> overview.md
         obr status \
           --filter preconditioner==none \
-          --sort_by nCells,nProcs,executor,Host \
+          --sort_by nCells,nProcs,nNodes,executor,Host \
           --extra TimeStep,SolveP,MomentumPredictor,PISOStep \
           --hide jobid,view  \
           --export_to markdown >> overview.md
         echo "## Preconditioned" >> overview.md
         obr status \
           --filter preconditioner!=none \
-          --sort_by nCells,nProcs,executor,preconditioner,Host \
+          --sort_by nCells,nProcs,nNodes,executor,preconditioner,Host \
           --extra TimeStep,SolveP,MomentumPredictor,PISOStep \
           --hide jobid,view \
           --export_to markdown >> overview.md
         mkdir -p postProcessing/${{env.CAMPAIGN}}
         obr status \
-          --sort_by nCells,nProcs,executor,preconditioner  \
+          --sort_by nCells,nProcs,nNodes,executor,preconditioner  \
           --hide view,jobid \
-          --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host,solver_p \
+          --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host,solver_p,p_NoIterations \
           --export_to json > postProcessing/${{env.CAMPAIGN}}/results.json
         cat postProcessing/${{env.CAMPAIGN}}/results.json
 

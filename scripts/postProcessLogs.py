@@ -11,6 +11,29 @@ from Owls.parser.LogFile import LogFile, transportEqn, customMatcher
 from Owls.parser.FoamDict import FileParser
 import pandas as pd
 
+# NOTE in general columns in DataFrames which ends in Name are reserved
+# for the linear solver name and are thus treated separately
+
+def get_average(df, col):
+    """compute averages of a column if not a Name column"""
+    # Name columns are not averaged, we just take the first value
+    # to keep a name in the resulting df
+    if "Name" in col:
+        return df.iloc[0][col]
+    else:
+        return df.iloc[1:][col].mean()
+
+# dictionary to keep postpro function which maps from the dataframe
+# and column to a result to keep in the record
+log_key_postpro = {
+    # take the mean of all entries in the log file except the first
+    "transp_eqn_keys": get_average,
+    "foam_annotation_keys": get_average,
+    "ogl_annotation_keys": get_average,
+}
+
+def compute_nodes(df):
+    k
 
 def get_OGL_from_log(log):
     try:
@@ -70,12 +93,44 @@ def convert_to_numbers(df):
     return df.astype({col: "float" for col in df.columns if not "Name" in col})
 
 
-def get_average(df, col):
-    """comput averages of a column if non a Name column"""
-    if "Name" in col:
-        return df.iloc[0][col]
-    else:
-        return df.iloc[1:][col].mean()
+def post_process_impl(log: str, campaign:str, tags: list, job):
+    # Base record
+    log_path = Path(log)
+    if use_fvs:=Path(log_path.parent / "system/fvSolution").exists():
+        fvSolution = FileParser(
+            path=log_path.parent / "system/fvSolution"
+        )
+    timestamp = get_timestamp_from_log(log_path)
+    record = {
+        "timestamp": timestamp,
+        "campaign": campaign,
+        "tags": ",".join(tags),
+        "OGL_commit": get_OGL_from_log(log),
+        "logfile": log_path.name,
+        "nCells": int(job.doc["cache"].get("nCells", "")),
+    }
+
+    for log_key_type, log_keys in generate_log_keys().items():
+        log_file_parser = LogFile(log, log_keys)
+        df = convert_to_numbers(log_file_parser.parse_to_df())
+        record["Host"] = log_file_parser.header.Host[0:3]
+        record["nProcs"] = log_file_parser.header.nProcs
+        record["nNodes"] = log_file_parser.header.nNodes
+        if use_fvs:
+            record["solver_p"] = fvSolution.get("solvers")["p"]["solver"]
+
+        for log_key in log_keys:
+            for col in df.columns:
+                if col == "Time":
+                    continue
+                try:
+                    record[col] = log_key_postpro[log_key_type](df, col)
+                except Exception as e:
+                    print(
+                        f"failure in post processing the Dataframe  col: {col} {str(df.columns)}",
+                        e,
+                    )
+    return record
 
 
 def call(jobs, kwargs={}):
@@ -95,56 +150,17 @@ def call(jobs, kwargs={}):
     for job in jobs:
         run_logs = job.doc.get("data", [])
 
-        # dictionary to keep postpro function which maps from the dataframe
-        # and column to a result to keep in the record
-        log_key_postpro = {
-            # take the mean of all entries in the log file except the first
-            "transp_eqn_keys": get_average,
-            "foam_annotation_keys": get_average,
-            "ogl_annotation_keys": get_average,
-        }
 
         merge_job_documents(job, str(campaign))
 
         # find all solver logs corresponding to this specific jobs
         for log, campaign, tags in find_solver_logs(job, campaign):
-            # Base record
-            log_path = Path(log)
-            if use_fvs:=Path(log_path.parent / "system/fvSolution").exists():
-                fvSolution = FileParser(
-                    path=log_path.parent / "system/fvSolution"
-                )
-            timestamp = get_timestamp_from_log(log_path)
-            record = {
-                "timestamp": timestamp,
-                "campaign": campaign,
-                "tags": ",".join(tags),
-                "OGL_commit": get_OGL_from_log(log),
-                "logfile": log_path.name,
-                "nCells": int(job.doc["cache"].get("nCells", "")),
-            }
-
-            for log_key_type, log_keys in generate_log_keys().items():
-                log_file_parser = LogFile(log, log_keys)
-                df = convert_to_numbers(log_file_parser.parse_to_df())
-                record["Host"] = log_file_parser.header.Host[0:3]
-                record["nProcs"] = int(log_file_parser.header.nProcs)
-                if use_fvs:
-                    record["solver_p"] = fvSolution.get("solvers")["p"]["solver"]
-
-                for log_key in log_keys:
-                    for col in df.columns:
-                        if col == "Time":
-                            continue
-                        try:
-                            record[col] = log_key_postpro[log_key_type](df, col)
-                        except Exception as e:
-                            print(
-                                f"failure in post processing the Dataframe  col: {col} {str(df.columns)}",
-                                e,
-                            )
-
-            run_logs.append(record)
+            try:
+                record = post_process_impl(log, campaign, tags, job)
+                run_logs.append(record)
+            except Exception as e:
+                print(f"failed to process {log}")
+                print(e)
 
         # store all records
         job.doc["data"] = run_logs
