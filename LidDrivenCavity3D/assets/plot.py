@@ -79,8 +79,9 @@ def col_divide(df_orig, df_comparisson):
     ret = deepcopy(df_orig).set_index("jobid")
     df_orig = df_orig.set_index("jobid")
     df_comparisson = df_comparisson.set_index("jobid")
+    # dont normalize nCells, nProcs, or deviceRankOverSubscription
     for c in df_orig.columns:
-        if c == "nCells" or c == "nProcs":
+        if c == "nCells" or c == "nProcs" or c == "deviceRankOverSubscription":
             continue
         try:
             ret[c] = df_comparisson[c] / df_orig[c]
