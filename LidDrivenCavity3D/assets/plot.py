@@ -222,8 +222,8 @@ def compute_gpu_mapping(df):
 
     def set_compute_cost(df, host, costs):
         executor = costs["executor"]
-        cpu_cost = costs["cpu"]
-        gpu_cost = costs["gpu"]
+        cpus = costs["cpu"]
+        gpus = costs["gpu"]
         mapping_cpu = np.logical_and(df["Host"] == host, df["executor"] == "CPU")
         mapping_gpu = np.logical_and(df["Host"] == host, df["executor"] == executor)
         df.loc[mapping_cpu, "deviceRanks"] = cpus
