@@ -205,8 +205,8 @@ def compute_cloud_cost(df):
         gpu_cost = costs["gpu"]
         mapping_cpu = np.logical_and(df["Host"] == host, df["executor"] == "CPU")
         mapping_gpu = np.logical_and(df["Host"] == host, df["executor"] == executor)
-        df.loc[nla_mapping_cpu, "CostPerHourCloud"] = cpu_cost
-        df.loc[nla_mapping_gpu, "CostPerHourCloud"] = gpu_cost + cpu_cost
+        df.loc[mapping_cpu, "CostPerHourCloud"] = cpu_cost
+        df.loc[mapping_gpu, "CostPerHourCloud"] = gpu_cost + cpu_cost
 
     set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32 * 0.08, "gpu": 8 * 3.4})
     set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76 * 0.1, "gpu": 4 * 3.4})
