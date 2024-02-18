@@ -245,7 +245,7 @@ def main(campaign, comparisson=None):
                     for y in [
                             "TimeStep", "SolveP",
                             "fvOpsTimeStep",
-                            "fvOpsTimeSolveP",
+                            "fvOpsSolveP",
                             "fvOpsPIterTimeStep",
                             "fvOpsPIterSolveP",
                             "CostPerTimeStepCloud",
