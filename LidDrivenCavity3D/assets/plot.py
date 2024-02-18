@@ -196,7 +196,7 @@ def compute_nCellsPerCU(df):
 
 
 def compute_cloud_cost(df):
-    """this function computes nCellsPerCU"""
+    """this function computes the cost to compute a timestep based on aws costs"""
     df["CostPerHourCloud"] = 0
 
     def set_compute_cost(df, host, costs):
@@ -214,6 +214,25 @@ def compute_cloud_cost(df):
     df["CostPerTimeStepCloud"] = (df["CostPerHourCloud"] / 3600.0) * (
         df["TimeStep"] / 1000.0
     )
+    return df
+
+def compute_gpu_mapping(df):
+    """this function computes the nCPU/nGPU mapping"""
+    df["deviceRankOverSubcription"] = 0
+
+    def set_compute_cost(df, host, costs):
+        executor = costs["executor"]
+        cpu_cost = costs["cpu"]
+        gpu_cost = costs["gpu"]
+        mapping_cpu = np.logical_and(df["Host"] == host, df["executor"] == "CPU")
+        mapping_gpu = np.logical_and(df["Host"] == host, df["executor"] == executor)
+        df.loc[mapping_cpu, "deviceRanks"] = cpus
+        df.loc[mapping_gpu, "deviceRanks"] = gpus
+
+    set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
+    set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76, "gpu": 4})
+    set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112, "gpu": 4})
+    df["deviceRankOverSubcription"] = df["nProcs"] / df["deviceRanks"] 
     return df
 
 
@@ -246,6 +265,8 @@ def main(campaign, comparisson=None):
             ("nCells", "nProcs", "Host"),
             ("nProcs", "nCells", "Host"),
             ("nNodes", "nCells", "Host"),
+            ("nCells", "deviceRankOverSubcription", "Host"),
+            ("deviceRankOverSubcription", "nCells", "Host"),
             ("nCellsPerRank", "nCells", "Host"),
             ("nCells", "Host", "solver_p"),
         ]:
