@@ -6,6 +6,7 @@ import seaborn as sb
 import exasim_plot_helpers as eph
 import logging
 import warnings
+
 warnings.filterwarnings("ignore")
 
 from pathlib import Path
@@ -45,14 +46,13 @@ def plotter(
     name = f"{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}_log={log}"
     script_name = name + ".py"
 
-    script_dir = post_pro_dir / df_filter.name / "scripts" 
+    script_dir = post_pro_dir / df_filter.name / "scripts"
     script_dir.mkdir(parents=True, exist_ok=True)
     plot_dir = post_pro_dir / df_filter.name / y
     plot_dir.mkdir(parents=True, exist_ok=True)
 
     with open(script_dir / script_name, "w") as script:
         script.write(plot_script().format(df.to_json()))
-
 
     relplot = sb.relplot(
         x=x,
@@ -107,7 +107,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         keep = all([query.val in df[query.idx].values for query in base])
         if keep:
             bases_clean.append(record)
-    bases=bases_clean
+    bases = bases_clean
 
     # things that need to match
     if node_based:
@@ -142,9 +142,9 @@ def generate_base(node_based=False):
         eph.helpers.DFQuery(idx="executor", val="CPU"),
     ]
 
-    base_nla = deepcopy(base_) 
-    base_hkn = deepcopy(base_) 
-    base_smuc = deepcopy(base_) 
+    base_nla = deepcopy(base_)
+    base_hkn = deepcopy(base_)
+    base_smuc = deepcopy(base_)
 
     if not node_based:
         base_nla.append(eph.helpers.DFQuery(idx="nProcs", val=32))
@@ -175,15 +175,19 @@ def generate_base(node_based=False):
 
 def compute_fvops(df):
     """this function computes fvops"""
-    df["fvOpsTimeStep"] = df["nCells"] / df["TimeStep"] * 1000.
-    df["fvOpsSolveP"] = df["nCells"] / df["SolveP"] * 1000.
+    df["fvOpsTimeStep"] = df["nCells"] / df["TimeStep"] * 1000.0
+    df["fvOpsSolveP"] = df["nCells"] / df["SolveP"] * 1000.0
     return df
+
 
 def compute_fvops_piter(df):
     """this function computes nCellsPerCU"""
-    df["fvOpsPIterTimeStep"] = df["nCells"] / df["TimeStep"] * 1000 / df["p_NoIterations"]
-    df["fvOpsPIterSolveP"] = df["nCells"] / df["SolveP"] * 1000 / df["p_NoIterations"]
+    df["fvOpsPIterTimeStep"] = (
+        (df["nCells"] * df["p_NoIterations"]) / df["TimeStep"] * 1000
+    )
+    df["fvOpsPIterSolveP"] = (df["nCells"] * df["p_NoIterations"]) / df["SolveP"] * 1000
     return df
+
 
 def compute_nCellsPerCU(df):
     """this function computes nCellsPerCU"""
@@ -199,15 +203,17 @@ def compute_cloud_cost(df):
         executor = costs["executor"]
         cpu_cost = costs["cpu"]
         gpu_cost = costs["gpu"]
-        nla_mapping_cpu = np.logical_and(df["Host"] == host,df["executor"] == "CPU") 
-        nla_mapping_gpu = np.logical_and(df["Host"] == host,df["executor"] == executor) 
+        nla_mapping_cpu = np.logical_and(df["Host"] == host, df["executor"] == "CPU")
+        nla_mapping_gpu = np.logical_and(df["Host"] == host, df["executor"] == executor)
         df.loc[nla_mapping_cpu, "CostPerHourCloud"] = cpu_cost
         df.loc[nla_mapping_gpu, "CostPerHourCloud"] = gpu_cost + cpu_cost
 
-    set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32*0.08,  "gpu": 8*3.4})
-    set_compute_cost(df, "hkn", {"executor": "hip", "cpu": 76*0.1, "gpu": 4*3.4})
-    set_compute_cost(df, "i20", {"executor": "hip", "cpu": 112*0.11, "gpu": 4*3.4})
-    df["CostPerTimeStepCloud"] = (df["CostPerHourCloud"]/3600.) * (df["TimeStep"] / 1000.) 
+    set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32 * 0.08, "gpu": 8 * 3.4})
+    set_compute_cost(df, "hkn", {"executor": "hip", "cpu": 76 * 0.1, "gpu": 4 * 3.4})
+    set_compute_cost(df, "i20", {"executor": "hip", "cpu": 112 * 0.11, "gpu": 4 * 3.4})
+    df["CostPerTimeStepCloud"] = (df["CostPerHourCloud"] / 3600.0) * (
+        df["TimeStep"] / 1000.0
+    )
     return df
 
 
@@ -246,13 +252,14 @@ def main(campaign, comparisson=None):
             try:
                 for log in ["", "both"]:
                     for y in [
-                            "TimeStep", "SolveP",
-                            "fvOpsTimeStep",
-                            "fvOpsSolveP",
-                            "fvOpsPIterTimeStep",
-                            "fvOpsPIterSolveP",
-                            "CostPerTimeStepCloud",
-                            ]:
+                        "TimeStep",
+                        "SolveP",
+                        "fvOpsTimeStep",
+                        "fvOpsSolveP",
+                        "fvOpsPIterTimeStep",
+                        "fvOpsPIterSolveP",
+                        "CostPerTimeStepCloud",
+                    ]:
                         plotter(
                             x=x,
                             y=y,
