@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sb
 import exasim_plot_helpers as eph
 import logging
+import warnings
+warnings.filterwarnings("ignore")
 
 from pathlib import Path
 from copy import deepcopy
@@ -239,7 +241,7 @@ def main(campaign, comparisson=None):
             ("nProcs", "nCells", "Host"),
             ("nNodes", "nCells", "Host"),
             ("nCellsPerRank", "nCells", "Host"),
-            ("nCells", "Host", "solver"),
+            ("nCells", "Host", "solver_p"),
         ]:
             try:
                 for log in ["", "both"]:
