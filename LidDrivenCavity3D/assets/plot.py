@@ -245,7 +245,7 @@ def unprecond_rank_range(df):
         df["deviceRankOverSubscription"] >= 0.9,
     )
     mapping = np.locical_and(
-            mapping,
+            df[mapping],
             df["deviceRankOverSubscription"] < 10,
     )
     return df[mapping]
