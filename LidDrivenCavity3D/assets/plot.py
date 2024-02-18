@@ -203,14 +203,14 @@ def compute_cloud_cost(df):
         executor = costs["executor"]
         cpu_cost = costs["cpu"]
         gpu_cost = costs["gpu"]
-        nla_mapping_cpu = np.logical_and(df["Host"] == host, df["executor"] == "CPU")
-        nla_mapping_gpu = np.logical_and(df["Host"] == host, df["executor"] == executor)
+        mapping_cpu = np.logical_and(df["Host"] == host, df["executor"] == "CPU")
+        mapping_gpu = np.logical_and(df["Host"] == host, df["executor"] == executor)
         df.loc[nla_mapping_cpu, "CostPerHourCloud"] = cpu_cost
         df.loc[nla_mapping_gpu, "CostPerHourCloud"] = gpu_cost + cpu_cost
 
     set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32 * 0.08, "gpu": 8 * 3.4})
-    set_compute_cost(df, "hkn", {"executor": "hip", "cpu": 76 * 0.1, "gpu": 4 * 3.4})
-    set_compute_cost(df, "i20", {"executor": "hip", "cpu": 112 * 0.11, "gpu": 4 * 3.4})
+    set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76 * 0.1, "gpu": 4 * 3.4})
+    set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112 * 0.11, "gpu": 4 * 3.4})
     df["CostPerTimeStepCloud"] = (df["CostPerHourCloud"] / 3600.0) * (
         df["TimeStep"] / 1000.0
     )
