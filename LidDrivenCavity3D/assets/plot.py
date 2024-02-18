@@ -219,19 +219,20 @@ def main(campaign, comparisson=None):
             ("nCellsPerRank", "nCells"),
         ]:
             try:
-                for y in ["TimeStep", "SolveP", "fvOps", "fvOpsPIter"]:
-                    plotter(
-                        x=x,
-                        y=y,
-                        color=c,
-                        style="solver_p",
-                        post_pro_dir=post_pro_dir,
-                        plot_type="line",
-                        col="Host",
-                        log=True,
-                        df=df,
-                        df_filter=filt,
-                    )
+                for log in ["", "both"]:
+                    for y in ["TimeStep", "SolveP", "fvOps", "fvOpsPIter"]:
+                        plotter(
+                            x=x,
+                            y=y,
+                            color=c,
+                            style="solver_p",
+                            post_pro_dir=post_pro_dir,
+                            plot_type="line",
+                            col="Host",
+                            log=log,
+                            df=df,
+                            df_filter=filt,
+                        )
             except Exception as e:
                 print(e)
 
