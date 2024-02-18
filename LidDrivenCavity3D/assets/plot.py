@@ -210,11 +210,14 @@ def compute_cloud_cost(df):
 
     set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32 * 0.08, "gpu": 8 * 3.4})
     set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76 * 0.1, "gpu": 4 * 3.4})
-    set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112 * 0.11, "gpu": 4 * 3.4})
+    set_compute_cost(
+        df, "i20", {"executor": "dpcpp", "cpu": 112 * 0.11, "gpu": 4 * 3.4}
+    )
     df["CostPerTimeStepCloud"] = (df["CostPerHourCloud"] / 3600.0) * (
         df["TimeStep"] / 1000.0
     )
     return df
+
 
 def compute_gpu_mapping(df):
     """this function computes the nCPU/nGPU mapping"""
@@ -232,8 +235,17 @@ def compute_gpu_mapping(df):
     set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
     set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76, "gpu": 4})
     set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112, "gpu": 4})
-    df["deviceRankOverSubcription"] = df["nProcs"] / df["deviceRanks"] 
+    df["deviceRankOverSubcription"] = df["nProcs"] / df["deviceRanks"]
     return df
+
+
+def unprecond_rank_range(df):
+    mapping = np.logical_and(
+        df["preconditioner"] == "none",
+        df["deviceRankOverSubcription"] >= 1,
+        df["deviceRankOverSubcription"] < 12,
+    )
+    return df[mapping]
 
 
 def main(campaign, comparisson=None):
@@ -254,6 +266,12 @@ def main(campaign, comparisson=None):
         Df_filter(
             "unpreconditioned/speedup",
             lambda df: compute_speedup(df, generate_base(node_based=False), unprecond),
+        ),
+        Df_filter(
+            "unpreconditioned_rank_range/speedup",
+            lambda df: compute_speedup(
+                df, generate_base(node_based=False), unprecond_rank_range
+            ),
         ),
         Df_filter(
             "unpreconditioned/speedup_nNodes",
