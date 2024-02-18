@@ -246,6 +246,7 @@ def main(campaign, comparisson=None):
     df = compute_fvops_piter(df)
     df = compute_nCellsPerCU(df)
     df = compute_cloud_cost(df)
+    df = compute_gpu_mapping(df)
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
     for filt in [
