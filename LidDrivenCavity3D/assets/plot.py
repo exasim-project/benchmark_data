@@ -244,7 +244,7 @@ def unprecond_rank_range(df):
         df["preconditioner"] == "none",
         df["deviceRankOverSubscription"] >= 0.9,
     )
-    mapping = np.locical_and(
+    mapping = np.logical_and(
             df[mapping],
             df["deviceRankOverSubscription"] < 10,
     )
@@ -327,7 +327,6 @@ def main(campaign, comparisson=None):
                 json_file = post_pro_dir_comp / "results.json"
                 df_comparisson = pd.read_json(json_file)
                 df_rel = col_divide(deepcopy(df_orig), deepcopy(df_comparisson))
-                print("df_rel", df_rel["TimeStep"])
 
                 for log in ["", "both"]:
                     for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
