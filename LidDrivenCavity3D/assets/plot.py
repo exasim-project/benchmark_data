@@ -184,7 +184,7 @@ def compute_fvops(df):
 def compute_fvops_piter(df):
     """this function computes nCellsPerCU"""
     df["fvOpsPIterTimeStep"] = df["nCells"] / df["TimeStep"] * 1000 / df["p_NoIterations"]
-    df["fvOpsPIterPSolve"] = df["nCells"] / df["SolveP"] * 1000 / df["p_NoIterations"]
+    df["fvOpsPIterSolveP"] = df["nCells"] / df["SolveP"] * 1000 / df["p_NoIterations"]
     return df
 
 def compute_nCellsPerCU(df):
