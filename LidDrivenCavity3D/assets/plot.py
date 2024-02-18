@@ -40,12 +40,12 @@ def plotter(
     df = df_filter(df)
     if df.empty:
         logging.warning("Dataframe empty after filter")
-    name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}_log={log}"
+    name = f"{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}_log={log}"
     script_name = name + ".py"
 
-    script_dir = post_pro_dir / "scripts" 
+    script_dir = post_pro_dir / df_filter.name / "scripts" 
     script_dir.mkdir(parents=True, exist_ok=True)
-    plot_dir = post_pro_dir / y
+    plot_dir = post_pro_dir / df_filter.name / y
     plot_dir.mkdir(parents=True, exist_ok=True)
 
     with open(script_dir / script_name, "w") as script:
@@ -81,14 +81,10 @@ def col_divide(df_orig, df_comparisson):
         if c == "nCells" or c == "nProcs":
             continue
         try:
-            print(
-                f"c: {c} ret[c] {df_comparisson[c] / df_orig[c]}  comp:  {df_comparisson[c]} orig: {df_orig[c]}"
-            )
             ret[c] = df_comparisson[c] / df_orig[c]
         except Exception as e:
             print(e, c)
             pass
-    print(f"df[TimeStep] {ret['TimeStep']}")
     return ret
 
 
@@ -228,11 +224,11 @@ def main(campaign, comparisson=None):
     for filt in [
         Df_filter("unpreconditioned", unprecond),
         Df_filter(
-            "unprecond_speedup",
+            "unpreconditioned/speedup",
             lambda df: compute_speedup(df, generate_base(node_based=False), unprecond),
         ),
         Df_filter(
-            "unprecond_speedup_nNodes",
+            "unpreconditioned/speedup_nNodes",
             lambda df: compute_speedup(
                 df, generate_base(node_based=True), unprecond, node_based=True
             ),
