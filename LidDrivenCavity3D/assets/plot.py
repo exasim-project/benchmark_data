@@ -44,6 +44,8 @@ def plotter(
 
     script_dir = post_pro_dir / "scripts" 
     script_dir.mkdir(parents=True, exist_ok=True)
+    plot_dir = post_pro_dir / y
+    plot_dir.mkdir(parents=True, exist_ok=True)
 
     with open(script_dir / script_name, "w") as script:
         script.write(plot_script().format(df.to_json()))
@@ -67,7 +69,7 @@ def plotter(
     if log == "x":
         plt.xscale("log")
     fig_name = name + ".png"
-    plt.savefig(post_pro_dir / fig_name)
+    plt.savefig(plot_dir / fig_name)
 
 
 def col_divide(df_orig, df_comparisson):
@@ -151,12 +153,12 @@ def generate_base(node_based=False):
         base_smuc.append(eph.helpers.DFQuery(idx="nProcs", val=112))
 
     return [
-        # {
-        #     "case": [
-        #         eph.helpers.DFQuery(idx="Host", val="nla"),
-        #     ],
-        #     "base": base_nla,
-        # },
+        {
+            "case": [
+                eph.helpers.DFQuery(idx="Host", val="nla"),
+            ],
+            "base": base_nla,
+        },
         {
             "case": [
                 eph.helpers.DFQuery(idx="Host", val="hkn"),
@@ -174,17 +176,39 @@ def generate_base(node_based=False):
 
 def compute_fvops(df):
     """this function computes fvops"""
-    df["fvOps"] = df["nCells"] / df["TimeStep"] * 1000.
+    df["fvOpsTimeStep"] = df["nCells"] / df["TimeStep"] * 1000.
+    df["fvOpsTimeSolveP"] = df["nCells"] / df["SolveP"] * 1000.
     return df
 
 def compute_fvops_piter(df):
     """this function computes nCellsPerCU"""
-    df["fvOpsPIter"] = df["nCells"] / df["TimeStep"] * 1000 / df["p_NoIterations"]
+    df["fvOpsPIterTimeStep"] = df["nCells"] / df["TimeStep"] * 1000 / df["p_NoIterations"]
+    df["fvOpsPIterPSolve"] = df["nCells"] / df["SolveP"] * 1000 / df["p_NoIterations"]
     return df
 
 def compute_nCellsPerCU(df):
     """this function computes nCellsPerCU"""
     df["nCellsPerRank"] = df["nCells"] / df["nProcs"]
+    return df
+
+
+def compute_cloud_cost(df):
+    """this function computes nCellsPerCU"""
+    df["CostPerHourCloud"] = 0
+
+    def set_compute_cost(df, host, costs):
+        executor = costs["executor"]
+        cpu_cost = costs["cpu"]
+        gpu_cost = costs["gpu"]
+        nla_mapping_cpu = np.logical_and(df["Host"] == host,df["executor"] == "CPU") 
+        nla_mapping_gpu = np.logical_and(df["Host"] == host,df["executor"] == executor) 
+        df.loc[nla_mapping_cpu, "CostPerHourCloud"] = cpu_cost
+        df.loc[nla_mapping_gpu, "CostPerHourCloud"] = gpu_cost + cpu_cost
+
+    set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32*0.08, 8*3.4}
+    set_compute_cost(df, "hkn", {"executor": "hip", "cpu": 76*0.1, 4*3.4}
+    set_compute_cost(df, "i20", {"executor": "hip", "cpu": 112*0.11, 4*3.4}
+    df["CostPerTimeStepCloud"] = (df["CostPerHourCloud"]/3600.) * (df["TimeStep"] / 1000.) 
     return df
 
 
@@ -197,6 +221,7 @@ def main(campaign, comparisson=None):
     df = compute_fvops(df)
     df = compute_fvops_piter(df)
     df = compute_nCellsPerCU(df)
+    df = compute_cloud_cost(df)
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
     for filt in [
@@ -220,7 +245,14 @@ def main(campaign, comparisson=None):
         ]:
             try:
                 for log in ["", "both"]:
-                    for y in ["TimeStep", "SolveP", "fvOps", "fvOpsPIter"]:
+                    for y in [
+                            "TimeStep", "SolveP",
+                            "fvOpsTimeStep",
+                            "fvOpsTimeSolveP",
+                            "fvOpsPIterTimeStep",
+                            "fvOpsPIterSolveP",
+                            "CostPerTimeStepCloud",
+                            ]:
                         plotter(
                             x=x,
                             y=y,
