@@ -33,13 +33,13 @@ def plotter(
     postfix="",
     size=None,
     col=None,
-    log=None,
+    log="",
     plot_type="line",
 ):
     df = df_filter(df)
     if df.empty:
         logging.warning("Dataframe empty after filter")
-    name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}"
+    name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}_log={log}"
     script_name = name + ".py"
 
     script_dir = post_pro_dir / "scripts" 
@@ -246,21 +246,22 @@ def main(campaign, comparisson=None):
                 df_rel = col_divide(deepcopy(df_orig), deepcopy(df_comparisson))
                 print("df_rel", df_rel["TimeStep"])
 
-                for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
-                    for y in ["TimeStep", "SolveP"]:
-                        plotter(
-                            x=x,
-                            y=y,
-                            color=c,
-                            style="solver_p",
-                            post_pro_dir=post_pro_dir,
-                            postfix="_vs_comparisson",
-                            plot_type="line",
-                            col="Host",
-                            log=True,
-                            df=df_rel,
-                            df_filter=Df_filter("unpreconditioned", unprecond),
-                        )
+                for log in ["", "both"]:
+                    for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
+                        for y in ["TimeStep", "SolveP"]:
+                            plotter(
+                                x=x,
+                                y=y,
+                                color=c,
+                                style="solver_p",
+                                post_pro_dir=post_pro_dir,
+                                postfix="_vs_comparisson",
+                                plot_type="line",
+                                col="Host",
+                                log=log,
+                                df=df_rel,
+                                df_filter=Df_filter("unpreconditioned", unprecond),
+                            )
     except:
         pass
 
