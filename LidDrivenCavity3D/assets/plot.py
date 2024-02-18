@@ -163,13 +163,13 @@ def generate_base(node_based=False):
             ],
             "base": base_hkn,
         },
-    ]
         {
             "case": [
                 eph.helpers.DFQuery(idx="Host", val="i20"),
             ],
             "base": base_smuc,
         },
+    ]
 
 
 def compute_fvops(df):
