@@ -174,7 +174,7 @@ def generate_base(node_based=False):
 def compute_fvops(df):
     """this function computes fvops"""
     df["fvOpsTimeStep"] = df["nCells"] / df["TimeStep"] * 1000.
-    df["fvOpsTimeSolveP"] = df["nCells"] / df["SolveP"] * 1000.
+    df["fvOpsSolveP"] = df["nCells"] / df["SolveP"] * 1000.
     return df
 
 def compute_fvops_piter(df):
