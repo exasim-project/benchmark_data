@@ -235,15 +235,15 @@ def compute_gpu_mapping(df):
     set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
     set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76, "gpu": 4})
     set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112, "gpu": 4})
-    df["deviceRankOverSubcription"] = df["nProcs"] / df["deviceRanks"]
+    df["deviceRankOverSubcription"] =  df["deviceRanks"] / df["nProcs"]
     return df
 
 
 def unprecond_rank_range(df):
     mapping = np.logical_and(
         df["preconditioner"] == "none",
-        df["deviceRankOverSubcription"] >= 1,
-        df["deviceRankOverSubcription"] < 12,
+        df["deviceRankOverSubcription"] >= 1.,
+        df["deviceRankOverSubcription"] <= 12.,
     )
     return df[mapping]
 
