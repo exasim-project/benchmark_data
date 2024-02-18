@@ -234,11 +234,12 @@ def main(campaign, comparisson=None):
             ),
         ),
     ]:
-        for x, c in [
-            ("nCells", "nProcs"),
-            ("nProcs", "nCells"),
-            ("nNodes", "nCells"),
-            ("nCellsPerRank", "nCells"),
+        for x, c, h in [
+            ("nCells", "nProcs", "Host"),
+            ("nProcs", "nCells", "Host"),
+            ("nNodes", "nCells", "Host"),
+            ("nCellsPerRank", "nCells", "Host"),
+            ("nCells", "Host", "solver"),
         ]:
             try:
                 for log in ["", "both"]:
@@ -257,7 +258,7 @@ def main(campaign, comparisson=None):
                             style="solver_p",
                             post_pro_dir=post_pro_dir,
                             plot_type="line",
-                            col="Host",
+                            col=h,
                             log=log,
                             df=df,
                             df_filter=filt,
