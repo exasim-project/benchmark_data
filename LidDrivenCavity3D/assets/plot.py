@@ -261,7 +261,7 @@ def main(campaign, comparisson=None):
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
     for filt in [
-        Df_filter("unpreconditioned", unprecond),
+        Df_filter("unpreconditioned", unprecond_rank_range),
         Df_filter(
             "unpreconditioned/speedup",
             lambda df: compute_speedup(df, generate_base(node_based=False), unprecond),
