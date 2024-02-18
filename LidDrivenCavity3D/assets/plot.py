@@ -243,7 +243,6 @@ def unprecond_rank_range(df):
     mapping = np.logical_and(
         df["preconditioner"] == "none",
         df["deviceRankOverSubcription"] >= 0.9,
-        df["deviceRankOverSubcription"] <= 12.,
     )
     return df[mapping]
 
