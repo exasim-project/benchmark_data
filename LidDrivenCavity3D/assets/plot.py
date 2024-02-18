@@ -221,7 +221,7 @@ def compute_cloud_cost(df):
 
 def compute_gpu_mapping(df):
     """this function computes the nCPU/nGPU mapping"""
-    df["deviceRankOverSubcription"] = 0
+    df["deviceRankOverSubscription"] = 0
 
     def set_compute_cost(df, host, costs):
         executor = costs["executor"]
@@ -235,15 +235,18 @@ def compute_gpu_mapping(df):
     set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
     set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76, "gpu": 4})
     set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112, "gpu": 4})
-    df["deviceRankOverSubcription"] =  df["nProcs"] /df["deviceRanks"]
+    df["deviceRankOverSubscription"] =  df["nProcs"] /df["deviceRanks"]
     return df
 
 
 def unprecond_rank_range(df):
     mapping = np.logical_and(
         df["preconditioner"] == "none",
-        df["deviceRankOverSubcription"] >= 0.9,
-        df["deviceRankOverSubcription"] < 10,
+        df["deviceRankOverSubscription"] >= 0.9,
+    )
+    mapping = np.locical_and(
+            mapping,
+            df["deviceRankOverSubscription"] < 10,
     )
     return df[mapping]
 
@@ -284,8 +287,8 @@ def main(campaign, comparisson=None):
             ("nCells", "nProcs", "Host"),
             ("nProcs", "nCells", "Host"),
             ("nNodes", "nCells", "Host"),
-            ("nCells", "deviceRankOverSubcription", "Host"),
-            ("deviceRankOverSubcription", "nCells", "Host"),
+            ("nCells", "deviceRankOverSubscription", "Host"),
+            ("deviceRankOverSubscription", "nCells", "Host"),
             ("nCellsPerRank", "nCells", "Host"),
             ("nCells", "Host", "solver_p"),
         ]:
