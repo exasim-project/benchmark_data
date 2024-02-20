@@ -120,7 +120,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     # extra things that need to match when doing the division
     if node_based:
         indices = [q.idx for q in bases[0]["base"]]
-        indices += ["nNodes", "deviceRankOverSubscription"]
+        indices += ["nNodes"]
         exclude = None
     else:
         indices = [q.idx for q in bases[0]["base"]]
