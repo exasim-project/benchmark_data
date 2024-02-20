@@ -178,11 +178,11 @@ def generate_base(node_based=False):
        #    "base": base_nla,
        #},
         {
-            "case": case_hkn 
+            "case": case_hkn, 
             "base": base_hkn,
         },
         {
-            "case": case_smuc 
+            "case": case_smuc, 
             "base": base_smuc,
         },
     ]
