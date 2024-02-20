@@ -101,6 +101,7 @@ class Df_filter:
 
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
+    print("compute speedup")
     df = df[df["host"] != "nla"] 
     # check if bases vals are in df
     bases_clean = []
@@ -127,11 +128,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
     ).reset_index()
 
-    if speedup_df.empty():
-        print(f"Computing speedup produced empty dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
-
-    if node_based:
-        print(speedup_df)
+    print(f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
 
     return speedup_df[speedup_df["executor"] != "CPU"]
 
