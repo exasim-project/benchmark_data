@@ -251,7 +251,7 @@ def compute_gpu_mapping(df):
     # set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
     set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76, "gpu": 4})
     set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112, "gpu": 4})
-    df["deviceRankOverSubscription"] = df["nProcs"] / df["deviceRanks"]
+    df["deviceRankOverSubscription"] = (df["nProcs"] /df['nNodes']) / df["deviceRanks"]
     return df
 
 
