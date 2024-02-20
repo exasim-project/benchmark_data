@@ -101,6 +101,7 @@ class Df_filter:
 
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
+    df = df[df["host"] != "nla"] 
     # check if bases vals are in df
     bases_clean = []
     for record in bases:
@@ -110,7 +111,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
             bases_clean.append(record)
     bases = bases_clean
 
-    # things that need to match
+    # extra things that need to match when doing the division
     if node_based:
         indices = [q.idx for q in bases[0]["base"]]
         indices += ["nNodes"]
@@ -148,17 +149,17 @@ def generate_base(node_based=False):
     base_smuc = deepcopy(base_)
 
     if not node_based:
-        base_nla.append(eph.helpers.DFQuery(idx="nProcs", val=32))
+        #base_nla.append(eph.helpers.DFQuery(idx="nProcs", val=32))
         base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
         base_smuc.append(eph.helpers.DFQuery(idx="nProcs", val=112))
 
     return [
-        {
-            "case": [
-                eph.helpers.DFQuery(idx="Host", val="nla"),
-            ],
-            "base": base_nla,
-        },
+       #{
+       #    "case": [
+       #        eph.helpers.DFQuery(idx="Host", val="nla"),
+       #    ],
+       #    "base": base_nla,
+       #},
         {
             "case": [
                 eph.helpers.DFQuery(idx="Host", val="hkn"),
@@ -209,7 +210,7 @@ def compute_cloud_cost(df):
         df.loc[mapping_cpu, "CostPerHourCloud"] = cpu_cost
         df.loc[mapping_gpu, "CostPerHourCloud"] = gpu_cost + cpu_cost
 
-    set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32 * 0.08, "gpu": 8 * 3.4})
+    # set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32 * 0.08, "gpu": 8 * 3.4})
     set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76 * 0.1, "gpu": 4 * 3.4})
     set_compute_cost(
         df, "i20", {"executor": "dpcpp", "cpu": 112 * 0.11, "gpu": 4 * 3.4}
@@ -233,7 +234,7 @@ def compute_gpu_mapping(df):
         df.loc[mapping_cpu, "deviceRanks"] = cpus
         df.loc[mapping_gpu, "deviceRanks"] = gpus
 
-    set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
+    # set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
     set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76, "gpu": 4})
     set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112, "gpu": 4})
     df["deviceRankOverSubscription"] = df["nProcs"] / df["deviceRanks"]
