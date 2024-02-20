@@ -315,7 +315,7 @@ def main(campaign, comparisson=None):
                             df_filter=filt,
                         )
                     except Exception as e:
-                        print(f"Failure plotting x:{x}, y:{y}, h:{h}", e)
+                        print(f"Failure plotting filter {filt.name} x:{x}, y:{y}, h:{h}", e)
 
     # comparisson against other results
     try:
