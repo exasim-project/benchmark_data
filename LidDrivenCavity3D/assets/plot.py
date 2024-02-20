@@ -43,7 +43,7 @@ def plotter(
     name = f"{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}_log={log}"
     script_name = name + ".py"
 
-    script_dir = post_pro_dir / df_filter.name / "scripts"
+    script_dir = post_pro_dir / filter_name / "scripts"
     script_dir.mkdir(parents=True, exist_ok=True)
     plot_dir = post_pro_dir / filter_name / y
     plot_dir.mkdir(parents=True, exist_ok=True)
