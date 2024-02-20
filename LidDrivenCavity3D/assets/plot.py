@@ -292,7 +292,7 @@ def main(campaign, comparisson=None):
             ("nCells", "Host", "solver_p"),
         ]:
             try:
-                for log in ["", "both"]:
+                for log in ["", "x", "both"]:
                     for y in [
                         "TimeStep",
                         "SolveP",
