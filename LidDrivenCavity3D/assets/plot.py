@@ -136,6 +136,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     if speedup_df.empty:
         print(f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
 
+    return speedup_df
     return speedup_df[speedup_df["executor"] != "CPU"]
 
 
