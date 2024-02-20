@@ -32,7 +32,7 @@ def plotter(
     color,
     style,
     df,
-    df_filter,
+    filter_name,
     post_pro_dir,
     postfix="",
     size=None,
@@ -40,14 +40,12 @@ def plotter(
     log="",
     plot_type="line",
 ):
-    if df.empty:
-        logging.warning("Dataframe empty after filter")
     name = f"{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}_log={log}"
     script_name = name + ".py"
 
     script_dir = post_pro_dir / df_filter.name / "scripts"
     script_dir.mkdir(parents=True, exist_ok=True)
-    plot_dir = post_pro_dir / df_filter.name / y
+    plot_dir = post_pro_dir / filter_name / y
     plot_dir.mkdir(parents=True, exist_ok=True)
 
     with open(script_dir / script_name, "w") as script:
@@ -298,7 +296,7 @@ def main(campaign, comparisson=None):
             ),
         ),
     ]:
-        df = filt(df)
+        df_filtered = filt(df)
         for x, c, h in [
             ("nCells", "nProcs", "Host"),
             ("nProcs", "nCells", "Host"),
@@ -328,8 +326,8 @@ def main(campaign, comparisson=None):
                             plot_type="line",
                             col=h,
                             log=log,
-                            df=df,
-                            df_filter=filt,
+                            df=df_filtered,
+                            filter_name=filt.name,
                         )
                     except Exception as e:
                         print(f"Failure plotting filter {filt.name} x:{x}, y:{y}, h:{h}", e)
