@@ -100,7 +100,8 @@ class Df_filter:
 
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
-    df = df[df["Host"] != "nla"] 
+    # df = df[df["Host"] != "nla"] 
+
 
     # check if bases vals are in df
     bases_clean = []
@@ -159,8 +160,8 @@ def generate_base(node_based=False):
 
     if node_based:
         # to compute the speedup per node consider case with 2CPUs per GPU
-        base_hkn.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=8))
-        base_smuc.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=8))
+        base_hkn.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=2))
+        base_smuc.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=2))
 
     return [
        #{
