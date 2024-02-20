@@ -101,9 +101,12 @@ class Df_filter:
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     # df = df[df["Host"] != "nla"] 
+    df = deepcopy(extra_filter(df))
 
+    # check if bases vals are actually in df
+    # this is required since the basis values are used to compute the speedup
+    # if the basis values are not present computing speedpu will fail
 
-    # check if bases vals are in df
     #  bases_clean = []
     #  for record in bases:
     #      base = record["base"]
@@ -126,7 +129,6 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         exclude = ["nNodes"]
     indices += ["nCells", "Host"]
 
-    df_copy = deepcopy(extra_filter(df))
     df_copy_set_idx = df_copy.set_index(keys=indices)
     speedup_df = eph.helpers.compute_speedup(
             df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
@@ -281,22 +283,21 @@ def main(campaign, comparisson=None):
         Df_filter("unpreconditioned", unprecond_rank_range),
         Df_filter(
             "unpreconditioned/speedup",
-            lambda df: compute_speedup(df, generate_base(node_based=False), unprecond),
+            func = lambda df: compute_speedup(df, generate_base(node_based=False), extra_filter = unprecond),
         ),
         Df_filter(
             "unpreconditioned_rank_range/speedup",
-            lambda df: compute_speedup(
-                df, generate_base(node_based=False), unprecond_rank_range
+            func = lambda df: compute_speedup(
+                df, generate_base(node_based=False), extra_filter =  unprecond
             ),
         ),
         Df_filter(
             "unpreconditioned/speedup_nNodes",
-            lambda df: compute_speedup(
-                df, generate_base(node_based=True), unprecond, node_based=True
+            func =lambda df: compute_speedup(
+                df, generate_base(node_based=True), extra_filter = unprecond, node_based=True
             ),
         ),
     ]:
-        print(filt.name)
         df = filt(df)
         for x, c, h in [
             ("nCells", "nProcs", "Host"),
