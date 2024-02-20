@@ -111,6 +111,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
             bases_clean.append(record)
     if not bases_clean:
         print(f"failed generating clean bases {bases} for {df}")
+        return df
     bases = bases_clean
 
     # extra things that need to match when doing the division
