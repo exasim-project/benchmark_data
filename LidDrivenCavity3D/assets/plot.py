@@ -262,6 +262,7 @@ def unprecond_rank_range(df):
     )
 
     df = df[mapping]
+    print(df.to_string())
     return df[df["deviceRankOverSubscription"] < 10]
 
 
