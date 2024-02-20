@@ -291,17 +291,17 @@ def main(campaign, comparisson=None):
             ("nCellsPerRank", "nCells", "Host"),
             ("nCells", "Host", "solver_p"),
         ]:
-            try:
-                for log in ["", "x", "both"]:
-                    for y in [
-                        "TimeStep",
-                        "SolveP",
-                        "fvOpsTimeStep",
-                        "fvOpsSolveP",
-                        "fvOpsPIterTimeStep",
-                        "fvOpsPIterSolveP",
-                        "CostPerTimeStepCloud",
-                    ]:
+            for log in ["", "x", "both"]:
+                for y in [
+                    "TimeStep",
+                    "SolveP",
+                    "fvOpsTimeStep",
+                    "fvOpsSolveP",
+                    "fvOpsPIterTimeStep",
+                    "fvOpsPIterSolveP",
+                    "CostPerTimeStepCloud",
+                ]:
+                    try:
                         plotter(
                             x=x,
                             y=y,
@@ -314,8 +314,8 @@ def main(campaign, comparisson=None):
                             df=df,
                             df_filter=filt,
                         )
-            except Exception as e:
-                print(e)
+                    except Exception as e:
+                        print(f"Failure plotting x:{x}, y:{y}, h:{h}", e)
 
     # comparisson against other results
     try:
