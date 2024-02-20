@@ -127,6 +127,9 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
     ).reset_index()
 
+    if speedup_df.empty():
+        print(f"Computing speedup produced empty dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
+
     return speedup_df[speedup_df["executor"] != "CPU"]
 
 
@@ -138,7 +141,6 @@ def generate_base(node_based=False):
         a list case and base case queries
     """
 
-    # TODO this needs to know nProcs beforehand
     base_ = [
         eph.helpers.DFQuery(idx="preconditioner", val="none"),
         eph.helpers.DFQuery(idx="executor", val="CPU"),
