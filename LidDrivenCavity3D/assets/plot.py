@@ -136,9 +136,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     if speedup_df.empty:
         print(f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
 
-    df = compute_parallel_eficency(df)
-
-    return speedup_df[speedup_df["executor"] != "CPU"]
+    return compute_parallel_efficency(speedup_df[speedup_df["executor"] != "CPU"])
 
 
 def generate_base(node_based=False):
@@ -257,7 +255,7 @@ def compute_gpu_mapping(df):
     return df
 
 
-def compute_parallel_eficency(df):
+def compute_parallel_efficency(df):
     df["parallelEffiencyTimestep"] = df["TimeStep"]/ df['nNodes']
     df["parallelEffiencySolveP"] = df["SolveP"]/ df['nNodes']
     return df
