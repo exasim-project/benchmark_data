@@ -106,7 +106,6 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     # check if bases vals are actually in df
     # this is required since the basis values are used to compute the speedup
     # if the basis values are not present computing speedpu will fail
-
     bases_clean = []
     for record in bases:
         base = record["base"]
@@ -130,7 +129,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         exclude = ["nNodes"]
     indices += ["nCells", "Host"]
 
-    df_copy_set_idx = df_copy.set_index(keys=indices)
+    df_copy_set_idx = df.set_index(keys=indices)
     speedup_df = eph.helpers.compute_speedup(
             df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
         ).reset_index()
