@@ -280,18 +280,18 @@ def main(campaign, comparisson=None):
         Df_filter("unpreconditioned", unprecond_rank_range),
         Df_filter(
             "unpreconditioned/speedup",
-            func = lambda df: compute_speedup(df, generate_base(node_based=False), extra_filter = unprecond),
+            func = lambda df_: compute_speedup(df_, generate_base(node_based=False), extra_filter = unprecond),
         ),
         Df_filter(
             "unpreconditioned_rank_range/speedup",
-            func = lambda df: compute_speedup(
-                df, generate_base(node_based=False), extra_filter =  unprecond_rank_range
+            func = lambda df_: compute_speedup(
+                df_, generate_base(node_based=False), extra_filter =  unprecond_rank_range
             ),
         ),
         Df_filter(
             "unpreconditioned/speedup_nNodes",
-            func =lambda df: compute_speedup(
-                df, generate_base(node_based=True), extra_filter = unprecond, node_based=True
+            func = lambda df_: compute_speedup(
+                df_, generate_base(node_based=True), extra_filter = unprecond, node_based=True
             ),
         ),
     ]:
