@@ -136,7 +136,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     if speedup_df.empty:
         print(f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
 
-    compute_parallel_eficency(df)
+    df = compute_parallel_eficency(df)
 
     return speedup_df[speedup_df["executor"] != "CPU"]
 
@@ -258,8 +258,8 @@ def compute_gpu_mapping(df):
 
 
 def compute_parallel_eficency(df):
-    df["parallel_effiency_timestep"] = df["TimeStep"]/ df['nNodes']
-    df["parallel_effiency_solve_p"] = df["SolveP"]/ df['nNodes']
+    df["parallelEffiencyTimestep"] = df["TimeStep"]/ df['nNodes']
+    df["parallelEffiencySolveP"] = df["SolveP"]/ df['nNodes']
     return df
 
 def unprecond_rank_range(df):
@@ -318,8 +318,8 @@ def main(campaign, comparisson=None):
                     "fvOpsPIterTimeStep",
                     "fvOpsPIterSolveP",
                     "CostPerTimeStepCloud",
-                    "parallel_effiency_timestep",
-                    "parallel_effiency_solve_p",
+                    "parallelEffiencyTimestep",
+                    "parallelEffiencySolveP",
                 ]:
                     try:
                         plotter(
