@@ -124,9 +124,12 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
 
     df_copy = deepcopy(extra_filter(df))
     df_copy_set_idx = df_copy.set_index(keys=indices)
-    speedup_df = eph.helpers.compute_speedup(
-        df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
-    ).reset_index()
+    try:
+        speedup_df = eph.helpers.compute_speedup(
+            df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
+        ).reset_index()
+    except Exception as e:
+        print(f"failed to compute speedup {e}")
 
     print(f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
 
@@ -271,6 +274,7 @@ def main(campaign, comparisson=None):
     df = compute_gpu_mapping(df)
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
+    # NOTE currently this computes speedup over and over
     for filt in [
         Df_filter("unpreconditioned", unprecond_rank_range),
         Df_filter(
