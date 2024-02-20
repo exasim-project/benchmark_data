@@ -101,11 +101,11 @@ class Df_filter:
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     # df = df[df["Host"] != "nla"] 
-    df = deepcopy(extra_filter(df))
+    df = extra_filter(df)
 
     # check if bases vals are actually in df
     # this is required since the basis values are used to compute the speedup
-    # if the basis values are not present computing speedpu will fail
+    # if the basis values are not present computing speedup will fail
     bases_clean = []
     for record in bases:
         base = record["base"]
@@ -115,7 +115,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         if keep:
             bases_clean.append(record)
     if not bases_clean:
-        error = (f"failed generating clean bases {bases} for {df}")
+        error = (f"failed generating clean bases {bases} for {df.to_string()}")
         raise AssertionError(error)
     bases = bases_clean
 
@@ -162,10 +162,13 @@ def generate_base(node_based=False):
         base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
         base_smuc.append(eph.helpers.DFQuery(idx="nProcs", val=112))
 
+    case_hkn = [  eph.helpers.DFQuery(idx="Host", val="hkn")] 
+    case_smuc = [  eph.helpers.DFQuery(idx="Host", val="i20")] 
+
+    # to compute the speedup per node consider the selected  case has  with 2CPUs per GPU
     if node_based:
-        # to compute the speedup per node consider case with 2CPUs per GPU
-        base_hkn.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=2))
-        base_smuc.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=2))
+        case_hkn.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=2))
+        case_smuc.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=2))
 
     return [
        #{
@@ -175,15 +178,11 @@ def generate_base(node_based=False):
        #    "base": base_nla,
        #},
         {
-            "case": [
-                eph.helpers.DFQuery(idx="Host", val="hkn"),
-            ],
+            "case": case_hkn 
             "base": base_hkn,
         },
         {
-            "case": [
-                eph.helpers.DFQuery(idx="Host", val="i20"),
-            ],
+            "case": case_smuc 
             "base": base_smuc,
         },
     ]
@@ -279,7 +278,6 @@ def main(campaign, comparisson=None):
     df = compute_gpu_mapping(df)
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
-    # NOTE currently this computes speedup over and over
     for filt in [
         Df_filter("unpreconditioned", unprecond_rank_range),
         Df_filter(
