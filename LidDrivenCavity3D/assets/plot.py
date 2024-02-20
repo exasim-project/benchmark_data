@@ -96,6 +96,7 @@ class Df_filter:
         self.func = func
 
     def __call__(self, df):
+        print(f"call {self.name}")
         return self.func(deepcopy(df))
 
 
@@ -109,8 +110,6 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     bases_clean = []
     for record in bases:
         base = record["base"]
-        for query in base:
-            print(query.val, query.idx, df[query.idx].values)
         keep = all([query.val in df[query.idx].values for query in base])
         if keep:
             bases_clean.append(record)
@@ -162,8 +161,8 @@ def generate_base(node_based=False):
         base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
         base_smuc.append(eph.helpers.DFQuery(idx="nProcs", val=112))
 
-    case_hkn = [  eph.helpers.DFQuery(idx="Host", val="hkn")] 
-    case_smuc = [  eph.helpers.DFQuery(idx="Host", val="i20")] 
+    case_hkn = [eph.helpers.DFQuery(idx="Host", val="hkn")] 
+    case_smuc = [eph.helpers.DFQuery(idx="Host", val="i20")] 
 
     # to compute the speedup per node consider the selected  case has  with 2CPUs per GPU
     if node_based:
@@ -261,7 +260,6 @@ def unprecond_rank_range(df):
     )
 
     df = df[mapping]
-    print("unprecond_rank_range", df.to_string())
     return df[df["deviceRankOverSubscription"] < 10]
 
 
@@ -287,7 +285,7 @@ def main(campaign, comparisson=None):
         Df_filter(
             "unpreconditioned_rank_range/speedup",
             func = lambda df: compute_speedup(
-                df, generate_base(node_based=False), extra_filter =  unprecond
+                df, generate_base(node_based=False), extra_filter =  unprecond_rank_range
             ),
         ),
         Df_filter(
