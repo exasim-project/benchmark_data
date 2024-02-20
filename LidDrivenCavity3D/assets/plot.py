@@ -107,12 +107,13 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     bases_clean = []
     for record in bases:
         base = record["base"]
+        for query in base:
+            print(query.val, query.idx, df[query.idx].values)
         keep = all([query.val in df[query.idx].values for query in base])
         if keep:
             bases_clean.append(record)
     if not bases_clean:
         print(f"failed generating clean bases {bases} for {df}")
-        return df
     bases = bases_clean
 
     # extra things that need to match when doing the division
@@ -131,7 +132,8 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
             df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
         ).reset_index()
 
-    print(f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
+    if speedup_df.empty:
+        print(f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
 
     return speedup_df[speedup_df["executor"] != "CPU"]
 
