@@ -104,17 +104,17 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
 
 
     # check if bases vals are in df
-    bases_clean = []
-    for record in bases:
-        base = record["base"]
-        for query in base:
-            print(query.val, query.idx, df[query.idx].values)
-        keep = all([query.val in df[query.idx].values for query in base])
-        if keep:
-            bases_clean.append(record)
-    if not bases_clean:
-        print(f"failed generating clean bases {bases} for {df}")
-    bases = bases_clean
+    #  bases_clean = []
+    #  for record in bases:
+    #      base = record["base"]
+    #      for query in base:
+    #          print(query.val, query.idx, df[query.idx].values)
+    #      keep = all([query.val in df[query.idx].values for query in base])
+    #      if keep:
+    #          bases_clean.append(record)
+    #  if not bases_clean:
+    #      print(f"failed generating clean bases {bases} for {df}")
+    #  bases = bases_clean
 
     # extra things that need to match when doing the division
     if node_based:
