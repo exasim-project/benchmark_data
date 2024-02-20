@@ -155,6 +155,11 @@ def generate_base(node_based=False):
         base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
         base_smuc.append(eph.helpers.DFQuery(idx="nProcs", val=112))
 
+    if node_based:
+        # to compute the speedup per node consider case with 2CPUs per GPU
+        base_hkn.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=8))
+        base_smuc.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=8))
+
     return [
        #{
        #    "case": [
