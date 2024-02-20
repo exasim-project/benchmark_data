@@ -101,6 +101,7 @@ class Df_filter:
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     df = df[df["Host"] != "nla"] 
+
     # check if bases vals are in df
     bases_clean = []
     for record in bases:
@@ -108,6 +109,8 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         keep = all([query.val in df[query.idx].values for query in base])
         if keep:
             bases_clean.append(record)
+    if not bases_clean:
+        print("failed generating clean bases {bases} for {df}"
     bases = bases_clean
 
     # extra things that need to match when doing the division
@@ -289,6 +292,7 @@ def main(campaign, comparisson=None):
             ),
         ),
     ]:
+        print(filt.name)
         df = filt(df)
         for x, c, h in [
             ("nCells", "nProcs", "Host"),
