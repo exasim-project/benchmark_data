@@ -124,8 +124,8 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         exclude = None
     else:
         indices = [q.idx for q in bases[0]["base"]]
-        # dont normalize nNodes
-        exclude = ["nNodes"]
+        # dont normalize nNodes, or the deviceRankOverSubscription
+        exclude = ["nNodes", "deviceRankOverSubscription"]
     indices += ["nCells", "Host"]
 
     df_copy_set_idx = df.set_index(keys=indices)
@@ -256,6 +256,7 @@ def compute_gpu_mapping(df):
 
 
 def unprecond_rank_range(df):
+    """ dont show all oversubscription results"""
     mapping = np.logical_and(
         df["preconditioner"] == "none",
         df["deviceRankOverSubscription"] >= 0.9,
@@ -282,13 +283,7 @@ def main(campaign, comparisson=None):
         Df_filter("unpreconditioned", unprecond_rank_range),
         Df_filter(
             "unpreconditioned/speedup",
-            func = lambda df_: compute_speedup(df_, generate_base(node_based=False), extra_filter = unprecond),
-        ),
-        Df_filter(
-            "unpreconditioned_rank_range/speedup",
-            func = lambda df_: compute_speedup(
-                df_, generate_base(node_based=False), extra_filter = unprecond_rank_range
-            ),
+            func = lambda df_: compute_speedup(df_, generate_base(node_based=False), extra_filter = unprecond_rank_range),
         ),
         Df_filter(
             "unpreconditioned/speedup_nNodes",
