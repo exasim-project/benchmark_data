@@ -40,7 +40,6 @@ def plotter(
     log="",
     plot_type="line",
 ):
-    df = df_filter(df)
     if df.empty:
         logging.warning("Dataframe empty after filter")
     name = f"{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}_log={log}"
@@ -101,8 +100,7 @@ class Df_filter:
 
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
-    print("compute speedup")
-    df = df[df["host"] != "nla"] 
+    df = df[df["Host"] != "nla"] 
     # check if bases vals are in df
     bases_clean = []
     for record in bases:
@@ -124,12 +122,9 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
 
     df_copy = deepcopy(extra_filter(df))
     df_copy_set_idx = df_copy.set_index(keys=indices)
-    try:
-        speedup_df = eph.helpers.compute_speedup(
+    speedup_df = eph.helpers.compute_speedup(
             df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
         ).reset_index()
-    except Exception as e:
-        print(f"failed to compute speedup {e}")
 
     print(f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
 
@@ -294,6 +289,7 @@ def main(campaign, comparisson=None):
             ),
         ),
     ]:
+        df = filt(df)
         for x, c, h in [
             ("nCells", "nProcs", "Host"),
             ("nProcs", "nCells", "Host"),
