@@ -1,9 +1,13 @@
 import sys
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
 import exasim_plot_helpers as eph
 import logging
+import warnings
+
+warnings.filterwarnings("ignore")
 
 from pathlib import Path
 from copy import deepcopy
@@ -33,21 +37,22 @@ def plotter(
     postfix="",
     size=None,
     col=None,
-    log=None,
+    log="",
     plot_type="line",
 ):
     df = df_filter(df)
     if df.empty:
         logging.warning("Dataframe empty after filter")
-    name = f"{df_filter.name}_{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}"
+    name = f"{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}_log={log}"
     script_name = name + ".py"
 
-    script_dir = post_pro_dir / "scripts" 
+    script_dir = post_pro_dir / df_filter.name / "scripts"
     script_dir.mkdir(parents=True, exist_ok=True)
+    plot_dir = post_pro_dir / df_filter.name / y
+    plot_dir.mkdir(parents=True, exist_ok=True)
 
     with open(script_dir / script_name, "w") as script:
         script.write(plot_script().format(df.to_json()))
-
 
     relplot = sb.relplot(
         x=x,
@@ -67,25 +72,22 @@ def plotter(
     if log == "x":
         plt.xscale("log")
     fig_name = name + ".png"
-    plt.savefig(post_pro_dir / fig_name)
+    plt.savefig(plot_dir / fig_name)
 
 
 def col_divide(df_orig, df_comparisson):
     ret = deepcopy(df_orig).set_index("jobid")
     df_orig = df_orig.set_index("jobid")
     df_comparisson = df_comparisson.set_index("jobid")
+    # dont normalize nCells, nProcs, or deviceRankOverSubscription
     for c in df_orig.columns:
-        if c == "nCells" or c == "nProcs":
+        if c == "nCells" or c == "nProcs" or c == "deviceRankOverSubscription":
             continue
         try:
-            print(
-                f"c: {c} ret[c] {df_comparisson[c] / df_orig[c]}  comp:  {df_comparisson[c]} orig: {df_orig[c]}"
-            )
             ret[c] = df_comparisson[c] / df_orig[c]
         except Exception as e:
             print(e, c)
             pass
-    print(f"df[TimeStep] {ret['TimeStep']}")
     return ret
 
 
@@ -106,7 +108,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         keep = all([query.val in df[query.idx].values for query in base])
         if keep:
             bases_clean.append(record)
-    bases=bases_clean
+    bases = bases_clean
 
     # things that need to match
     if node_based:
@@ -136,49 +138,116 @@ def generate_base(node_based=False):
     """
 
     # TODO this needs to know nProcs beforehand
-    base_nla = [
+    base_ = [
         eph.helpers.DFQuery(idx="preconditioner", val="none"),
         eph.helpers.DFQuery(idx="executor", val="CPU"),
     ]
 
-    base_hkn = [
-            eph.helpers.DFQuery(idx="preconditioner", val="none"),
-            eph.helpers.DFQuery(idx="executor", val="CPU"),
-        ]
+    base_nla = deepcopy(base_)
+    base_hkn = deepcopy(base_)
+    base_smuc = deepcopy(base_)
+
     if not node_based:
         base_nla.append(eph.helpers.DFQuery(idx="nProcs", val=32))
         base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
+        base_smuc.append(eph.helpers.DFQuery(idx="nProcs", val=112))
 
     return [
-        # {
-        #     "case": [
-        #         eph.helpers.DFQuery(idx="Host", val="nla"),
-        #     ],
-        #     "base": base_nla,
-        # },
+        {
+            "case": [
+                eph.helpers.DFQuery(idx="Host", val="nla"),
+            ],
+            "base": base_nla,
+        },
         {
             "case": [
                 eph.helpers.DFQuery(idx="Host", val="hkn"),
             ],
             "base": base_hkn,
         },
+        {
+            "case": [
+                eph.helpers.DFQuery(idx="Host", val="i20"),
+            ],
+            "base": base_smuc,
+        },
     ]
 
 
 def compute_fvops(df):
     """this function computes fvops"""
-    df["fvOps"] = df["nCells"] / df["TimeStep"] * 1000.
+    df["fvOpsTimeStep"] = df["nCells"] / df["TimeStep"] * 1000.0
+    df["fvOpsSolveP"] = df["nCells"] / df["SolveP"] * 1000.0
     return df
+
 
 def compute_fvops_piter(df):
     """this function computes nCellsPerCU"""
-    df["fvOpsPIter"] = df["nCells"] / df["TimeStep"] * 1000 / df["p_NoIterations"]
+    df["fvOpsPIterTimeStep"] = (
+        (df["nCells"] * df["p_NoIterations"]) / df["TimeStep"] * 1000
+    )
+    df["fvOpsPIterSolveP"] = (df["nCells"] * df["p_NoIterations"]) / df["SolveP"] * 1000
     return df
+
 
 def compute_nCellsPerCU(df):
     """this function computes nCellsPerCU"""
     df["nCellsPerRank"] = df["nCells"] / df["nProcs"]
     return df
+
+
+def compute_cloud_cost(df):
+    """this function computes the cost to compute a timestep based on aws costs"""
+    df["CostPerHourCloud"] = 0
+
+    def set_compute_cost(df, host, costs):
+        executor = costs["executor"]
+        cpu_cost = costs["cpu"]
+        gpu_cost = costs["gpu"]
+        mapping_cpu = np.logical_and(df["Host"] == host, df["executor"] == "CPU")
+        mapping_gpu = np.logical_and(df["Host"] == host, df["executor"] == executor)
+        df.loc[mapping_cpu, "CostPerHourCloud"] = cpu_cost
+        df.loc[mapping_gpu, "CostPerHourCloud"] = gpu_cost + cpu_cost
+
+    set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32 * 0.08, "gpu": 8 * 3.4})
+    set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76 * 0.1, "gpu": 4 * 3.4})
+    set_compute_cost(
+        df, "i20", {"executor": "dpcpp", "cpu": 112 * 0.11, "gpu": 4 * 3.4}
+    )
+    df["CostPerTimeStepCloud"] = (df["CostPerHourCloud"] / 3600.0) * (
+        df["TimeStep"] / 1000.0
+    )
+    return df
+
+
+def compute_gpu_mapping(df):
+    """this function computes the nCPU/nGPU mapping"""
+    df["deviceRankOverSubscription"] = 0
+
+    def set_compute_cost(df, host, costs):
+        executor = costs["executor"]
+        cpus = costs["cpu"]
+        gpus = costs["gpu"]
+        mapping_cpu = np.logical_and(df["Host"] == host, df["executor"] == "CPU")
+        mapping_gpu = np.logical_and(df["Host"] == host, df["executor"] == executor)
+        df.loc[mapping_cpu, "deviceRanks"] = cpus
+        df.loc[mapping_gpu, "deviceRanks"] = gpus
+
+    set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
+    set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76, "gpu": 4})
+    set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112, "gpu": 4})
+    df["deviceRankOverSubscription"] = df["nProcs"] / df["deviceRanks"]
+    return df
+
+
+def unprecond_rank_range(df):
+    mapping = np.logical_and(
+        df["preconditioner"] == "none",
+        df["deviceRankOverSubscription"] >= 0.9,
+    )
+
+    df = df[mapping]
+    return df[df["deviceRankOverSubscription"] < 10]
 
 
 def main(campaign, comparisson=None):
@@ -190,41 +259,61 @@ def main(campaign, comparisson=None):
     df = compute_fvops(df)
     df = compute_fvops_piter(df)
     df = compute_nCellsPerCU(df)
+    df = compute_cloud_cost(df)
+    df = compute_gpu_mapping(df)
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
     for filt in [
-        Df_filter("unpreconditioned", unprecond),
+        Df_filter("unpreconditioned", unprecond_rank_range),
         Df_filter(
-            "unprecond_speedup",
+            "unpreconditioned/speedup",
             lambda df: compute_speedup(df, generate_base(node_based=False), unprecond),
         ),
         Df_filter(
-            "unprecond_speedup_nNodes",
+            "unpreconditioned_rank_range/speedup",
+            lambda df: compute_speedup(
+                df, generate_base(node_based=False), unprecond_rank_range
+            ),
+        ),
+        Df_filter(
+            "unpreconditioned/speedup_nNodes",
             lambda df: compute_speedup(
                 df, generate_base(node_based=True), unprecond, node_based=True
             ),
         ),
     ]:
-        for x, c in [
-            ("nCells", "nProcs"),
-            ("nProcs", "nCells"),
-            ("nNodes", "nCells"),
-            ("nCellsPerRank", "nCells"),
+        for x, c, h in [
+            ("nCells", "nProcs", "Host"),
+            ("nProcs", "nCells", "Host"),
+            ("nNodes", "nCells", "Host"),
+            ("nCells", "deviceRankOverSubscription", "Host"),
+            ("deviceRankOverSubscription", "nCells", "Host"),
+            ("nCellsPerRank", "nCells", "Host"),
+            ("nCells", "Host", "solver_p"),
         ]:
             try:
-                for y in ["TimeStep", "SolveP", "fvOps", "fvOpsPIter"]:
-                    plotter(
-                        x=x,
-                        y=y,
-                        color=c,
-                        style="solver_p",
-                        post_pro_dir=post_pro_dir,
-                        plot_type="line",
-                        col="Host",
-                        log=True,
-                        df=df,
-                        df_filter=filt,
-                    )
+                for log in ["", "x", "both"]:
+                    for y in [
+                        "TimeStep",
+                        "SolveP",
+                        "fvOpsTimeStep",
+                        "fvOpsSolveP",
+                        "fvOpsPIterTimeStep",
+                        "fvOpsPIterSolveP",
+                        "CostPerTimeStepCloud",
+                    ]:
+                        plotter(
+                            x=x,
+                            y=y,
+                            color=c,
+                            style="solver_p",
+                            post_pro_dir=post_pro_dir,
+                            plot_type="line",
+                            col=h,
+                            log=log,
+                            df=df,
+                            df_filter=filt,
+                        )
             except Exception as e:
                 print(e)
 
@@ -237,23 +326,23 @@ def main(campaign, comparisson=None):
                 json_file = post_pro_dir_comp / "results.json"
                 df_comparisson = pd.read_json(json_file)
                 df_rel = col_divide(deepcopy(df_orig), deepcopy(df_comparisson))
-                print("df_rel", df_rel["TimeStep"])
 
-                for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
-                    for y in ["TimeStep", "SolveP"]:
-                        plotter(
-                            x=x,
-                            y=y,
-                            color=c,
-                            style="solver_p",
-                            post_pro_dir=post_pro_dir,
-                            postfix="_vs_comparisson",
-                            plot_type="line",
-                            col="Host",
-                            log=True,
-                            df=df_rel,
-                            df_filter=Df_filter("unpreconditioned", unprecond),
-                        )
+                for log in ["", "both"]:
+                    for x, c in [("nCells", "nProcs"), ("nProcs", "nCells")]:
+                        for y in ["TimeStep", "SolveP"]:
+                            plotter(
+                                x=x,
+                                y=y,
+                                color=c,
+                                style="solver_p",
+                                post_pro_dir=post_pro_dir,
+                                postfix="_vs_comparisson",
+                                plot_type="line",
+                                col="Host",
+                                log=log,
+                                df=df_rel,
+                                df_filter=Df_filter("unpreconditioned", unprecond),
+                            )
     except:
         pass
 
