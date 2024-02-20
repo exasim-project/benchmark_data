@@ -74,6 +74,7 @@ def plotter(
     plt.savefig(plot_dir / fig_name)
 
 
+# This is only used in the comparisson function
 def col_divide(df_orig, df_comparisson):
     ret = deepcopy(df_orig).set_index("jobid")
     df_orig = df_orig.set_index("jobid")
@@ -121,10 +122,11 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     # extra things that need to match when doing the division
     if node_based:
         indices = [q.idx for q in bases[0]["base"]]
-        indices += ["nNodes"]
+        indices += ["nNodes", "deviceRankOverSubscription"]
         exclude = None
     else:
         indices = [q.idx for q in bases[0]["base"]]
+        # dont normalize nNodes
         exclude = ["nNodes"]
     indices += ["nCells", "Host"]
 
@@ -286,7 +288,7 @@ def main(campaign, comparisson=None):
         Df_filter(
             "unpreconditioned_rank_range/speedup",
             func = lambda df_: compute_speedup(
-                df_, generate_base(node_based=False), extra_filter =  unprecond_rank_range
+                df_, generate_base(node_based=False), extra_filter = unprecond_rank_range
             ),
         ),
         Df_filter(
