@@ -136,7 +136,6 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
     if speedup_df.empty:
         print(f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
 
-    return speedup_df
     return speedup_df[speedup_df["executor"] != "CPU"]
 
 
@@ -167,6 +166,8 @@ def generate_base(node_based=False):
 
     # to compute the speedup per node consider the selected  case has  with 2CPUs per GPU
     if node_based:
+        base_hkn.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=1))
+        base_smuc.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=1))
         case_hkn.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=2))
         case_smuc.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=2))
 
@@ -292,7 +293,7 @@ def main(campaign, comparisson=None):
         Df_filter(
             "unpreconditioned/speedup_nNodes",
             func = lambda df_: compute_speedup(
-                df_, generate_base(node_based=True), extra_filter = unprecond, node_based=True
+                df_, generate_base(node_based=True), extra_filter = unprecond_rank_range, node_based=True
             ),
         ),
     ]:
