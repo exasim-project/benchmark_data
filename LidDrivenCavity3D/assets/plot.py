@@ -297,8 +297,8 @@ def compute_parallel_efficency(df, bases):
             if len(ref_values_single_node) != 1:
                 print(f"Ref values {queries=} are non unique {ref_values_single_node.to_string()=}, {ref_values.to_string()=}")
                 continue
-            ref_value_ts = ref_values_ts
-            ref_value_sp = ref_values_sp
+            ref_value_ts = ref_values_ts.values[0]
+            ref_value_sp = ref_values_sp.values[0]
             print(f"{ref_value_ts=} {case_mask=} {ref_values.to_string()=} {df[case_mask]=}")
 
             try:
