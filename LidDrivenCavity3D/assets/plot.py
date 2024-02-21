@@ -295,6 +295,7 @@ def compute_parallel_efficency(df, bases):
                 continue
             ref_value_ts = ref_values_ts
             ref_value_sp = ref_values_sp
+            print(f"{ref_value_ts=} {case_mask} {ref_values.to_string()=} ")
 
             try:
                 df.loc[case_mask, "parallelEffiencyTimestep"] = (
