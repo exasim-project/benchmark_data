@@ -293,8 +293,7 @@ def compute_parallel_efficency(df, bases):
             )
         except Exception as e:
             print("failed computing parallel eff", e)
-    df.reset_index()
-    print(f"after compute_parallel_efficency {df.to_string()}")
+    df.reset_index(inplace=True)
     return df
 
 
