@@ -100,7 +100,7 @@ class Df_filter:
 
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
-    # df = df[df["Host"] != "nla"] 
+    # df = df[df["Host"] != "nla"]
     df = extra_filter(df)
 
     # check if bases vals are actually in df
@@ -113,7 +113,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
         if keep:
             bases_clean.append(record)
     if not bases_clean:
-        error = (f"failed generating clean bases {bases} for {df.to_string()}")
+        error = f"failed generating clean bases {bases} for {df.to_string()}"
         raise AssertionError(error)
     bases = bases_clean
 
@@ -130,13 +130,16 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
 
     df_copy_set_idx = df.set_index(keys=indices)
     speedup_df = eph.helpers.compute_speedup(
-            df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
-        ).reset_index()
+        df_copy_set_idx, bases, ignore_indices=[], exclude=exclude
+    ).reset_index()
 
     if speedup_df.empty:
-        print(f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}")
+        print(
+            f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}"
+        )
 
-    return compute_parallel_efficency(speedup_df[speedup_df["executor"] != "CPU"])
+    speedup_df = compute_parallel_efficency(speedup_df, bases)
+    return speedup_df[speedup_df["executor"] != "CPU"]
 
 
 def generate_base(node_based=False):
@@ -157,12 +160,12 @@ def generate_base(node_based=False):
     base_smuc = deepcopy(base_)
 
     if not node_based:
-        #base_nla.append(eph.helpers.DFQuery(idx="nProcs", val=32))
+        # base_nla.append(eph.helpers.DFQuery(idx="nProcs", val=32))
         base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
         base_smuc.append(eph.helpers.DFQuery(idx="nProcs", val=112))
 
-    case_hkn = [eph.helpers.DFQuery(idx="Host", val="hkn")] 
-    case_smuc = [eph.helpers.DFQuery(idx="Host", val="i20")] 
+    case_hkn = [eph.helpers.DFQuery(idx="Host", val="hkn")]
+    case_smuc = [eph.helpers.DFQuery(idx="Host", val="i20")]
 
     # to compute the speedup per node consider the selected  case has  with 2CPUs per GPU
     if node_based:
@@ -172,18 +175,18 @@ def generate_base(node_based=False):
         case_smuc.append(eph.helpers.DFQuery(idx="deviceRankOverSubscription", val=2))
 
     return [
-       #{
-       #    "case": [
-       #        eph.helpers.DFQuery(idx="Host", val="nla"),
-       #    ],
-       #    "base": base_nla,
-       #},
+        # {
+        #    "case": [
+        #        eph.helpers.DFQuery(idx="Host", val="nla"),
+        #    ],
+        #    "base": base_nla,
+        # },
         {
-            "case": case_hkn, 
+            "case": case_hkn,
             "base": base_hkn,
         },
         {
-            "case": case_smuc, 
+            "case": case_smuc,
             "base": base_smuc,
         },
     ]
@@ -251,24 +254,45 @@ def compute_gpu_mapping(df):
     # set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
     set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76, "gpu": 4})
     set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112, "gpu": 4})
-    df["deviceRankOverSubscription"] = (df["nProcs"] /df['nNodes']) / df["deviceRanks"]
+    df["deviceRankOverSubscription"] = (df["nProcs"] / df["nNodes"]) / df["deviceRanks"]
     return df
 
 
-def compute_parallel_efficency(df):
-    df["parallelEffiencyTimestep"] = df["TimeStep"]/ df['nNodes']
-    df["parallelEffiencySolveP"] = df["SolveP"]/ df['nNodes']
+def compute_parallel_efficency(df, bases):
+    df["parallelEffiencyTimestep"] = 0.0
+    df["parallelEffiencySolveP"] = 0.0
+    for base in bases:
+        ref = base["base"]
+        ref_value = val_queries(df, [q.to_tuple() for q in ref])["TimeStep"]
+
+        if len(ref_value) != 1:
+            logging.warning(
+                f"failed to retrieve exactly one reference value for {ref} query, skipping"
+            )
+            continue
+
+        case = base["case"]
+        case_mask = val_queries_mask(df, [q.to_tuple() for q in ref])
+
+        df.loc[case_mask, "parallelEffiencyTimestep"] = (
+            df.loc[case_mask, "TimeStep"] / df.loc[case_mask, "nNodes"]
+        )
+        df.loc[case_mask, "parallelEffiencySolveP"] = (
+            df.loc[case_mask, "SolveP"] / df.loc[case_mask, "nNodes"]
+        )
     return df
+
 
 def unprecond_rank_range(df):
-    """ dont show all oversubscription results"""
-    mapping = np.logical_and(
-        df["preconditioner"] == "none",
-        df["deviceRankOverSubscription"] >= 0.9,
+    """dont show all oversubscription results"""
+    return eph.helpers.val_queries(
+        df,
+        [
+            ("preconditioner", "none", eph.helpers.equal),
+            ("deviceRankOverSubscription", 0.9, eph.helpers.geq),
+            ("deviceRankOverSubscription", 10, eph.helpers.lt),
+        ],
     )
-
-    df = df[mapping]
-    return df[df["deviceRankOverSubscription"] < 10]
 
 
 def main(campaign, comparisson=None):
@@ -288,12 +312,17 @@ def main(campaign, comparisson=None):
         Df_filter("unpreconditioned", unprecond_rank_range),
         Df_filter(
             "unpreconditioned/speedup",
-            func = lambda df_: compute_speedup(df_, generate_base(node_based=False), extra_filter = unprecond_rank_range),
+            func=lambda df_: compute_speedup(
+                df_, generate_base(node_based=False), extra_filter=unprecond_rank_range
+            ),
         ),
         Df_filter(
             "unpreconditioned/speedup_nNodes",
-            func = lambda df_: compute_speedup(
-                df_, generate_base(node_based=True), extra_filter = unprecond_rank_range, node_based=True
+            func=lambda df_: compute_speedup(
+                df_,
+                generate_base(node_based=True),
+                extra_filter=unprecond_rank_range,
+                node_based=True,
             ),
         ),
     ]:
@@ -333,7 +362,10 @@ def main(campaign, comparisson=None):
                             filter_name=filt.name,
                         )
                     except Exception as e:
-                        print(f"Failure plotting filter {filt.name} x:{x}, y:{y}, h:{h}", e)
+                        print(
+                            f"Failure plotting filter {filt.name} x:{x}, y:{y}, h:{h}",
+                            e,
+                        )
 
     # comparisson against other results
     try:
