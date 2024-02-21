@@ -267,7 +267,7 @@ def compute_parallel_efficency(df, bases):
 
         if len(ref_value) != 1:
             logging.warning(
-                f"failed to retrieve exactly one reference value for {ref} query, skipping"
+                f"failed to retrieve exactly one reference value for {ref} query {ref_value}, skipping"
             )
             continue
 
