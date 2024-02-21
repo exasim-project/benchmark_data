@@ -263,23 +263,22 @@ def compute_parallel_efficency(df, bases):
     df["parallelEffiencySolveP"] = 0.0
     for base in bases:
         ref = base["base"]
-        ref_value = eph.helpers.val_queries(df, [q.to_tuple() for q in ref])["TimeStep"]
-
-        if len(ref_value) != 1:
-            logging.warning(
-                f"failed to retrieve exactly one reference value for {ref} query {ref_value}, skipping"
-            )
-            continue
 
         case = base["case"]
         case_mask = eph.helpers.val_queries_mask(df, [q.to_tuple() for q in ref])
-        print("df[case_mask]", df[case_mask])
+        ref_values = df[case_mask] 
+        ref_values_ts = ref_values[ref_values["nNodes"] == 1]["TimeStep"]  
+        ref_values_sp = ref_values[ref_values["nNodes"] == 1]["SolveP"]  
+        print("ref_values", ref_values_ts)
+        ref_value_ts = ref_values_ts.values[0]
+        ref_value_sp = ref_values_ts.values[0]
 
         df.loc[case_mask, "parallelEffiencyTimestep"] = (
-            df.loc[case_mask, "TimeStep"] / df.loc[case_mask, "nNodes"]
+            df.loc[case_mask, "TimeStep"]/ ref_value_ts / df.loc[case_mask, "nNodes"]
+
         )
         df.loc[case_mask, "parallelEffiencySolveP"] = (
-            df.loc[case_mask, "SolveP"] / df.loc[case_mask, "nNodes"]
+            df.loc[case_mask, "SolveP"] / ref_value_sp /  df.loc[case_mask, "nNodes"]
         )
     return df
 
