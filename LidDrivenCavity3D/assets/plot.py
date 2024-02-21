@@ -263,7 +263,7 @@ def compute_parallel_efficency(df, bases):
     df["parallelEffiencySolveP"] = 0.0
     for base in bases:
         ref = base["base"]
-        ref_value = val_queries(df, [q.to_tuple() for q in ref])["TimeStep"]
+        ref_value = eph.helpers.val_queries(df, [q.to_tuple() for q in ref])["TimeStep"]
 
         if len(ref_value) != 1:
             logging.warning(
@@ -272,7 +272,7 @@ def compute_parallel_efficency(df, bases):
             continue
 
         case = base["case"]
-        case_mask = val_queries_mask(df, [q.to_tuple() for q in ref])
+        case_mask = eph.helpers.val_queries_mask(df, [q.to_tuple() for q in ref])
 
         df.loc[case_mask, "parallelEffiencyTimestep"] = (
             df.loc[case_mask, "TimeStep"] / df.loc[case_mask, "nNodes"]
