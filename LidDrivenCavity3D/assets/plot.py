@@ -261,7 +261,7 @@ def compute_gpu_mapping(df):
 def compute_parallel_efficency(df, bases):
     df["parallelEffiencyTimestep"] = 0.0
     df["parallelEffiencySolveP"] = 0.0
-    print(f"{df.to_string()=}")
+    print(f"{df.shape=} {df.to_string()=}")
     for base in bases:
         case = base["case"]
         # TODO for some reason the results of ref_value have a nan row with a non matching
@@ -337,11 +337,11 @@ def main(campaign, comparisson=None):
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
     for filt in [
-        Df_filter("unpreconditioned", unprecond_rank_range),
+        # Df_filter("unpreconditioned", unprecond_rank_range),
         Df_filter(
             "unpreconditioned/speedup",
             func=lambda df_: compute_speedup(
-                df_, generate_base(node_based=False), extra_filter=unprecond
+                df_, generate_base(node_based=False), extra_filter=unprecond_rank_range
             ),
         ),
         Df_filter(
