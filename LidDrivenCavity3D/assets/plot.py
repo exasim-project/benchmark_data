@@ -288,9 +288,9 @@ def unprecond_rank_range(df):
     return eph.helpers.val_queries(
         df,
         [
-            ("preconditioner", "none", eph.helpers.equal),
-            ("deviceRankOverSubscription", 0.9, eph.helpers.geq),
-            ("deviceRankOverSubscription", 10, eph.helpers.lt),
+            ("preconditioner", "none", eph.helpers.equal()),
+            ("deviceRankOverSubscription", 0.9, eph.helpers.geq()),
+            ("deviceRankOverSubscription", 10, eph.helpers.lt()),
         ],
     )
 
