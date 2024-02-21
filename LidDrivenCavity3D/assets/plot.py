@@ -138,8 +138,7 @@ def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
             f"Computing speedup produced dataframe: Df in {df_copy_set_idx}, bases: {bases}, exclude={exclude}"
         )
 
-    if node_based:
-        speedup_df = compute_parallel_efficency(speedup_df, bases)
+    speedup_df = compute_parallel_efficency(speedup_df, bases)
     return speedup_df[speedup_df["executor"] != "CPU"]
 
 
@@ -267,19 +266,32 @@ def compute_parallel_efficency(df, bases):
 
         case = base["case"]
         case_mask = eph.helpers.val_queries_mask(df, [q.to_tuple() for q in ref])
-        ref_values = df[case_mask] 
-        ref_values_ts = ref_values[ref_values["nNodes"] == 1]["TimeStep"]  
-        ref_values_sp = ref_values[ref_values["nNodes"] == 1]["SolveP"]  
-        print("ref_values", ref_values_ts)
+
+        # the reference value should be the speedup of a single node
+        # there might be multiple values for speedpu of a single node
+        # since we can have multiple number of ranks
+        ref_values = df[case_mask]
+        ref_value_single_node = eph.helpers.val_queries(
+            ref_values,
+            [
+                ("nNodes", 1, eph.helpers.equal()),
+                ("deviceRankOverSubscription", 2, eph.helpers.equal()),
+            ],
+        )
+
+        ref_values_ts = ref_values_single_node["TimeStep"]
+        ref_values_sp = ref_values_single_node["SolveP"]
+        print("ref_values_single_node", ref_values_single_node)
         ref_value_ts = ref_values_ts.values[0]
-        ref_value_sp = ref_values_ts.values[0]
+        ref_value_sp = ref_values_sp.values[0]
+        print("ref_value_ts", ref_value_ts)
+        print("ref_value_st", ref_value_sp)
 
         df.loc[case_mask, "parallelEffiencyTimestep"] = (
-            df.loc[case_mask, "TimeStep"]/ ref_value_ts / df.loc[case_mask, "nNodes"]
-
+            df.loc[case_mask, "TimeStep"] / ref_value_ts / df.loc[case_mask, "nNodes"]
         )
         df.loc[case_mask, "parallelEffiencySolveP"] = (
-            df.loc[case_mask, "SolveP"] / ref_value_sp /  df.loc[case_mask, "nNodes"]
+            df.loc[case_mask, "SolveP"] / ref_value_sp / df.loc[case_mask, "nNodes"]
         )
     return df
 
