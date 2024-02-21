@@ -259,9 +259,11 @@ def compute_gpu_mapping(df):
 
 
 def compute_parallel_efficency(df, bases):
+    pd.set_option('display.max_columns', None)
+    pd.set_option('display.max_rows', None)
+
     df["parallelEffiencyTimestep"] = 0.0
     df["parallelEffiencySolveP"] = 0.0
-    print(f"{df.shape=} {df.to_string()=}")
     for base in bases:
         case = base["case"]
         # TODO for some reason the results of ref_value have a nan row with a non matching
