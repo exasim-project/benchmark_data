@@ -259,6 +259,7 @@ def compute_gpu_mapping(df):
 
 
 def compute_parallel_efficency(df, bases):
+    df.set_index("nCells", inplace=True)
     df["parallelEffiencyTimestep"] = 0.0
     df["parallelEffiencySolveP"] = 0.0
     for base in bases:
@@ -268,7 +269,7 @@ def compute_parallel_efficency(df, bases):
         # the reference value should be the speedup of a single node
         # thus we need to start from the same query as the case
         # there might be multiple values for speedup of a single node
-        # since we can have multiple number of ranks
+        # since we can have multiple number of ranks and different mesh size
         ref_values = df[case_mask]
         ref_values_single_node = eph.helpers.val_queries(
             ref_values,
@@ -278,16 +279,10 @@ def compute_parallel_efficency(df, bases):
             ],
         )
 
-        print("ref_values_single_node", ref_values_single_node.to_string())
-        if len(ref_values_single_node) != 0:
-            continue
-
         ref_values_ts = ref_values_single_node["TimeStep"]
         ref_values_sp = ref_values_single_node["SolveP"]
         ref_value_ts = ref_values_ts.values[0]
         ref_value_sp = ref_values_sp.values[0]
-        print("ref_value_ts", ref_value_ts)
-        print("ref_value_st", ref_value_sp)
 
         df.loc[case_mask, "parallelEffiencyTimestep"] = (
             df.loc[case_mask, "TimeStep"] / ref_value_ts / df.loc[case_mask, "nNodes"]
@@ -295,6 +290,7 @@ def compute_parallel_efficency(df, bases):
         df.loc[case_mask, "parallelEffiencySolveP"] = (
             df.loc[case_mask, "SolveP"] / ref_value_sp / df.loc[case_mask, "nNodes"]
         )
+    df.reset_index()
     return df
 
 
