@@ -48,7 +48,7 @@ def plotter(
     # TODO quick and dirty fix if we plot parallelEfficiency we
     # need to make sure that we have only deviceRankOverSubscription==2 values
 
-    if "parallelEffiency" in x:
+    if "parallelEffiency" in y:
         df = df[df["deviceRankOverSubscription"] == 2]
 
 
