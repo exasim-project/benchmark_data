@@ -259,7 +259,6 @@ def compute_gpu_mapping(df):
 
 
 def compute_parallel_efficency(df, bases):
-    df.set_index("nCells", inplace=True)
     df["parallelEffiencyTimestep"] = 0.0
     df["parallelEffiencySolveP"] = 0.0
     for base in bases:
@@ -271,29 +270,30 @@ def compute_parallel_efficency(df, bases):
         # there might be multiple values for speedup of a single node
         # since we can have multiple number of ranks and different mesh size
         ref_values = df[case_mask]
-        ref_values_single_node = eph.helpers.val_queries(
-            ref_values,
-            [
-                ("nNodes", 1, eph.helpers.equal()),
-                ("deviceRankOverSubscription", 2, eph.helpers.equal()),
-            ],
-        )
-
-        ref_values_ts = ref_values_single_node["TimeStep"]
-        ref_values_sp = ref_values_single_node["SolveP"]
-        ref_value_ts = ref_values_ts
-        ref_value_sp = ref_values_sp
-
-        try:
-            df.loc[case_mask, "parallelEffiencyTimestep"] = (
-                df.loc[case_mask, "TimeStep"] / ref_value_ts / df.loc[case_mask, "nNodes"]
+        for nCells in [1e6, 8e6, 27e6, 64e6, 125e6] :
+            ref_values_single_node = eph.helpers.val_queries(
+                ref_values,
+                [
+                    ("nNodes", 1, eph.helpers.equal()),
+                    ("deviceRankOverSubscription", 2, eph.helpers.equal()),
+                    ("nCells", nCells, eph.helpers.equal()),
+                ],
             )
-            df.loc[case_mask, "parallelEffiencySolveP"] = (
-                df.loc[case_mask, "SolveP"] / ref_value_sp / df.loc[case_mask, "nNodes"]
-            )
-        except Exception as e:
-            print(f"failed computing parallel eff {ref_values_single_node.to_string()}", e)
-    df.reset_index(inplace=True)
+
+            ref_values_ts = ref_values_single_node["TimeStep"]
+            ref_values_sp = ref_values_single_node["SolveP"]
+            ref_value_ts = ref_values_ts
+            ref_value_sp = ref_values_sp
+
+            try:
+                df.loc[case_mask, "parallelEffiencyTimestep"] = (
+                    df.loc[case_mask, "TimeStep"] / ref_value_ts / df.loc[case_mask, "nNodes"]
+                )
+                df.loc[case_mask, "parallelEffiencySolveP"] = (
+                    df.loc[case_mask, "SolveP"] / ref_value_sp / df.loc[case_mask, "nNodes"]
+                )
+            except Exception as e:
+                print(f"failed computing parallel eff {ref_values_single_node.to_string()}", e)
     return df
 
 
