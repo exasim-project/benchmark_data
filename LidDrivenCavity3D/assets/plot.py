@@ -164,8 +164,8 @@ def generate_base(node_based=False):
         base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
         base_smuc.append(eph.helpers.DFQuery(idx="nProcs", val=112))
 
-    case_hkn = [eph.helpers.DFQuery(idx="Host", val="hkn"), eph.helpers.DFQuery(idx="Host", val="cuda")]
-    case_smuc = [eph.helpers.DFQuery(idx="Host", val="i20"), eph.helpers.DFQuery(idx="executor", val="dpcpp")]
+    case_hkn = [eph.helpers.DFQuery(idx="Host", val="hkn")]
+    case_smuc = [eph.helpers.DFQuery(idx="Host", val="i20")]
 
     # to compute the speedup per node consider the selected  case has  with 2CPUs per GPU
     if node_based:
@@ -263,6 +263,13 @@ def compute_parallel_efficency(df, bases):
     df["parallelEffiencySolveP"] = 0.0
     for base in bases:
         case = base["case"]
+        # TODO for some reason the results of ref_value have a nan row with a non matching
+        # executor in it for example horeka with dpcpp and all none
+        if case[0].val == "hkn":
+            case.append(eph.helpers.DFQuery(idx="executor", val="cuda"))
+        if case[0].val == "i20":
+            case.append(eph.helpers.DFQuery(idx="executor", val="dpcpp"))
+
         for nCells in [1e6, 8e6, 27e6, 64e6, 125e6]:
             queries = [q.to_tuple() for q in case]
             queries.append(("nCells", nCells, eph.helpers.equal()))
