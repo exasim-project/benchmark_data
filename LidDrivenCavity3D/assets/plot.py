@@ -291,7 +291,7 @@ def compute_parallel_efficency(df, bases):
             ref_values_ts = ref_values_single_node["TimeStep"]
             ref_values_sp = ref_values_single_node["SolveP"]
             if len(ref_values_single_node) != 1:
-                print(f"Ref values are non unique {ref_values_single_node.to_string()=}")
+                print(f"Ref values {queries=} are non unique {ref_values_single_node.to_string()=}, {ref_values.to_string()=}")
                 continue
             ref_value_ts = ref_values_ts
             ref_value_sp = ref_values_sp
