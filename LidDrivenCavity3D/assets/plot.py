@@ -292,7 +292,7 @@ def compute_parallel_efficency(df, bases):
                 df.loc[case_mask, "SolveP"] / ref_value_sp / df.loc[case_mask, "nNodes"]
             )
         except Exception as e:
-            print("failed computing parallel eff {ref_values_single_node.to_string()}", e)
+            print(f"failed computing parallel eff {ref_values_single_node.to_string()}", e)
     df.reset_index(inplace=True)
     return df
 
