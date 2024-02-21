@@ -273,7 +273,7 @@ def compute_parallel_efficency(df, bases):
 
         case = base["case"]
         case_mask = eph.helpers.val_queries_mask(df, [q.to_tuple() for q in ref])
-        print("df[case_mask]", df[case_mask)
+        print("df[case_mask]", df[case_mask])
 
         df.loc[case_mask, "parallelEffiencyTimestep"] = (
             df.loc[case_mask, "TimeStep"] / df.loc[case_mask, "nNodes"]
