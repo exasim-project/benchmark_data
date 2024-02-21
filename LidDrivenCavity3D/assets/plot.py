@@ -13,6 +13,8 @@ from pathlib import Path
 from copy import deepcopy
 from pathlib import Path
 
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
 
 def plot_script():
     return """import pandas as pd
@@ -42,6 +44,13 @@ def plotter(
 ):
     name = f"{y}_over_{x}_c={color}_s={style}_cols={col}{postfix}_log={log}"
     script_name = name + ".py"
+
+    # TODO quick and dirty fix if we plot parallelEfficiency we
+    # need to make sure that we have only deviceRankOverSubscription==2 values
+
+    if "parallelEffiency" in x:
+        df = df[df["deviceRankOverSubscription"] == 2]
+
 
     script_dir = post_pro_dir / filter_name / "scripts"
     script_dir.mkdir(parents=True, exist_ok=True)
@@ -259,8 +268,6 @@ def compute_gpu_mapping(df):
 
 
 def compute_parallel_efficency(df, bases):
-    pd.set_option('display.max_columns', None)
-    pd.set_option('display.max_rows', None)
 
     df["parallelEffiencyTimestep"] = 0.0
     df["parallelEffiencySolveP"] = 0.0
@@ -277,7 +284,6 @@ def compute_parallel_efficency(df, bases):
             queries = [q.to_tuple() for q in case]
             queries.append(("nCells", nCells, eph.helpers.equal()))
             case_mask = eph.helpers.val_queries_mask(df, queries)
-            print(f"{str(case_mask)=}")
 
             # the reference value should be the speedup of a single node
             # thus we need to start from the same query as the case
@@ -299,7 +305,7 @@ def compute_parallel_efficency(df, bases):
                 continue
             ref_value_ts = ref_values_ts.values[0]
             ref_value_sp = ref_values_sp.values[0]
-            print(f"{ref_value_ts=} {case_mask=} {ref_values.to_string()=} {df[case_mask]=}")
+            # print(f"{ref_value_ts=} {case_mask=} {ref_values.to_string()=} {df[case_mask]=}")
 
             try:
                 df.loc[case_mask, "parallelEffiencyTimestep"] = (
@@ -339,7 +345,7 @@ def main(campaign, comparisson=None):
 
     unprecond = lambda x: x[x["preconditioner"] == "none"]
     for filt in [
-        # Df_filter("unpreconditioned", unprecond_rank_range),
+        Df_filter("unpreconditioned", unprecond_rank_range),
         Df_filter(
             "unpreconditioned/speedup",
             func=lambda df_: compute_speedup(
