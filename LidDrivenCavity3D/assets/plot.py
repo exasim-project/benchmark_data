@@ -271,7 +271,7 @@ def compute_parallel_efficency(df, bases):
         # there might be multiple values for speedpu of a single node
         # since we can have multiple number of ranks
         ref_values = df[case_mask]
-        ref_value_single_node = eph.helpers.val_queries(
+        ref_values_single_node = eph.helpers.val_querie(
             ref_values,
             [
                 ("nNodes", 1, eph.helpers.equal()),
