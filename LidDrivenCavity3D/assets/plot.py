@@ -262,13 +262,12 @@ def compute_parallel_efficency(df, bases):
     df["parallelEffiencyTimestep"] = 0.0
     df["parallelEffiencySolveP"] = 0.0
     for base in bases:
-        ref = base["base"]
-
         case = base["case"]
         case_mask = eph.helpers.val_queries_mask(df, [q.to_tuple() for q in ref])
 
         # the reference value should be the speedup of a single node
-        # there might be multiple values for speedpu of a single node
+        # thus we need to start from the same query as the case
+        # there might be multiple values for speedup of a single node
         # since we can have multiple number of ranks
         ref_values = df[case_mask]
         ref_values_single_node = eph.helpers.val_queries(
@@ -279,11 +278,12 @@ def compute_parallel_efficency(df, bases):
             ],
         )
 
+        print("ref_values_single_node", ref_values_single_node)
+        if len(ref_values_single_node) != 0:
+            continue
+
         ref_values_ts = ref_values_single_node["TimeStep"]
         ref_values_sp = ref_values_single_node["SolveP"]
-        print("ref_values_single_node", ref_values_single_node)
-        if len(ref_values_single_node) != 0
-            continue
         ref_value_ts = ref_values_ts.values[0]
         ref_value_sp = ref_values_sp.values[0]
         print("ref_value_ts", ref_value_ts)
