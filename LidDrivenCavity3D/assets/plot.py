@@ -282,6 +282,7 @@ def compute_parallel_efficency(df, bases):
 
             ref_values_ts = ref_values_single_node["TimeStep"]
             ref_values_sp = ref_values_single_node["SolveP"]
+            print(f"{ref_values_single_node.to_string()=}")
             ref_value_ts = ref_values_ts
             ref_value_sp = ref_values_sp
 
