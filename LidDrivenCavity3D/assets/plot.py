@@ -278,7 +278,7 @@ def compute_parallel_efficency(df, bases):
             ],
         )
 
-        print("ref_values_single_node", ref_values_single_node)
+        print("ref_values_single_node", ref_values_single_node.to_string())
         if len(ref_values_single_node) != 0:
             continue
 
