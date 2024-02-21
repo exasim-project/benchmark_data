@@ -341,7 +341,7 @@ def main(campaign, comparisson=None):
         Df_filter(
             "unpreconditioned/speedup",
             func=lambda df_: compute_speedup(
-                df_, generate_base(node_based=False), extra_filter=unprecond_rank_range
+                df_, generate_base(node_based=False), extra_filter=unprecond
             ),
         ),
         Df_filter(
