@@ -55,18 +55,11 @@ jobs:
         # do a dummy query to triger job document merge
         obr query --query global --query TimeStep  --query SolveP --query MomentumPredictor --query PISOStep 
         obr status \
-          --filter preconditioner==none \
+          --filter preconditioner!=none \
           --sort_by nCells,nProcs,nNodes,executor,Host \
           --extra TimeStep,SolveP,MomentumPredictor,PISOStep \
           --hide view 
         echo "# Results Overview " > overview.md
-        echo "## Unpreconditioned" >> overview.md
-        obr status \
-          --filter preconditioner==none \
-          --sort_by nCells,nProcs,nNodes,executor,Host \
-          --extra TimeStep,SolveP,MomentumPredictor,PISOStep \
-          --hide jobid,view  \
-          --export_to markdown >> overview.md
         echo "## Preconditioned" >> overview.md
         obr status \
           --filter preconditioner!=none \
@@ -85,7 +78,7 @@ jobs:
     - name: Create Plots
       run: |
         cd LidDrivenCavity3D/
-        python3 assets/plot.py ${{env.CAMPAIGN}} ogl_170
+        #python3 assets/plot.py ${{env.CAMPAIGN}} ogl_170
         echo "# Plots" >> overview.md
         echo "![Test Image 6](https://github.com/exasim-project/benchmark_data/blob/${GITHUB_HEAD_REF}/LidDrivenCavity3D/postProcessing/${{env.CAMPAIGN}}/unpreconditioned_TimeStep_over_nCells_c=nProcs_s=solver_p_cols=Host.png?raw=true)" >> overview.md
 
