@@ -164,8 +164,8 @@ def generate_base(node_based=False):
         base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
         base_smuc.append(eph.helpers.DFQuery(idx="nProcs", val=112))
 
-    case_hkn = [eph.helpers.DFQuery(idx="Host", val="hkn")]
-    case_smuc = [eph.helpers.DFQuery(idx="Host", val="i20")]
+    case_hkn = [eph.helpers.DFQuery(idx="Host", val="hkn"), eph.helpers.DFQuery(idx="Host", val="cuda")]
+    case_smuc = [eph.helpers.DFQuery(idx="Host", val="i20"), eph.helpers.DFQuery(idx="executor", val="dpcpp")]
 
     # to compute the speedup per node consider the selected  case has  with 2CPUs per GPU
     if node_based:
@@ -266,8 +266,6 @@ def compute_parallel_efficency(df, bases):
         for nCells in [1e6, 8e6, 27e6, 64e6, 125e6]:
             queries = [q.to_tuple() for q in case]
             queries.append(("nCells", nCells, eph.helpers.equal()))
-
-
             case_mask = eph.helpers.val_queries_mask(df, queries )
 
             # the reference value should be the speedup of a single node
