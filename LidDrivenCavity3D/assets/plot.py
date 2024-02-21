@@ -284,12 +284,15 @@ def compute_parallel_efficency(df, bases):
         ref_value_ts = ref_values_ts.values[0]
         ref_value_sp = ref_values_sp.values[0]
 
-        df.loc[case_mask, "parallelEffiencyTimestep"] = (
-            df.loc[case_mask, "TimeStep"] / ref_value_ts / df.loc[case_mask, "nNodes"]
-        )
-        df.loc[case_mask, "parallelEffiencySolveP"] = (
-            df.loc[case_mask, "SolveP"] / ref_value_sp / df.loc[case_mask, "nNodes"]
-        )
+        try:
+            df.loc[case_mask, "parallelEffiencyTimestep"] = (
+                df.loc[case_mask, "TimeStep"] / ref_value_ts / df.loc[case_mask, "nNodes"]
+            )
+            df.loc[case_mask, "parallelEffiencySolveP"] = (
+                df.loc[case_mask, "SolveP"] / ref_value_sp / df.loc[case_mask, "nNodes"]
+            )
+        except Exception as e:
+            print("failed computing parallel eff", e)
     df.reset_index()
     return df
 
