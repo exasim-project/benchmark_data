@@ -263,7 +263,7 @@ def compute_parallel_efficency(df, bases):
     df["parallelEffiencySolveP"] = 0.0
     for base in bases:
         case = base["case"]
-        case_mask = eph.helpers.val_queries_mask(df, [q.to_tuple() for q in ref])
+        case_mask = eph.helpers.val_queries_mask(df, [q.to_tuple() for q in case])
 
         # the reference value should be the speedup of a single node
         # thus we need to start from the same query as the case
