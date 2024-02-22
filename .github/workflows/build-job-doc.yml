@@ -58,21 +58,21 @@ jobs:
         obr status \
           --filter preconditioner!=none \
           --sort_by nCells,nProcs,nNodes,executor,Host \
-          --extra TimeStep,SolveP,MomentumPredictor,PISOStep \
+          --extra TimeStep,SolveP,MomentumPredictor,PISOStep,executionTime \
           --hide view 
         echo "# Results Overview " > overview.md
         echo "## Preconditioned" >> overview.md
         obr status \
           --filter preconditioner!=none \
           --sort_by nCells,nProcs,nNodes,executor,preconditioner,Host \
-          --extra TimeStep,SolveP,MomentumPredictor,PISOStep \
+          --extra TimeStep,SolveP,MomentumPredictor,PISOStep,executionTime \
           --hide jobid,view \
           --export_to markdown >> overview.md
         mkdir -p postProcessing/${{env.CAMPAIGN}}
         obr status \
           --sort_by nCells,nProcs,nNodes,executor,preconditioner  \
           --hide view,jobid \
-          --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host,solver_p,p_NoIterations \
+          --extra TimeStep,SolveP,MomentumPredictor,PISOStep,Host,solver_p,p_NoIterations,executionTime \
           --export_to json > postProcessing/${{env.CAMPAIGN}}/results.json
         cat postProcessing/${{env.CAMPAIGN}}/results.json
 

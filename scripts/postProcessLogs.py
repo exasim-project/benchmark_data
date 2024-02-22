@@ -116,6 +116,7 @@ def post_process_impl(log: str, campaign:str, tags: list, job):
         record["Host"] = log_file_parser.header.Host[0:3]
         record["nProcs"] = log_file_parser.header.nProcs
         record["nNodes"] = log_file_parser.header.nNodes
+        record["executionTime"] = log_file_parser.latestTime.execution_time["ClockTime"]
         if use_fvs:
             record["solver_p"] = fvSolution.get("solvers")["p"]["solver"]
 
@@ -150,11 +151,11 @@ def call(jobs, kwargs={}):
     for job in jobs:
         run_logs = job.doc.get("data", [])
 
-
         merge_job_documents(job, str(campaign))
 
         # find all solver logs corresponding to this specific jobs
         for log, campaign, tags in find_solver_logs(job, campaign):
+            print(log, campaign, tags)
             try:
                 record = post_process_impl(log, campaign, tags, job)
                 run_logs.append(record)
