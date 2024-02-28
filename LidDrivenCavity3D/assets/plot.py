@@ -18,10 +18,12 @@ pd.set_option('display.max_rows', None)
 
 def plot_script():
     return """import pandas as pd
+    import json
 
-df_json = '{}'
+df_json = json.loads("'{}'")
 df = pd.DataFrame.read_json(df_json)
-    """
+df_json = json.loads(
+"""
 
 
 def palette():
