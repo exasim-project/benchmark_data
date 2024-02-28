@@ -109,7 +109,6 @@ class Df_filter:
 
 
 def compute_speedup(df, bases, extra_filter=lambda df: df, node_based=False):
-    # df = df[df["Host"] != "nla"]
     df = extra_filter(df)
 
     # check if bases vals are actually in df
@@ -352,21 +351,21 @@ def main(campaign, comparisson=None):
     unprecond = lambda x: x[x["preconditioner"] == "none"]
     for filt in [
         Df_filter("unpreconditioned", unprecond_rank_range),
-        Df_filter(
-            "unpreconditioned/speedup",
-            func=lambda df_: compute_speedup(
-                df_, generate_base(node_based=False), extra_filter=unprecond_rank_range
-            ),
-        ),
-        Df_filter(
-            "unpreconditioned/speedup_nNodes",
-            func=lambda df_: compute_speedup(
-                df_,
-                generate_base(node_based=True),
-                extra_filter=unprecond_rank_range,
-                node_based=True,
-            ),
-        ),
+       #Df_filter(
+       #    "unpreconditioned/speedup",
+       #    func=lambda df_: compute_speedup(
+       #        df_, generate_base(node_based=False), extra_filter=unprecond_rank_range
+       #    ),
+       #),
+       #Df_filter(
+       #    "unpreconditioned/speedup_nNodes",
+       #    func=lambda df_: compute_speedup(
+       #        df_,
+       #        generate_base(node_based=True),
+       #        extra_filter=unprecond_rank_range,
+       #        node_based=True,
+       #    ),
+       #),
     ]:
         df_filtered = filt(df)
         for x, c, h in [
