@@ -32,8 +32,6 @@ log_key_postpro = {
     "ogl_annotation_keys": get_average,
 }
 
-def compute_nodes(df):
-    k
 
 def get_OGL_from_log(log):
     try:
@@ -113,6 +111,7 @@ def post_process_impl(log: str, campaign:str, tags: list, job):
     for log_key_type, log_keys in generate_log_keys().items():
         log_file_parser = LogFile(log, log_keys)
         df = convert_to_numbers(log_file_parser.parse_to_df())
+        # TODO currently this reads and overwrites Host, nProcs, nNodes
         record["Host"] = log_file_parser.header.Host[0:3]
         record["nProcs"] = log_file_parser.header.nProcs
         record["nNodes"] = log_file_parser.header.nNodes
