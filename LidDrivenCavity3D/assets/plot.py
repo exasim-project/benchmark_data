@@ -223,7 +223,10 @@ def compute_nCellsPerCU(df):
 
 def compute_pOffload_overhead_percent(df):
     """this function computes nCellsPerCU"""
-    df["pOffload_overhead_percent"] = (df["SolveP"] - df["p_solve"])/df["SolveP"]
+    df["pOffload_overhead_time"] = df["SolveP"] - df["p_solve"]
+    df["pOffload_overhead_percent"] = df["pOffload_overhead_time"]/df["SolveP"] * 100
+    df["pTimePerIter"] =  df["p_solve"] / p["p_NoIterations"]
+    df["pOffload_overhead_iter"] = df["pOffload_overhead_time"] / df["pTimePerIter"]
     return df
 
 
@@ -389,6 +392,7 @@ def main(campaign, comparisson=None):
                     "parallelEffiencyTimestep",
                     "parallelEffiencySolveP",
                     "pOffload_overhead_percent",
+                    "pOffload_overhead_iter",
                 ]:
                     try:
                         plotter(
