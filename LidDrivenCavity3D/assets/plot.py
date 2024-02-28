@@ -226,7 +226,8 @@ def compute_pOffload_overhead_percent(df):
     df["pOffload_overhead_time"] = df["SolveP"] - df["p_solve"]
     df["pOffload_overhead_percent"] = df["pOffload_overhead_time"]/df["SolveP"] * 100
     df["pTimePerIter"] =  df["p_solve"] / df["p_NoIterations"]
-    df["pOffload_overhead_iter"] = df["pOffload_overhead_time"] / df["pTimePerIter"]
+    df["UTimePerIter"] =  df["MomentumPredictor"] / (df["Ux_NoIterations"] + df["Uy_NoIterations"] + df["Uz_NoIterations"] )
+    df["pOffload_overhead_iter"] = df["pOffload_overhead_time"] / df["UTimePerIter"]
     return df
 
 
