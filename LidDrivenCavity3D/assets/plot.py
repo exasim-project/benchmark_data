@@ -168,7 +168,7 @@ def generate_base(node_based=False):
     base_smuc = deepcopy(base_)
 
     if not node_based:
-        # base_nla.append(eph.helpers.DFQuery(idx="nProcs", val=32))
+        base_nla.append(eph.helpers.DFQuery(idx="nProcs", val=32))
         base_hkn.append(eph.helpers.DFQuery(idx="nProcs", val=76))
         base_smuc.append(eph.helpers.DFQuery(idx="nProcs", val=112))
 
@@ -268,7 +268,7 @@ def compute_gpu_mapping(df):
         df.loc[mapping_cpu, "deviceRanks"] = cpus
         df.loc[mapping_gpu, "deviceRanks"] = gpus
 
-    # set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
+    set_compute_cost(df, "nla", {"executor": "hip", "cpu": 32, "gpu": 8})
     set_compute_cost(df, "hkn", {"executor": "cuda", "cpu": 76, "gpu": 4})
     set_compute_cost(df, "i20", {"executor": "dpcpp", "cpu": 112, "gpu": 4})
     df["deviceRankOverSubscription"] = (df["nProcs"] / df["nNodes"]) / df["deviceRanks"]
