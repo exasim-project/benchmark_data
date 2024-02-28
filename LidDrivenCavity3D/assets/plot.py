@@ -225,7 +225,7 @@ def compute_pOffload_overhead_percent(df):
     """this function computes nCellsPerCU"""
     df["pOffload_overhead_time"] = df["SolveP"] - df["p_solve"]
     df["pOffload_overhead_percent"] = df["pOffload_overhead_time"]/df["SolveP"] * 100
-    df["pTimePerIter"] =  df["p_solve"] / p["p_NoIterations"]
+    df["pTimePerIter"] =  df["p_solve"] / df["p_NoIterations"]
     df["pOffload_overhead_iter"] = df["pOffload_overhead_time"] / df["pTimePerIter"]
     return df
 
