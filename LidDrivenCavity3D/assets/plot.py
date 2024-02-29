@@ -18,11 +18,10 @@ pd.set_option('display.max_rows', None)
 
 def plot_script():
     return """import pandas as pd
-    import json
+import json
 
-df_json = json.loads("'{}'")
-df = pd.DataFrame.read_json(df_json)
-df_json = json.loads(
+df_json = json.loads('{}')
+df = pd.DataFrame.from_dict(df_json)
 """
 
 
@@ -397,6 +396,7 @@ def main(campaign, comparisson=None):
                     "parallelEffiencySolveP",
                     "pOffload_overhead_percent",
                     "pOffload_overhead_iter",
+                    "pOffload_overhead_time_perCell",
                 ]:
                     try:
                         plotter(
