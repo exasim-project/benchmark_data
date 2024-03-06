@@ -1,0 +1,1539 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2306                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : a6e826bd55-20230630 OPENFOAM=2306 version=v2306
+Arch   : "LSB;label=32;scalar=64"
+Exec   : icoFoam -parallel -case /tmp/lidDrivenCavity/workspace/fbb46e6f8729c7ccdcf44f3373f23b42/case
+Date   : Jan 10 2024
+Time   : 13:23:28
+Host   : nla-gpu2.ianm.kit.edu
+PID    : 429174
+I/O    : uncollated
+Case   : /tmp/lidDrivenCavity/workspace/fbb46e6f8729c7ccdcf44f3373f23b42/case
+nProcs : 16
+Hosts  :
+(
+    (nla-gpu2.ianm.kit.edu 16)
+)
+Pstream initialized with:
+    floatTransfer      : false
+    nProcsSimpleSum    : 0
+    nonBlockingExchange: 0 (tuning: 0)
+    exchange algorithm : -1
+    commsType          : nonBlocking
+    polling iterations : 0
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+--> FOAM Warning : 
+    From void* Foam::dlLibraryTable::openLibrary(const Foam::fileName&, bool)
+    in file db/dynamicLibrary/dlLibraryTable/dlLibraryTable.C at line 188
+    Could not load "libpetscFoam.so"
+libpetscFoam.so: cannot open shared object file: No such file or directory
+Create mesh for time = 0
+
+
+PISO: Operating solver in PISO mode
+
+Reading transportProperties
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+
+Starting time loop
+
+Time = 0.000125
+
+Courant Number mean: 8.02505e-18 max: 4.85723e-14
+[INFO] MatrixAssemblyU: 578.992 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 1, Final residual = 0.0215184, No Iterations 5
+DILUPBiCGStab:  Solving for Uy:  solution singularity
+DILUPBiCGStab:  Solving for Uz:  solution singularity
+[INFO] MomentumPredictor: 2221.27 [ms]
+[INFO] MatrixAssemblyPI: 589.097 [ms]
+[INFO] AdjustPhi: 31.348 [ms]
+[INFO] ConstrainPressure: 0.015 [ms]
+[INFO] MatrixAssemblyPII: 168.621 [ms]
+[OGL LOG][lduLduBase.H:119] Initialising OGL
+	OGL commit:  82f220c+
+	Branch: feat/on_device_permute 
+	Build type: Release
+	Ginkgo version: 1.8.0 ( develop)
+	Ginkgo commit: sparse-communicator
+	MPI is GPU aware: 1
+	Forces host buffer based communication: 0
+	CPU ranks per GPU: 1
+	Matrix format: Ell
+	End OGL_INFO
+[OGL LOG][Proc: 0]: global_index_init: 14.405 [ms]
+[OGL LOG][Proc: 0]p_local_cols: call_init: 0.035 [ms]
+[OGL LOG][Proc: 0]p_local_rows: call_init: 0.003 [ms]
+[OGL LOG][Proc: 0]p_local_ldu_map: call_init: 0.151 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_init: 0.418 [ms]
+[OGL LOG][Proc: 0]p_non_local_cols: call_init: 0.005 [ms]
+[OGL LOG][Proc: 0]p_non_local_rows: call_init: 0.002 [ms]
+[OGL LOG][Proc: 0]p_non_local_ldu_map: call_init: 0.002 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_init: 0.003 [ms]
+[OGL LOG][Proc: 0]p: init_local_sparsity_pattern: 1092.43 [ms]
+[OGL LOG][Proc: 0]p: init_non_local_sparsity_pattern: 10.718 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 133.946 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.303 [ms]
+[OGL LOG][Proc: 0]device_partition: call_init: 0.184 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_init: 360.431 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_init: 19.808 [ms]
+[OGL LOG][Proc: 0]p_solution: call_init: 4.147 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 523.311 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 0 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 9780.63 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 10.935 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 25943 [mu s]
+	Time per residual norm calculation: 478.000000 [mu s]
+	Time per iteration and DOF: 0.405359 [ns]
+	Retrieve results bandwidth 2.926000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 10715.8 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 1, Final residual = 9.66973e-05, No Iterations 377
+[INFO] SolveP: 12227.8 [ms]
+time step continuity errors : sum local = 2.45708e-09, global = 3.53604e-22, cumulative = 3.53604e-22
+[INFO] ContinuityError: 67.649 [ms]
+[INFO] CorrectBoundary: 1.088 [ms]
+[INFO] PISOStep: 13277 [ms]
+[INFO] MatrixAssemblyPI: 559.246 [ms]
+[INFO] AdjustPhi: 33.432 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 169.386 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.18 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0.004 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 92.048 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.279 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 310.577 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 313.59 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 38.413 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 443.538 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 226 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 7917.71 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 14.568 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21341 [mu s]
+	Time per residual norm calculation: 433.000000 [mu s]
+	Time per iteration and DOF: 0.333453 [ns]
+	Retrieve results bandwidth 2.196000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 8758.03 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.822063, Final residual = 9.51692e-05, No Iterations 371
+[INFO] SolveP: 8870.01 [ms]
+time step continuity errors : sum local = 2.91533e-09, global = 2.24983e-22, cumulative = 5.78587e-22
+[INFO] ContinuityError: 72.047 [ms]
+[INFO] CorrectBoundary: 1.295 [ms]
+[INFO] PISOStep: 9895.17 [ms]
+[INFO] TimeStep: 26043.1 [ms]
+ExecutionTime = 28.77 s  ClockTime = 29 s
+
+Time = 0.00025
+
+Courant Number mean: 0.0108529 max: 0.437705
+[INFO] MatrixAssemblyU: 502.243 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.108191, Final residual = 0.0134496, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.484641, Final residual = 0.0521711, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.990081, Final residual = 0.118581, No Iterations 5
+[INFO] MomentumPredictor: 4226.9 [ms]
+[INFO] MatrixAssemblyPI: 576.539 [ms]
+[INFO] AdjustPhi: 33.441 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.405 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.042 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 94.412 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.281 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 294.23 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 296.734 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 54.599 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 411.767 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 222 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 7309.69 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.971 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21499 [mu s]
+	Time per residual norm calculation: 426.000000 [mu s]
+	Time per iteration and DOF: 0.335922 [ns]
+	Retrieve results bandwidth 2.673000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 8109.3 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.906412, Final residual = 9.51853e-05, No Iterations 340
+[INFO] SolveP: 8223.79 [ms]
+time step continuity errors : sum local = 6.69853e-09, global = 1.12858e-22, cumulative = 6.91445e-22
+[INFO] ContinuityError: 76.12 [ms]
+[INFO] CorrectBoundary: 1.504 [ms]
+[INFO] PISOStep: 9267.37 [ms]
+[INFO] MatrixAssemblyPI: 558.031 [ms]
+[INFO] AdjustPhi: 31.972 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.602 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.089 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 106.703 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.319 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 295.731 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 298.22 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 31.586 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 414.313 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 204 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 7391.11 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.59 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21802 [mu s]
+	Time per residual norm calculation: 424.000000 [mu s]
+	Time per iteration and DOF: 0.340656 [ns]
+	Retrieve results bandwidth 2.761000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 8160.01 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.857631, Final residual = 9.55398e-05, No Iterations 339
+[INFO] SolveP: 8289.88 [ms]
+time step continuity errors : sum local = 6.84745e-09, global = 2.27837e-22, cumulative = 9.19282e-22
+[INFO] ContinuityError: 71.14 [ms]
+[INFO] CorrectBoundary: 1.305 [ms]
+[INFO] PISOStep: 9310.45 [ms]
+[INFO] TimeStep: 23373.7 [ms]
+ExecutionTime = 52.43 s  ClockTime = 52 s
+
+Time = 0.000375
+
+Courant Number mean: 0.0169459 max: 0.511447
+[INFO] MatrixAssemblyU: 502.784 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0537023, Final residual = 0.00543798, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.261628, Final residual = 0.0262742, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.871549, Final residual = 0.0871703, No Iterations 5
+[INFO] MomentumPredictor: 4178.37 [ms]
+[INFO] MatrixAssemblyPI: 574.7 [ms]
+[INFO] AdjustPhi: 30.195 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 169.296 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.038 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 107.202 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.272 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 283.709 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 287.103 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 30.32 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 414.78 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 203 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 4420.99 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.253 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21671 [mu s]
+	Time per residual norm calculation: 503.000000 [mu s]
+	Time per iteration and DOF: 0.338609 [ns]
+	Retrieve results bandwidth 2.611000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 5192.79 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.940918, Final residual = 3.86556e-05, No Iterations 204
+[INFO] SolveP: 5320.9 [ms]
+time step continuity errors : sum local = 3.62202e-09, global = 4.60184e-22, cumulative = 1.37947e-21
+[INFO] ContinuityError: 72.117 [ms]
+[INFO] CorrectBoundary: 1.368 [ms]
+[INFO] PISOStep: 6355.19 [ms]
+[INFO] MatrixAssemblyPI: 561.065 [ms]
+[INFO] AdjustPhi: 29.187 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.104 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.04 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 104.355 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.261 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 291.082 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 293.694 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 35.604 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 422.75 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 122 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 3434.33 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.845 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21736 [mu s]
+	Time per residual norm calculation: 445.000000 [mu s]
+	Time per iteration and DOF: 0.339625 [ns]
+	Retrieve results bandwidth 2.701000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 4218.22 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.90873, Final residual = 9.68234e-05, No Iterations 158
+[INFO] SolveP: 4343.59 [ms]
+time step continuity errors : sum local = 8.56266e-09, global = 7.2421e-22, cumulative = 2.10368e-21
+[INFO] ContinuityError: 70.712 [ms]
+[INFO] CorrectBoundary: 1.252 [ms]
+[INFO] PISOStep: 5361.72 [ms]
+[INFO] TimeStep: 16467.3 [ms]
+ExecutionTime = 69.14 s  ClockTime = 69 s
+
+Time = 0.0005
+
+Courant Number mean: 0.0205552 max: 0.477576
+[INFO] MatrixAssemblyU: 492.616 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0416313, Final residual = 0.00504035, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.21382, Final residual = 0.0241504, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.78372, Final residual = 0.0636622, No Iterations 5
+[INFO] MomentumPredictor: 4194.14 [ms]
+[INFO] MatrixAssemblyPI: 574.416 [ms]
+[INFO] AdjustPhi: 30.567 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.309 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.202 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 91.738 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.27 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 298.845 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 301.708 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 31.272 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 416.332 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 94 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 3356.55 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 13.878 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21655 [mu s]
+	Time per residual norm calculation: 436.000000 [mu s]
+	Time per iteration and DOF: 0.338359 [ns]
+	Retrieve results bandwidth 2.305000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 4150.14 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.937506, Final residual = 9.54256e-05, No Iterations 155
+[INFO] SolveP: 4263.8 [ms]
+time step continuity errors : sum local = 1.06799e-08, global = -2.33162e-23, cumulative = 2.08036e-21
+[INFO] ContinuityError: 70.573 [ms]
+[INFO] CorrectBoundary: 1.503 [ms]
+[INFO] PISOStep: 5296.47 [ms]
+[INFO] MatrixAssemblyPI: 560.06 [ms]
+[INFO] AdjustPhi: 31.434 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.52 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.162 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 92.466 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.286 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 299.267 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 301.785 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 40.595 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 432.547 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 93 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 3373.97 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.686 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21908 [mu s]
+	Time per residual norm calculation: 424.000000 [mu s]
+	Time per iteration and DOF: 0.342313 [ns]
+	Retrieve results bandwidth 2.738000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 4191.17 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.87988, Final residual = 9.54719e-05, No Iterations 154
+[INFO] SolveP: 4305.44 [ms]
+time step continuity errors : sum local = 1.0608e-08, global = 4.38276e-23, cumulative = 2.12419e-21
+[INFO] ContinuityError: 72.38 [ms]
+[INFO] CorrectBoundary: 0.93 [ms]
+[INFO] PISOStep: 5328.09 [ms]
+[INFO] TimeStep: 15378 [ms]
+ExecutionTime = 84.71 s  ClockTime = 84 s
+
+Time = 0.000625
+
+Courant Number mean: 0.0236275 max: 0.55601
+[INFO] MatrixAssemblyU: 508.429 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0375864, Final residual = 0.00456379, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.18426, Final residual = 0.019983, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.751406, Final residual = 0.054004, No Iterations 5
+[INFO] MomentumPredictor: 4188.73 [ms]
+[INFO] MatrixAssemblyPI: 574.428 [ms]
+[INFO] AdjustPhi: 30.745 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 167.839 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.044 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 101.946 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.271 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 304.256 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 306.74 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 23.779 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 432.42 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 92 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 2908.83 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.472 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21870 [mu s]
+	Time per residual norm calculation: 422.000000 [mu s]
+	Time per iteration and DOF: 0.341719 [ns]
+	Retrieve results bandwidth 2.565000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 3705.09 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.954087, Final residual = 9.64344e-05, No Iterations 133
+[INFO] SolveP: 3828.87 [ms]
+time step continuity errors : sum local = 1.33166e-08, global = 5.91021e-22, cumulative = 2.71521e-21
+[INFO] ContinuityError: 69.268 [ms]
+[INFO] CorrectBoundary: 1.178 [ms]
+[INFO] PISOStep: 4862.55 [ms]
+[INFO] MatrixAssemblyPI: 559.082 [ms]
+[INFO] AdjustPhi: 28.742 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.669 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.09 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 104.835 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.275 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 305.103 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 307.715 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 25.056 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 414.889 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 79 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 2792.34 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.876 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 22161 [mu s]
+	Time per residual norm calculation: 449.000000 [mu s]
+	Time per iteration and DOF: 0.346266 [ns]
+	Retrieve results bandwidth 2.694000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 3572.51 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.915194, Final residual = 9.61281e-05, No Iterations 126
+[INFO] SolveP: 3702.18 [ms]
+time step continuity errors : sum local = 1.22853e-08, global = -1.0818e-22, cumulative = 2.60703e-21
+[INFO] ContinuityError: 67.693 [ms]
+[INFO] CorrectBoundary: 1.284 [ms]
+[INFO] PISOStep: 4716.45 [ms]
+[INFO] TimeStep: 14343 [ms]
+ExecutionTime = 99.19 s  ClockTime = 98 s
+
+Time = 0.00075
+
+Courant Number mean: 0.0259661 max: 0.483353
+[INFO] MatrixAssemblyU: 504.427 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0353014, Final residual = 0.00430294, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.171814, Final residual = 0.0174538, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.703391, Final residual = 0.0504631, No Iterations 5
+[INFO] MomentumPredictor: 4181.7 [ms]
+[INFO] MatrixAssemblyPI: 572.537 [ms]
+[INFO] AdjustPhi: 32.492 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.716 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.09 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 103.437 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.27 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 288.917 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 291.428 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 39.98 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 427.24 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 75 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6574.67 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.278 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21415 [mu s]
+	Time per residual norm calculation: 424.000000 [mu s]
+	Time per iteration and DOF: 0.334609 [ns]
+	Retrieve results bandwidth 2.606000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 7368.44 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.951086, Final residual = 9.60189e-05, No Iterations 307
+[INFO] SolveP: 7496.45 [ms]
+time step continuity errors : sum local = 1.38201e-08, global = 7.28798e-22, cumulative = 3.33583e-21
+[INFO] ContinuityError: 69.616 [ms]
+[INFO] CorrectBoundary: 1.178 [ms]
+[INFO] PISOStep: 8531.72 [ms]
+[INFO] MatrixAssemblyPI: 557.886 [ms]
+[INFO] AdjustPhi: 29.348 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 167.049 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.154 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 91.641 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.364 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 292.125 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 294.727 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 35.029 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 443.423 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 184 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6574.38 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.879 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21484 [mu s]
+	Time per residual norm calculation: 490.000000 [mu s]
+	Time per iteration and DOF: 0.335688 [ns]
+	Retrieve results bandwidth 2.484000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 7391.43 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.89099, Final residual = 9.95003e-05, No Iterations 306
+[INFO] SolveP: 7504.21 [ms]
+time step continuity errors : sum local = 1.45443e-08, global = 2.93261e-22, cumulative = 3.62909e-21
+[INFO] ContinuityError: 70.752 [ms]
+[INFO] CorrectBoundary: 1.276 [ms]
+[INFO] PISOStep: 8519.15 [ms]
+[INFO] TimeStep: 21804.2 [ms]
+ExecutionTime = 121.43 s  ClockTime = 120 s
+
+Time = 0.000875
+
+Courant Number mean: 0.0281654 max: 0.612322
+[INFO] MatrixAssemblyU: 501.361 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0351508, Final residual = 0.00415993, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.176368, Final residual = 0.0163973, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.6975, Final residual = 0.0427906, No Iterations 5
+[INFO] MomentumPredictor: 4178.06 [ms]
+[INFO] MatrixAssemblyPI: 574.731 [ms]
+[INFO] AdjustPhi: 29.428 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 167.851 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.13 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 91.993 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.272 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 287.087 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 289.602 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 42.471 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 426.343 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 183 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6029.73 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.12 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21458 [mu s]
+	Time per residual norm calculation: 493.000000 [mu s]
+	Time per iteration and DOF: 0.335281 [ns]
+	Retrieve results bandwidth 2.877000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6822.11 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.962107, Final residual = 9.34076e-05, No Iterations 281
+[INFO] SolveP: 6936.77 [ms]
+time step continuity errors : sum local = 1.52172e-08, global = 7.26963e-22, cumulative = 4.35605e-21
+[INFO] ContinuityError: 71.392 [ms]
+[INFO] CorrectBoundary: 1.394 [ms]
+[INFO] PISOStep: 7969.25 [ms]
+[INFO] MatrixAssemblyPI: 559.332 [ms]
+[INFO] AdjustPhi: 29.946 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 167.266 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.142 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 96.856 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.275 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 289.905 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 292.399 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 33.553 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 417.614 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 168 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6050.24 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.172 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21608 [mu s]
+	Time per residual norm calculation: 2531.000000 [mu s]
+	Time per iteration and DOF: 0.337625 [ns]
+	Retrieve results bandwidth 2.628000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6826.58 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.917544, Final residual = 9.80811e-05, No Iterations 280
+[INFO] SolveP: 6948.72 [ms]
+time step continuity errors : sum local = 1.5923e-08, global = 4.504e-22, cumulative = 4.80645e-21
+[INFO] ContinuityError: 69.705 [ms]
+[INFO] CorrectBoundary: 1.112 [ms]
+[INFO] PISOStep: 7966.53 [ms]
+[INFO] TimeStep: 20682.2 [ms]
+ExecutionTime = 142.54 s  ClockTime = 141 s
+
+Time = 0.001
+
+Courant Number mean: 0.029913 max: 0.491021
+[INFO] MatrixAssemblyU: 500.509 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0362721, Final residual = 0.00403002, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.169915, Final residual = 0.0142494, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.682393, Final residual = 0.0393006, No Iterations 5
+[INFO] MomentumPredictor: 4182.52 [ms]
+[INFO] MatrixAssemblyPI: 570.218 [ms]
+[INFO] AdjustPhi: 34.447 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.436 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.228 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 102.373 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.279 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 286.235 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 289.681 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 23.144 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 446.571 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 168 frequency 3
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6395.01 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.517 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21245 [mu s]
+	Time per residual norm calculation: 444.000000 [mu s]
+	Time per iteration and DOF: 0.331953 [ns]
+	Retrieve results bandwidth 2.778000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 7190.1 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.96002, Final residual = 9.45415e-05, No Iterations 301
+[INFO] SolveP: 7315.9 [ms]
+time step continuity errors : sum local = 1.77259e-08, global = 9.49733e-22, cumulative = 5.75618e-21
+[INFO] ContinuityError: 69.844 [ms]
+[INFO] CorrectBoundary: 1.319 [ms]
+[INFO] PISOStep: 8347.48 [ms]
+[INFO] MatrixAssemblyPI: 558.46 [ms]
+[INFO] AdjustPhi: 31.162 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.155 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.265 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 102.709 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.265 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 298.971 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 301.462 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 20.264 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 426.73 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 180 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6415.15 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.192 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21383 [mu s]
+	Time per residual norm calculation: 453.000000 [mu s]
+	Time per iteration and DOF: 0.334109 [ns]
+	Retrieve results bandwidth 2.624000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 7208.44 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.898048, Final residual = 9.7933e-05, No Iterations 300
+[INFO] SolveP: 7331.04 [ms]
+time step continuity errors : sum local = 1.86343e-08, global = 4.70847e-22, cumulative = 6.22703e-21
+[INFO] ContinuityError: 71.612 [ms]
+[INFO] CorrectBoundary: 1.194 [ms]
+[INFO] PISOStep: 8349.25 [ms]
+[INFO] TimeStep: 21446.6 [ms]
+ExecutionTime = 164.42 s  ClockTime = 162 s
+
+Time = 0.001125
+
+Courant Number mean: 0.031716 max: 0.695923
+[INFO] MatrixAssemblyU: 500.767 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0374401, Final residual = 0.00379928, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.186289, Final residual = 0.0145337, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.691496, Final residual = 0.0376092, No Iterations 5
+[INFO] MomentumPredictor: 4190.22 [ms]
+[INFO] MatrixAssemblyPI: 574.372 [ms]
+[INFO] AdjustPhi: 30.154 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 167.271 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.31 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 88.107 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.334 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 293.257 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 296.715 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 36.574 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 429.483 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 180 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6270.73 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.829 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21328 [mu s]
+	Time per residual norm calculation: 460.000000 [mu s]
+	Time per iteration and DOF: 0.333250 [ns]
+	Retrieve results bandwidth 2.705000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 7080.69 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.967974, Final residual = 9.96057e-05, No Iterations 294
+[INFO] SolveP: 7188.81 [ms]
+time step continuity errors : sum local = 2.1421e-08, global = 1.32309e-21, cumulative = 7.55012e-21
+[INFO] ContinuityError: 71.678 [ms]
+[INFO] CorrectBoundary: 1.061 [ms]
+[INFO] PISOStep: 8222.11 [ms]
+[INFO] MatrixAssemblyPI: 557.651 [ms]
+[INFO] AdjustPhi: 30.683 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 166.508 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.235 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 93.332 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.271 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 279.526 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 282.053 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 51.558 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 434.008 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 176 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6267.51 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.272 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21537 [mu s]
+	Time per residual norm calculation: 433.000000 [mu s]
+	Time per iteration and DOF: 0.336516 [ns]
+	Retrieve results bandwidth 2.838000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 7072.07 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.918655, Final residual = 9.90823e-05, No Iterations 291
+[INFO] SolveP: 7191.86 [ms]
+time step continuity errors : sum local = 2.12809e-08, global = 4.48888e-22, cumulative = 7.99901e-21
+[INFO] ContinuityError: 70.534 [ms]
+[INFO] CorrectBoundary: 1.472 [ms]
+[INFO] PISOStep: 8210.69 [ms]
+[INFO] TimeStep: 21191.1 [ms]
+ExecutionTime = 186.06 s  ClockTime = 183 s
+
+Time = 0.00125
+
+Courant Number mean: 0.0331298 max: 0.507073
+[INFO] MatrixAssemblyU: 499.413 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0408408, Final residual = 0.00387916, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.185512, Final residual = 0.0130055, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.694427, Final residual = 0.0366901, No Iterations 5
+[INFO] MomentumPredictor: 4173.69 [ms]
+[INFO] MatrixAssemblyPI: 572.229 [ms]
+[INFO] AdjustPhi: 32.106 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.024 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.059 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 99.338 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.271 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 288.539 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 291.53 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 26.32 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 422.45 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 174 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6362.51 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.599 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21208 [mu s]
+	Time per residual norm calculation: 537.000000 [mu s]
+	Time per iteration and DOF: 0.331375 [ns]
+	Retrieve results bandwidth 2.539000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 7134.81 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.967321, Final residual = 9.76626e-05, No Iterations 300
+[INFO] SolveP: 7256.74 [ms]
+time step continuity errors : sum local = 2.44555e-08, global = 3.61607e-22, cumulative = 8.36062e-21
+[INFO] ContinuityError: 70.778 [ms]
+[INFO] CorrectBoundary: 1.169 [ms]
+[INFO] PISOStep: 8288.99 [ms]
+[INFO] MatrixAssemblyPI: 558.072 [ms]
+[INFO] AdjustPhi: 29.982 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.364 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.214 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 112.149 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.258 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 289.726 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 292.286 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 26.422 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 428.02 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 180 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6473.74 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.047 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21579 [mu s]
+	Time per residual norm calculation: 475.000000 [mu s]
+	Time per iteration and DOF: 0.337172 [ns]
+	Retrieve results bandwidth 2.656000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 7255.52 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.903712, Final residual = 9.88676e-05, No Iterations 300
+[INFO] SolveP: 7392.57 [ms]
+time step continuity errors : sum local = 2.50909e-08, global = 4.02979e-22, cumulative = 8.7636e-21
+[INFO] ContinuityError: 69.525 [ms]
+[INFO] CorrectBoundary: 0.999 [ms]
+[INFO] PISOStep: 8410.85 [ms]
+[INFO] TimeStep: 21439.6 [ms]
+ExecutionTime = 207.93 s  ClockTime = 205 s
+
+Time = 0.001375
+
+Courant Number mean: 0.0347289 max: 0.825475
+[INFO] MatrixAssemblyU: 501.666 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0435662, Final residual = 0.00370825, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.208817, Final residual = 0.0139092, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.705646, Final residual = 0.0359731, No Iterations 5
+[INFO] MomentumPredictor: 4185.87 [ms]
+[INFO] MatrixAssemblyPI: 573.257 [ms]
+[INFO] AdjustPhi: 30.677 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.164 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.154 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 96.594 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.259 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 296.289 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 298.803 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 33.393 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 451.19 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 180 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5911.83 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.766 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21265 [mu s]
+	Time per residual norm calculation: 451.000000 [mu s]
+	Time per iteration and DOF: 0.332266 [ns]
+	Retrieve results bandwidth 2.719000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6744.15 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.972966, Final residual = 9.30967e-05, No Iterations 278
+[INFO] SolveP: 6861.61 [ms]
+time step continuity errors : sum local = 2.7091e-08, global = -1.04098e-21, cumulative = 7.72262e-21
+[INFO] ContinuityError: 71.13 [ms]
+[INFO] CorrectBoundary: 1.093 [ms]
+[INFO] PISOStep: 7893.53 [ms]
+[INFO] MatrixAssemblyPI: 557.778 [ms]
+[INFO] AdjustPhi: 31.707 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 166.312 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.225 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 93.582 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.272 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 310.568 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 313.123 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 21.864 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 442.249 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 166 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5898.36 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.774 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21293 [mu s]
+	Time per residual norm calculation: 425.000000 [mu s]
+	Time per iteration and DOF: 0.332703 [ns]
+	Retrieve results bandwidth 2.717000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6711.91 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.919494, Final residual = 9.87989e-05, No Iterations 277
+[INFO] SolveP: 6826.86 [ms]
+time step continuity errors : sum local = 2.87719e-08, global = 8.85833e-22, cumulative = 8.60845e-21
+[INFO] ContinuityError: 69.424 [ms]
+[INFO] CorrectBoundary: 1.319 [ms]
+[INFO] PISOStep: 7845.95 [ms]
+[INFO] TimeStep: 20497.1 [ms]
+ExecutionTime = 228.83 s  ClockTime = 225 s
+
+Time = 0.0015
+
+Courant Number mean: 0.0359289 max: 0.597176
+[INFO] MatrixAssemblyU: 499.654 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0490137, Final residual = 0.00391704, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.213502, Final residual = 0.0129047, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.713403, Final residual = 0.0370502, No Iterations 5
+[INFO] MomentumPredictor: 4179.55 [ms]
+[INFO] MatrixAssemblyPI: 575.04 [ms]
+[INFO] AdjustPhi: 29.798 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.311 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.258 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 95.559 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.263 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 296.614 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 299.132 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 41.244 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 432.973 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 166 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6102.57 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 13.748 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21189 [mu s]
+	Time per residual norm calculation: 446.000000 [mu s]
+	Time per iteration and DOF: 0.331078 [ns]
+	Retrieve results bandwidth 2.327000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6911.17 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.973206, Final residual = 9.88964e-05, No Iterations 288
+[INFO] SolveP: 7026 [ms]
+time step continuity errors : sum local = 3.37328e-08, global = 2.68919e-21, cumulative = 1.12976e-20
+[INFO] ContinuityError: 69.727 [ms]
+[INFO] CorrectBoundary: 1.085 [ms]
+[INFO] PISOStep: 8059.47 [ms]
+[INFO] MatrixAssemblyPI: 558.356 [ms]
+[INFO] AdjustPhi: 30.26 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.373 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.298 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 98.784 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.263 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 298.346 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 300.86 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 30.636 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 452.75 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 172 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6126.62 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.079 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21347 [mu s]
+	Time per residual norm calculation: 442.000000 [mu s]
+	Time per iteration and DOF: 0.333547 [ns]
+	Retrieve results bandwidth 2.649000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6945.62 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.908611, Final residual = 9.71756e-05, No Iterations 287
+[INFO] SolveP: 7067.27 [ms]
+time step continuity errors : sum local = 3.35474e-08, global = 3.66286e-22, cumulative = 1.16639e-20
+[INFO] ContinuityError: 69.241 [ms]
+[INFO] CorrectBoundary: 1.485 [ms]
+[INFO] PISOStep: 8082.35 [ms]
+[INFO] TimeStep: 20888.2 [ms]
+ExecutionTime = 250.12 s  ClockTime = 246 s
+
+Time = 0.001625
+
+Courant Number mean: 0.0374243 max: 1.1474
+[INFO] MatrixAssemblyU: 499.509 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0536284, Final residual = 0.00385828, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.242171, Final residual = 0.0142855, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.721421, Final residual = 0.0352126, No Iterations 5
+[INFO] MomentumPredictor: 4188.07 [ms]
+[INFO] MatrixAssemblyPI: 574.991 [ms]
+[INFO] AdjustPhi: 29.753 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 167.249 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.09 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 112.939 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.33 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 285.606 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 288.245 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 35.713 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 415.368 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 172 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5813.06 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.751 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21371 [mu s]
+	Time per residual norm calculation: 442.000000 [mu s]
+	Time per iteration and DOF: 0.333922 [ns]
+	Retrieve results bandwidth 2.509000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6580.72 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.976811, Final residual = 9.8694e-05, No Iterations 272
+[INFO] SolveP: 6714.97 [ms]
+time step continuity errors : sum local = 3.94762e-08, global = 1.616e-21, cumulative = 1.32799e-20
+[INFO] ContinuityError: 70.594 [ms]
+[INFO] CorrectBoundary: 1.169 [ms]
+[INFO] PISOStep: 7747.23 [ms]
+[INFO] MatrixAssemblyPI: 557.838 [ms]
+[INFO] AdjustPhi: 30.656 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 166.943 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.047 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 92.676 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.264 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 299.959 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 302.618 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 22.914 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 429.057 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 163 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5846.38 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.785 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21494 [mu s]
+	Time per residual norm calculation: 433.000000 [mu s]
+	Time per iteration and DOF: 0.335844 [ns]
+	Retrieve results bandwidth 2.715000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6647.59 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.920282, Final residual = 9.60806e-05, No Iterations 272
+[INFO] SolveP: 6760.12 [ms]
+time step continuity errors : sum local = 3.8541e-08, global = 8.51582e-22, cumulative = 1.41315e-20
+[INFO] ContinuityError: 69.874 [ms]
+[INFO] CorrectBoundary: 1.024 [ms]
+[INFO] PISOStep: 7777.36 [ms]
+[INFO] TimeStep: 20282.8 [ms]
+ExecutionTime = 270.79 s  ClockTime = 267 s
+
+Time = 0.00175
+
+Courant Number mean: 0.038487 max: 1.0207
+[INFO] MatrixAssemblyU: 499.641 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0614645, Final residual = 0.00412657, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.252346, Final residual = 0.0135859, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.726544, Final residual = 0.035009, No Iterations 5
+[INFO] MomentumPredictor: 4175.64 [ms]
+[INFO] MatrixAssemblyPI: 573.109 [ms]
+[INFO] AdjustPhi: 31.643 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 167.989 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.258 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 91.484 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.346 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 306.258 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 309.754 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 25.47 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 429.809 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 163 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6294.88 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.154 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21266 [mu s]
+	Time per residual norm calculation: 454.000000 [mu s]
+	Time per iteration and DOF: 0.332281 [ns]
+	Retrieve results bandwidth 2.632000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 7107 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.977486, Final residual = 9.83249e-05, No Iterations 296
+[INFO] SolveP: 7218.48 [ms]
+time step continuity errors : sum local = 4.63799e-08, global = 2.04753e-22, cumulative = 1.43363e-20
+[INFO] ContinuityError: 71.381 [ms]
+[INFO] CorrectBoundary: 2.549 [ms]
+[INFO] PISOStep: 8253.63 [ms]
+[INFO] MatrixAssemblyPI: 557.028 [ms]
+[INFO] AdjustPhi: 33.174 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.58 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.323 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 91.225 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.271 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 286.909 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 289.456 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 51.965 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 412.994 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 177 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6442.64 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.662 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21913 [mu s]
+	Time per residual norm calculation: 516.000000 [mu s]
+	Time per iteration and DOF: 0.342391 [ns]
+	Retrieve results bandwidth 2.527000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 7237.41 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.912707, Final residual = 9.62012e-05, No Iterations 294
+[INFO] SolveP: 7347.26 [ms]
+time step continuity errors : sum local = 4.58675e-08, global = -1.6965e-22, cumulative = 1.41666e-20
+[INFO] ContinuityError: 70.54 [ms]
+[INFO] CorrectBoundary: 1.256 [ms]
+[INFO] PISOStep: 8366.92 [ms]
+[INFO] TimeStep: 21362.8 [ms]
+ExecutionTime = 292.59 s  ClockTime = 288 s
+
+Time = 0.001875
+
+Courant Number mean: 0.039951 max: 1.68224
+[INFO] MatrixAssemblyU: 501.099 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0684768, Final residual = 0.00423638, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.284248, Final residual = 0.0149302, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.736, Final residual = 0.0352714, No Iterations 5
+[INFO] MomentumPredictor: 4180.67 [ms]
+[INFO] MatrixAssemblyPI: 574.329 [ms]
+[INFO] AdjustPhi: 30.283 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.27 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.271 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 94.764 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.262 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 290.962 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 293.935 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 24.024 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 420.78 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 176 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5991.56 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.188 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21322 [mu s]
+	Time per residual norm calculation: 426.000000 [mu s]
+	Time per iteration and DOF: 0.333156 [ns]
+	Retrieve results bandwidth 2.625000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6769.06 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.979619, Final residual = 9.65675e-05, No Iterations 281
+[INFO] SolveP: 6883.63 [ms]
+time step continuity errors : sum local = 5.36981e-08, global = 1.39866e-21, cumulative = 1.55653e-20
+[INFO] ContinuityError: 74.378 [ms]
+[INFO] CorrectBoundary: 1.17 [ms]
+[INFO] PISOStep: 7918.72 [ms]
+[INFO] MatrixAssemblyPI: 557.468 [ms]
+[INFO] AdjustPhi: 30.213 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.875 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.046 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 102.216 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.295 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 294.79 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 297.345 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 23.95 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 420.151 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 168 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6043.4 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.412 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21660 [mu s]
+	Time per residual norm calculation: 482.000000 [mu s]
+	Time per iteration and DOF: 0.338438 [ns]
+	Retrieve results bandwidth 2.578000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6819.06 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.920751, Final residual = 9.77732e-05, No Iterations 279
+[INFO] SolveP: 6942.1 [ms]
+time step continuity errors : sum local = 5.45884e-08, global = 7.18975e-22, cumulative = 1.62842e-20
+[INFO] ContinuityError: 69.756 [ms]
+[INFO] CorrectBoundary: 1.146 [ms]
+[INFO] PISOStep: 7957.27 [ms]
+[INFO] TimeStep: 20624.5 [ms]
+ExecutionTime = 313.63 s  ClockTime = 309 s
+
+Time = 0.002
+
+Courant Number mean: 0.0409462 max: 1.71638
+[INFO] MatrixAssemblyU: 495.777 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.079531, Final residual = 0.00455663, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.300751, Final residual = 0.0147432, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.741977, Final residual = 0.0362666, No Iterations 5
+[INFO] MomentumPredictor: 4178.14 [ms]
+[INFO] MatrixAssemblyPI: 573.708 [ms]
+[INFO] AdjustPhi: 32.167 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.034 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.394 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 97.974 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.263 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 280.809 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 283.522 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 33.957 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 426.765 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 167 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 6160.52 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.997 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21170 [mu s]
+	Time per residual norm calculation: 436.000000 [mu s]
+	Time per iteration and DOF: 0.330781 [ns]
+	Retrieve results bandwidth 2.667000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6945.74 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.980738, Final residual = 9.66185e-05, No Iterations 291
+[INFO] SolveP: 7063.27 [ms]
+time step continuity errors : sum local = 6.37037e-08, global = -8.75571e-22, cumulative = 1.54087e-20
+[INFO] ContinuityError: 75.416 [ms]
+[INFO] CorrectBoundary: 1.216 [ms]
+[INFO] PISOStep: 8101.65 [ms]
+[INFO] MatrixAssemblyPI: 557.853 [ms]
+[INFO] AdjustPhi: 31.677 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.421 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.257 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 93.289 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.335 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 284.443 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 287.888 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 26.703 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 417.004 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 174 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5878.43 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.129 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21611 [mu s]
+	Time per residual norm calculation: 476.000000 [mu s]
+	Time per iteration and DOF: 0.337672 [ns]
+	Retrieve results bandwidth 2.875000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6654.56 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.91573, Final residual = 9.56867e-05, No Iterations 272
+[INFO] SolveP: 6770.2 [ms]
+time step continuity errors : sum local = 6.37638e-08, global = -5.31774e-22, cumulative = 1.48769e-20
+[INFO] ContinuityError: 68.674 [ms]
+[INFO] CorrectBoundary: 1.374 [ms]
+[INFO] PISOStep: 7786.1 [ms]
+[INFO] TimeStep: 20629.5 [ms]
+ExecutionTime = 334.66 s  ClockTime = 329 s
+
+Time = 0.002125
+
+Courant Number mean: 0.0424476 max: 2.54827
+[INFO] MatrixAssemblyU: 499.715 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.0898195, Final residual = 0.00492463, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.33578, Final residual = 0.0162068, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.746601, Final residual = 0.0360875, No Iterations 5
+[INFO] MomentumPredictor: 4174.18 [ms]
+[INFO] MatrixAssemblyPI: 573.767 [ms]
+[INFO] AdjustPhi: 30.334 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 167.746 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.193 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 97.619 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.261 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 285.4 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 288.105 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 42.91 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 419.997 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 163 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5780.95 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.674 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21253 [mu s]
+	Time per residual norm calculation: 419.000000 [mu s]
+	Time per iteration and DOF: 0.332078 [ns]
+	Retrieve results bandwidth 2.741000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6564.57 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.981814, Final residual = 9.4683e-05, No Iterations 272
+[INFO] SolveP: 6685.4 [ms]
+time step continuity errors : sum local = 7.4083e-08, global = 1.98627e-21, cumulative = 1.68632e-20
+[INFO] ContinuityError: 71.579 [ms]
+[INFO] CorrectBoundary: 1.014 [ms]
+[INFO] PISOStep: 7717.7 [ms]
+[INFO] MatrixAssemblyPI: 558.209 [ms]
+[INFO] AdjustPhi: 30.935 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 165.983 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.085 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 97.098 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.26 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 300.382 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 302.941 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 26.374 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 422.846 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 163 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5803.88 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.123 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21416 [mu s]
+	Time per residual norm calculation: 443.000000 [mu s]
+	Time per iteration and DOF: 0.334625 [ns]
+	Retrieve results bandwidth 2.639000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6594.1 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.92074, Final residual = 9.82575e-05, No Iterations 271
+[INFO] SolveP: 6712.18 [ms]
+time step continuity errors : sum local = 7.72829e-08, global = 1.25607e-21, cumulative = 1.81192e-20
+[INFO] ContinuityError: 69.101 [ms]
+[INFO] CorrectBoundary: 1.266 [ms]
+[INFO] PISOStep: 7728.95 [ms]
+[INFO] TimeStep: 20187.2 [ms]
+ExecutionTime = 355.24 s  ClockTime = 349 s
+
+Time = 0.00225
+
+Courant Number mean: 0.0434564 max: 2.85658
+[INFO] MatrixAssemblyU: 498.456 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.106209, Final residual = 0.00556408, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.359172, Final residual = 0.0166341, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.747257, Final residual = 0.0344534, No Iterations 5
+[INFO] MomentumPredictor: 4169.13 [ms]
+[INFO] MatrixAssemblyPI: 573.653 [ms]
+[INFO] AdjustPhi: 30.735 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 167.892 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.287 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 106.4 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.269 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 280.29 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 282.793 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 32.542 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 414.568 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 162 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5798.62 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.649 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21318 [mu s]
+	Time per residual norm calculation: 429.000000 [mu s]
+	Time per iteration and DOF: 0.333094 [ns]
+	Retrieve results bandwidth 2.747000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6565.53 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.983024, Final residual = 9.47861e-05, No Iterations 272
+[INFO] SolveP: 6695.13 [ms]
+time step continuity errors : sum local = 8.85829e-08, global = -2.3008e-21, cumulative = 1.58184e-20
+[INFO] ContinuityError: 72.062 [ms]
+[INFO] CorrectBoundary: 1.276 [ms]
+[INFO] PISOStep: 7727.79 [ms]
+[INFO] MatrixAssemblyPI: 558.154 [ms]
+[INFO] AdjustPhi: 31.195 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 168.264 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.233 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 95.6 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.264 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 287.863 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 290.372 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 28.929 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 436.914 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 163 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5791.26 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.926 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21449 [mu s]
+	Time per residual norm calculation: 454.000000 [mu s]
+	Time per iteration and DOF: 0.335141 [ns]
+	Retrieve results bandwidth 2.683000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6593.22 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.917758, Final residual = 9.43889e-05, No Iterations 270
+[INFO] SolveP: 6709.02 [ms]
+time step continuity errors : sum local = 8.90732e-08, global = -4.70045e-22, cumulative = 1.53484e-20
+[INFO] ContinuityError: 76.671 [ms]
+[INFO] CorrectBoundary: 1.621 [ms]
+[INFO] PISOStep: 7728.74 [ms]
+[INFO] TimeStep: 20191.2 [ms]
+ExecutionTime = 375.84 s  ClockTime = 370 s
+
+Time = 0.002375
+
+Courant Number mean: 0.0450789 max: 3.95978
+[INFO] MatrixAssemblyU: 495.035 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.119692, Final residual = 0.00590789, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.394991, Final residual = 0.0178626, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.752969, Final residual = 0.0358826, No Iterations 5
+[INFO] MomentumPredictor: 4187.51 [ms]
+[INFO] MatrixAssemblyPI: 574.375 [ms]
+[INFO] AdjustPhi: 30.732 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.16 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.215 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 95.542 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.261 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 287.464 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 290.141 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 50.763 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 426.336 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 162 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5971.2 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 10.732 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21325 [mu s]
+	Time per residual norm calculation: 436.000000 [mu s]
+	Time per iteration and DOF: 0.333203 [ns]
+	Retrieve results bandwidth 2.981000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6776.88 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.983463, Final residual = 9.64987e-05, No Iterations 280
+[INFO] SolveP: 6894.77 [ms]
+time step continuity errors : sum local = 1.07975e-07, global = 1.14565e-21, cumulative = 1.6494e-20
+[INFO] ContinuityError: 69.742 [ms]
+[INFO] CorrectBoundary: 2.971 [ms]
+[INFO] PISOStep: 7929.35 [ms]
+[INFO] MatrixAssemblyPI: 557.808 [ms]
+[INFO] AdjustPhi: 30.053 [ms]
+[INFO] ConstrainPressure: 0.005 [ms]
+[INFO] MatrixAssemblyPII: 166.346 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.139 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 93.622 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.313 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 288.128 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 290.879 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 29.572 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 442.575 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 168 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5929.05 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.173 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21327 [mu s]
+	Time per residual norm calculation: 475.000000 [mu s]
+	Time per iteration and DOF: 0.333234 [ns]
+	Retrieve results bandwidth 2.628000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6734.97 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.920962, Final residual = 9.58821e-05, No Iterations 278
+[INFO] SolveP: 6851.52 [ms]
+time step continuity errors : sum local = 1.07917e-07, global = -6.62572e-22, cumulative = 1.58315e-20
+[INFO] ContinuityError: 69.761 [ms]
+[INFO] CorrectBoundary: 1.216 [ms]
+[INFO] PISOStep: 7867.92 [ms]
+[INFO] TimeStep: 20547.3 [ms]
+ExecutionTime = 396.77 s  ClockTime = 390 s
+
+Time = 0.0025
+
+Courant Number mean: 0.0462069 max: 4.70466
+[INFO] MatrixAssemblyU: 498.359 [ms]
+DILUPBiCGStab:  Solving for Ux, Initial residual = 0.143082, Final residual = 0.00692751, No Iterations 5
+DILUPBiCGStab:  Solving for Uy, Initial residual = 0.422942, Final residual = 0.0186525, No Iterations 5
+DILUPBiCGStab:  Solving for Uz, Initial residual = 0.754482, Final residual = 0.0354624, No Iterations 5
+[INFO] MomentumPredictor: 4175.64 [ms]
+[INFO] MatrixAssemblyPI: 574.081 [ms]
+[INFO] AdjustPhi: 30.441 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 167.909 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.372 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 105.943 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.289 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 298.026 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 300.993 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 16.868 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 412.856 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 166 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5827.04 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 11.921 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21502 [mu s]
+	Time per residual norm calculation: 430.000000 [mu s]
+	Time per iteration and DOF: 0.335969 [ns]
+	Retrieve results bandwidth 2.684000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6589.8 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.984345, Final residual = 9.14355e-05, No Iterations 271
+[INFO] SolveP: 6716.35 [ms]
+time step continuity errors : sum local = 1.22795e-07, global = -2.49767e-21, cumulative = 1.33338e-20
+[INFO] ContinuityError: 71.241 [ms]
+[INFO] CorrectBoundary: 1.123 [ms]
+[INFO] PISOStep: 7748.73 [ms]
+[INFO] MatrixAssemblyPI: 558.757 [ms]
+[INFO] AdjustPhi: 34.454 [ms]
+[INFO] ConstrainPressure: 0.004 [ms]
+[INFO] MatrixAssemblyPII: 168.358 [ms]
+[OGL LOG][Proc: 0]: global_index_init: 0.285 [ms]
+[OGL LOG][Proc: 0]p_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p_non_local_coeffs: call_update: 0 [ms]
+[OGL LOG][Proc: 0]p: update_local_matrix_data: 94.138 [ms]
+[OGL LOG][Proc: 0]p: update_non_local_matrix_data: 0.263 [ms]
+[OGL LOG][Proc: 0]p: regenerate_distributed_matrix: 280.108 [ms]
+[OGL LOG][Proc: 0]p_matrix: call_update: 282.75 [ms]
+[OGL LOG][Proc: 0]p_rhs: call_update: 28.156 [ms]
+[OGL LOG][Preconditioner.H:346] Generate preconditioner Multigrid MaxLevels 9 MinCoarseRows 10 ZeroGuess 1 Cycle v
+[OGL LOG][Proc: 0]p: init_precond: 427.082 [ms]
+[OGL LOG][StoppingCriterion.H:239] Creating stopping criterion with minIter 162 frequency 1
+[OGL LOG][Proc: 0]p: generate_solver: 0 [ms]
+[OGL LOG][Proc: 0]p: solve: 5799.92 [ms]
+[OGL LOG][Proc: 0]p: copy_x_back: 12.539 [ms]
+[OGL LOG][lduLduBase.H:330] 
+Statistics:
+	Time per iteration: 21481 [mu s]
+	Time per residual norm calculation: 480.000000 [mu s]
+	Time per iteration and DOF: 0.335641 [ns]
+	Retrieve results bandwidth 2.552000 [GByte/s]
+[OGL LOG][Proc: 0]p: solve_multi_gpu: 6585.96 [ms]
+MultigridhipGKOCG:  Solving for p, Initial residual = 0.919091, Final residual = 9.38753e-05, No Iterations 270
+[INFO] SolveP: 6699.78 [ms]
+time step continuity errors : sum local = 1.27221e-07, global = -1.11411e-23, cumulative = 1.33227e-20
+[INFO] ContinuityError: 71.903 [ms]
+[INFO] CorrectBoundary: 3.146 [ms]
+[INFO] PISOStep: 7723.02 [ms]
+[INFO] TimeStep: 20213.5 [ms]
+ExecutionTime = 417.35 s  ClockTime = 410 s
+
+End
+
+Finalising parallel run
